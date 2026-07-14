@@ -1,18 +1,19 @@
 # Product Definition
 
-**Status:** Draft for joint review
+**Status:** Approved
 **Product:** Minh Long Legal Agent
 **Initial legal domain:** Vietnamese land law
+**Approved:** 2026-07-14
 
 ## 1. Product statement
 
-Minh Long Legal Agent is an AI-assisted legal case platform that helps non-expert individuals and small businesses understand and prepare Vietnamese land-law matters. It combines natural conversation with structured case management, controlled legal research, verifiable citations, document support, and escalation to a qualified professional.
+Minh Long Legal Agent is an AI-assisted legal decision-support platform that helps non-expert individuals and small businesses analyze, understand, and prepare Vietnamese land-law matters. It combines natural conversation with structured case management, controlled legal research, verifiable citations, document support, and escalation to a qualified professional.
 
 It is a real product intended for continued operation and integration, not a retrieval demonstration or a substitute for a lawyer.
 
 ## 2. Long-term ecosystem
 
-The agent is built first as a strong standalone product. It will later become a core capability of the Minh Long company website, alongside real-estate brokerage, land procedures, cadastral measurement, design, and construction services.
+The agent is built first as an independently deployable legal service with a minimal operational console. It will later become a core capability of the Minh Long company website, alongside real-estate brokerage, land procedures, cadastral measurement, design, and construction services.
 
 Information from the website research provides business context but does not constrain the agent architecture. Both products may evolve so the final ecosystem works as one coherent product.
 
@@ -47,16 +48,27 @@ A Legal Case may reference zero, one, or multiple external properties. It may al
 
 The agent owns its legal-case state. It does not become the system of record for platform users, companies, properties, listings, payments, or service requests.
 
+Every fact and evidence record must preserve provenance, including source type, source identifier, capture or extraction method, confirmation status, and recorded time. Fact provenance uses the following controlled states:
+
+- `user_provided`;
+- `document_extracted`;
+- `staff_entered`;
+- `agent_inferred`;
+- `user_confirmed`;
+- `professional_confirmed`.
+
+An `agent_inferred` fact must never become confirmed automatically. Confirmation is an explicit, attributable action, and the system must preserve the prior provenance history rather than overwrite it.
+
 ## 5. Target capabilities
 
 The product should be able to:
 
 1. Conduct a natural Vietnamese conversation about a legal situation.
-2. Separate user-provided, document-extracted, agent-inferred, and user-confirmed information.
+2. Separate user-provided, document-extracted, staff-entered, agent-inferred, user-confirmed, and professional-confirmed information.
 3. Ask purposeful clarification questions rather than returning a generic answer too early.
 4. Identify legal issues and explicitly record unresolved issues.
 5. Research official legal sources by jurisdiction, locality, applicable date, and provision-level validity.
-6. Link factual premises and legal evidence to individual analytical conclusions.
+6. Make every material analytical conclusion traceable through the complete chain: conclusion → applicable facts → legal rule → source version → exact citation location.
 7. Clearly separate legal analysis, options, risks, and practical recommendations.
 8. Express uncertainty by dimension instead of presenting a misleading single percentage.
 9. Maintain case memory across multiple sessions while preserving provenance.
@@ -72,6 +84,8 @@ Candidate subdomains will be selected through the use-case specification rather 
 
 The current delivery scope is the Legal Agent Core packaged behind a stable API and supported by a minimal internal console. The console exists to create cases, conduct intake, upload documents, inspect extracted facts and issues, review evidence and citations, view action plans, and evaluate agent behavior. It is not the final commercial website.
 
+The system must distinguish nationwide legal rules from locality-specific procedures. No legal rule or procedure may be treated as applicable without resolving jurisdiction, locality, and relevant date where those factors may change the result. Rules from one locality must never be generalized to another without an independently verified legal basis.
+
 ## 7. Product boundaries
 
 The agent must not:
@@ -81,10 +95,27 @@ The agent must not:
 - invent facts, legal provisions, document contents, fees, deadlines, or local procedures;
 - hide conflicting sources or unresolved uncertainty;
 - treat retrieved text as automatically applicable law;
+- use an expired, superseded, or not-yet-effective provision without detecting and clearly disclosing its status;
+- treat an agent inference as a confirmed fact;
+- perform an external action without explicit confirmation from the user or an authorized human actor;
 - provide a final high-risk conclusion when essential facts or sources are missing;
 - expose private case data across users or organizations.
 
-## 8. Quality model
+## 8. First-release non-goals
+
+The first release will not:
+
+- support every field of Vietnamese law;
+- support every province or municipality;
+- submit administrative procedures or legal filings automatically;
+- replace professional legal review;
+- analyze every possible document type;
+- operate a lawyer marketplace;
+- provide a native mobile application;
+- automatically value real estate;
+- provide a separate commercial landing page, billing system, or marketplace for the Agent.
+
+## 9. Quality model
 
 Completion is demonstrated by evidence, not by the number of modules implemented. Evaluation must cover at least:
 
@@ -92,15 +123,20 @@ Completion is demonstrated by evidence, not by the number of modules implemented
 - clarification quality;
 - issue spotting;
 - retrieval recall and legal-source validity;
+- temporal validity and effective-date correctness;
+- locality and jurisdiction validity;
+- applicability correctness for the relevant facts and legal subject;
+- completeness of material conditions, exceptions, and conflicting rules;
 - citation correctness and claim-to-evidence support;
-- analysis quality and counter-considerations;
+- legal correctness, including analysis quality and counter-considerations;
+- practical usefulness, including action-plan executability;
 - uncertainty calibration;
 - safety and escalation behavior;
 - case-memory consistency;
 - document extraction and drafting correctness;
 - latency, cost, security, privacy, and operational reliability.
 
-## 9. Technical direction
+## 10. Technical direction
 
 The local development machine will run application code, tests, case workflows, and development data. Strong foundation models and compute-heavy workloads will use provider APIs or cloud/GPU infrastructure. The architecture must avoid dependence on one model vendor and provide cost, timeout, retry, and fallback controls.
 
@@ -110,31 +146,47 @@ The agent maintains its own operational database for legal cases, facts, missing
 
 Integration records use external identifiers such as `tenant_id`, `user_id`, `property_id`, and business-request IDs. The agent stores only reference identifiers and justified point-in-time snapshots. It must not copy complete User or Property records from the future main platform.
 
-## 10. Relationship to the prototype
+The legal knowledge architecture must support document versioning, effective-date resolution, amendment and replacement relationships, provision-level lifecycle status, and reproducible source snapshots. Retrieval relevance alone is never sufficient to establish that a rule applies.
+
+## 11. Relationship to the prototype
 
 The previous RAG system may contribute carefully reviewed source data, ingestion utilities, or regression tests. Its chat-centered architecture and existing quality scores do not define this product and will not be migrated wholesale.
 
-## 11. Decisions still requiring review
+## 12. Open implementation decisions
+
+Approval of this Product Definition fixes the product identity, boundaries, and quality principles. The following implementation choices remain to be specified and approved in their corresponding design artifacts:
 
 - The first eight to ten end-to-end use cases.
-- Supported localities and how local administrative procedures are represented.
+- The initial supported localities and verified local-procedure coverage.
 - Supported document types in the first release.
 - Conditions that require professional review.
 - User roles and access boundaries for the first operational release.
 - Model-provider strategy and acceptable operating-cost envelope.
 - Quantitative release thresholds for each evaluation dimension.
 
-## 12. Delivery roadmap
+## 13. Delivery roadmap
 
 ### Phase 1 — Agent Core
 
+#### Phase 1A — Case Intelligence
+
 - Legal Case model and lifecycle.
-- Conversational intake and structured facts.
-- Missing-fact detection and clarification.
+- Conversational intake and structured facts with provenance.
+- Missing-fact detection and purposeful clarification.
 - Legal issue spotting.
+
+#### Phase 1B — Legal Research
+
 - Multi-document research and retrieval.
-- Evidence-linked citations and answer synthesis.
-- Risk analysis, action plans, and evaluation.
+- Jurisdiction, locality, and relevant-date resolution.
+- Source versioning and provision-level applicability checks.
+- Evidence and exact citation-location mapping.
+
+#### Phase 1C — Analysis and Action
+
+- Evidence-linked analysis and answer synthesis.
+- Risks, exceptions, alternative interpretations, and action plans.
+- Escalation behavior and end-to-end evaluation.
 
 ### Phase 2 — Document Intelligence
 
