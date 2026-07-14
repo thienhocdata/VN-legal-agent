@@ -151,6 +151,8 @@ def test_chat_ui_is_single_conversation_and_scrollable(client):
     html = client.get("/").text
     css = client.get("/static/styles.css").text
     assert "Bạn cần hỗ trợ gì?" in html
+    assert 'window.location.protocol === "file:"' in html
+    assert 'http://127.0.0.1:8000/' in html
     assert "sidebar" not in html
     assert "id=\"menu\"" not in html
     assert ".conversation{min-height:0;overflow-y:auto" in css
