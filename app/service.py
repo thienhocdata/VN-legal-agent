@@ -256,7 +256,17 @@ class LegalCaseService:
             except LegalAIError as exc:
                 self.logger.warning("Legal AI generation failed for %s: %s", case_id, exc)
                 with self.db.connect() as con:
-                    self.audit(con, case_id, "ai.generation_failed", "legal-agent", {"error": str(exc)})
+                    self.audit(con, case_id, "ai.generation_failed", "legal-agent", {"error": str(exc), "code": exc.code})
+                if exc.code == "insufficient_quota":
+                    answer = (
+                        "AI hội thoại đã được kết nối, nhưng tài khoản API hiện không còn hạn mức sử dụng. "
+                        "Chủ hệ thống cần kích hoạt billing hoặc nạp credit trên OpenAI Platform rồi thử lại."
+                    )
+                elif exc.code == "rate_limit_exceeded":
+                    answer = "AI đang nhận quá nhiều yêu cầu trong thời gian ngắn. Bạn vui lòng thử lại sau một chút."
+                else:
+                    answer = "AI hội thoại đang tạm thời không phản hồi. Hệ thống đã ghi nhận lỗi để kiểm tra; bạn vui lòng thử lại sau."
+                return self._chat_reply(case_id, answer, [], [], "ai_unavailable")
 
         general_answer = self._answer_general_question(message)
         if general_answer:

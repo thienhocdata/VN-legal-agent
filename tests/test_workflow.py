@@ -190,3 +190,25 @@ def test_configured_ai_handles_typo_as_conversation(client):
     assert data["status"] == "conversation"
     assert "tách thửa" in data["answer"]
     assert fake.captured["history"][-1]["content"] == "tahc thua o tphcm co dc ko?"
+
+
+def test_ai_quota_failure_is_explicit_instead_of_silent_fallback(client):
+    import app.main as main
+    from app.legal_ai import LegalAIError
+
+    class FailingLegalAI:
+        available = True
+
+        @staticmethod
+        def status():
+            return {"mode": "model", "configured": True, "model": "test-model", "configuration_error": None}
+
+        @staticmethod
+        def generate(**_):
+            raise LegalAIError("Model request failed", code="insufficient_quota")
+
+    main.service = main.LegalCaseService(main.db, legal_ai=FailingLegalAI())
+    response = client.post("/api/v1/chat", json={"message": "Tách thửa là gì?"})
+    assert response.status_code == 200
+    assert response.json()["status"] == "ai_unavailable"
+    assert "hạn mức" in response.json()["answer"]

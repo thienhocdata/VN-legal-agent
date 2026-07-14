@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parent.parent
 def main() -> None:
     print("Cấu hình bộ não hội thoại cho Minh Long Legal Agent")
     api_key = getpass("OpenAI API key (không hiển thị khi nhập): ").strip()
-    if not api_key:
-        raise SystemExit("Không có API key; chưa thay đổi cấu hình.")
+    if len(api_key) < 20:
+        raise SystemExit("API key không hợp lệ hoặc chưa được dán đầy đủ; chưa thay đổi cấu hình.")
     model = input("Model [gpt-5.4]: ").strip() or "gpt-5.4"
     env_path = ROOT / ".env"
     env_path.write_text(

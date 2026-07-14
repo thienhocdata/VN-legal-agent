@@ -136,6 +136,7 @@ function statusLabel(status) {
     analysis_complete: "Đã có phân tích sơ bộ",
     review_required: "Đã có phân tích sơ bộ",
     needs_expert_review: "Cần chuyên gia kiểm tra",
+    ai_unavailable: "AI chưa sẵn sàng",
   }[status] || "Bạn cần hỗ trợ gì?";
 }
 

@@ -52,3 +52,28 @@ def test_legal_query_normalization_handles_missing_accents_and_typo():
 
     assert KnowledgeRepository._fold("Tách thửa ở TP.HCM") == "tach thua o tp.hcm"
     assert KnowledgeRepository._near_token("tahc", {"tach", "thua"})
+
+
+def test_provider_error_preserves_safe_error_code():
+    settings = Settings(
+        root=Path("."), database_path=":memory:", auth_required=False,
+        environment="test", allow_demo_sources=True, ai_model="test-model",
+    )
+    ai = LegalAI(settings)
+
+    class QuotaError(Exception):
+        body = {"code": "insufficient_quota", "message": "sensitive provider detail"}
+
+    class FailingResponses:
+        @staticmethod
+        def create(**_):
+            raise QuotaError()
+
+    ai.client = SimpleNamespace(responses=FailingResponses())
+    from app.legal_ai import LegalAIError
+    try:
+        ai.generate(history=[{"role": "user", "content": "xin chào"}], facts={}, sources=[], source_notice=None)
+        assert False, "Expected LegalAIError"
+    except LegalAIError as exc:
+        assert exc.code == "insufficient_quota"
+        assert "sensitive provider detail" not in str(exc)

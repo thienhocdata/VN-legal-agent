@@ -39,6 +39,10 @@ CÁCH TRÌNH BÀY
 class LegalAIError(RuntimeError):
     """Raised when the model cannot produce a usable answer."""
 
+    def __init__(self, message: str, code: str | None = None):
+        super().__init__(message)
+        self.code = code
+
 
 @dataclass(frozen=True)
 class LegalAIResult:
@@ -117,7 +121,9 @@ class LegalAI:
             response = self.client.responses.create(**request)
             answer = (response.output_text or "").strip()
         except Exception as exc:
-            raise LegalAIError(f"Model request failed: {type(exc).__name__}") from exc
+            body = getattr(exc, "body", None)
+            code = body.get("code") if isinstance(body, dict) else None
+            raise LegalAIError(f"Model request failed: {type(exc).__name__}", code=code) from exc
 
         if not answer:
             raise LegalAIError("Model returned an empty answer")
