@@ -41,7 +41,8 @@ def test_legal_ai_sends_local_history_and_governed_context_without_provider_stor
 
     assert "tách thửa" in result.answer
     assert responses.request["store"] is False
-    assert responses.request["input"][-1]["content"] == "tahc thua o tphcm la gi"
+    assert responses.request["input"][-1]["content"].startswith("tahc thua o tphcm la gi")
+    assert "tách thửa" in responses.request["input"][-1]["content"]
     assert "Hiểu lỗi chính tả" in responses.request["instructions"]
     assert "Nguồn kiểm thử" in responses.request["instructions"]
     assert "Không bịa điều luật" in responses.request["instructions"]
@@ -114,6 +115,7 @@ def test_gemini_receives_history_and_same_legal_instructions():
     assert models.request["contents"][-1].parts[0].text == "dung roi o tphcm"
     assert "Hiểu lỗi chính tả" in models.request["config"].system_instruction
     assert "Không bịa điều luật" in models.request["config"].system_instruction
+    assert models.request["config"].thinking_config.thinking_level == "LOW"
 
 
 def test_gemini_rate_limit_is_normalized_without_exposing_provider_detail():

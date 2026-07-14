@@ -30,7 +30,7 @@ def main() -> None:
     api_key = getpass("Gemini API key (không hiển thị khi nhập): ").strip()
     if len(api_key) < 20:
         raise SystemExit("API key không hợp lệ hoặc chưa được dán đầy đủ; chưa thay đổi cấu hình.")
-    model = input("Model [gemini-3.5-flash]: ").strip() or "gemini-3.5-flash"
+    model = input("Model [gemini-3-flash-preview]: ").strip() or "gemini-3-flash-preview"
     env_path = ROOT / ".env"
     update_env(env_path, {
         "LEGAL_AGENT_PROVIDER": "gemini",

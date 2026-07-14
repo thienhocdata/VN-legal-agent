@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from typing import Any
 
@@ -34,6 +35,13 @@ CÁCH TRÌNH BÀY
 - Chỉ dùng tiêu đề hoặc gạch đầu dòng khi thực sự giúp dễ đọc.
 - Không thêm tuyên bố miễn trừ dài dòng ở mọi câu trả lời; chỉ cảnh báo ngắn tại điểm có rủi ro.
 """.strip()
+
+
+COMMON_TYPO_HINTS = (
+    (re.compile(r"\btahc\s+thua\b", re.IGNORECASE), "tách thửa"),
+    (re.compile(r"\btranh\s+chpa\b", re.IGNORECASE), "tranh chấp"),
+    (re.compile(r"\bchuyen\s+nhuog\b", re.IGNORECASE), "chuyển nhượng"),
+)
 
 
 class LegalAIError(RuntimeError):
@@ -117,7 +125,8 @@ class LegalAI:
         input_messages = [
             {
                 "role": row["role"],
-                "content": str(row["content"])[:6000],
+                "content": self._content_with_typo_hint(str(row["content"])[:6000])
+                if row["role"] == "user" else str(row["content"])[:6000],
             }
             for row in history[-16:]
             if row.get("role") in {"user", "assistant"} and row.get("content")
@@ -165,10 +174,18 @@ class LegalAI:
             )
             for row in input_messages
         ]
+        thinking_levels = {
+            "minimal": types.ThinkingLevel.MINIMAL,
+            "low": types.ThinkingLevel.LOW,
+            "medium": types.ThinkingLevel.MEDIUM,
+            "high": types.ThinkingLevel.HIGH,
+        }
+        thinking_level = thinking_levels.get(self.settings.ai_reasoning_effort.lower(), types.ThinkingLevel.LOW)
         config = types.GenerateContentConfig(
             system_instruction=instructions,
             max_output_tokens=self.settings.ai_max_output_tokens,
             temperature=0.2,
+            thinking_config=types.ThinkingConfig(thinking_level=thinking_level),
         )
         try:
             response = self.client.models.generate_content(
@@ -233,3 +250,15 @@ class LegalAI:
         if "tranh chấp" in lower:
             return ["Tôi nên chuẩn bị tài liệu nào?", "Bước an toàn đầu tiên là gì?"]
         return ["Giải thích đơn giản hơn", "Tôi muốn hỏi một tình huống cụ thể"]
+
+    @staticmethod
+    def _content_with_typo_hint(content: str) -> str:
+        hints = [replacement for pattern, replacement in COMMON_TYPO_HINTS if pattern.search(content)]
+        if not hints:
+            return content
+        normalized = ", ".join(f'“{item}”' for item in dict.fromkeys(hints))
+        return (
+            f"{content}\n\n"
+            f"[Gợi ý chuẩn hóa lỗi gõ của hệ thống: nhiều khả năng người dùng muốn nói {normalized}. "
+            "Hãy hiểu theo nghĩa này nếu phù hợp với ngữ cảnh, không coi đây là dữ kiện pháp lý mới.]"
+        )

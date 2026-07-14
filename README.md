@@ -35,7 +35,7 @@ python scripts/configure_ai.py
 python -m uvicorn app.main:app --reload
 ```
 
-The key is read only by the backend and must never be placed in `app/static`. Select the provider with `LEGAL_AGENT_PROVIDER=gemini` or `LEGAL_AGENT_PROVIDER=openai`. The default models are `gemini-3.5-flash` and `gpt-5.4`. OpenAI responses are requested with `store=false`; conversation history remains in the local Legal Agent database.
+The key is read only by the backend and must never be placed in `app/static`. Select the provider with `LEGAL_AGENT_PROVIDER=gemini` or `LEGAL_AGENT_PROVIDER=openai`. The trial defaults are `gemini-3-flash-preview` and `gpt-5.4`; preview model behavior and rate limits may change. OpenAI responses are requested with `store=false`; conversation history remains in the local Legal Agent database.
 
 Run the tests with:
 
