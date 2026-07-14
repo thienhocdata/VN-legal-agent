@@ -1,9 +1,10 @@
 # Product Definition
 
+**Version:** 1.0
 **Status:** Approved
+**Approved:** 2026-07-14
 **Product:** Minh Long Legal Agent
 **Initial legal domain:** Vietnamese land law
-**Approved:** 2026-07-14
 
 ## 1. Product statement
 
@@ -215,3 +216,9 @@ Approval of this Product Definition fixes the product identity, boundaries, and 
 - Create or link Legal Cases from business workflows.
 - Reference users, organizations, properties, documents, and requests by ID.
 - Expose legal-check, transfer-analysis, title-transfer preparation, construction-condition, and dispute-analysis workflows.
+
+## 14. Change control
+
+Changes to the approved product identity, boundaries, primary users, unit of work, or safety principles require a new reviewed version of this document.
+
+Implementation details may evolve through separate use-case, architecture, data, security, and evaluation specifications without reopening this Product Definition unless they materially change the approved product scope.
