@@ -238,6 +238,15 @@ class LegalCaseService:
 
         with self.db.connect() as con:
             user_message_id = self._message(con, case_id, "user", message, actor_id)
+
+        general_answer = self._answer_general_question(message)
+        if general_answer:
+            return self._chat_reply(
+                case_id, general_answer, [],
+                ["Điều kiện tách thửa tại TP.HCM", "Tách thửa khác chuyển nhượng thế nào?", "Tôi muốn hỏi vấn đề khác"],
+                "conversation",
+            )
+
         self.intake(case_id, actor_id, actor_role, message)
         self._extract_chat_context(case_id, message, actor_id, actor_role, user_message_id)
 
@@ -349,3 +358,34 @@ class LegalCaseService:
         with self.db.connect() as con:
             self._message(con, case_id, "assistant", answer, "legal-agent", citations)
         return {"case_id": case_id, "status": status, "answer": answer, "citations": citations, "suggestions": suggestions}
+
+    @staticmethod
+    def _answer_general_question(message: str) -> str | None:
+        text = message.lower().strip()
+        if re.search(r"(tách thửa).*(là gì|nghĩa là|thế nào)", text):
+            return (
+                "**Tách thửa là gì?**\n\n"
+                "Tách thửa là việc chia một thửa đất thành hai hoặc nhiều thửa đất độc lập. Sau khi hoàn tất thủ tục đăng ký biến động, mỗi thửa mới có thông tin địa chính và Giấy chứng nhận riêng nếu đáp ứng đủ điều kiện.\n\n"
+                "Tách thửa không đồng nghĩa với chuyển nhượng. Bạn có thể tách thửa để chia tài sản, tặng cho, chuyển nhượng một phần hoặc phục vụ nhu cầu sử dụng khác.\n\n"
+                "Khả năng tách được hay không thường phụ thuộc vào diện tích và kích thước tối thiểu, loại đất, quy hoạch, lối đi, hạ tầng, tình trạng pháp lý và quy định của địa phương. Vì vậy muốn kiểm tra một thửa cụ thể, mình cần biết vị trí, diện tích, loại đất và mục đích tách."
+            )
+        if re.search(r"(có thể|có trả lời|biết trả lời).*(nội dung khác|câu hỏi khác|vấn đề khác)", text):
+            return (
+                "Có. Bạn có thể hỏi một câu hoàn toàn khác bất kỳ lúc nào — mình sẽ trả lời câu đó trước, không bắt bạn hoàn thành chuỗi câu hỏi đang dang dở.\n\n"
+                "Mình có thể giải thích khái niệm, phân tích một tình huống đất đai, kiểm tra điều kiện, chỉ ra rủi ro hoặc hướng dẫn bạn chuẩn bị thông tin."
+            )
+        definitions = {
+            "sổ đỏ là gì": "**Sổ đỏ** là cách gọi thông dụng của Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất. Tên gọi pháp lý trên Giấy chứng nhận có thể thay đổi theo từng thời kỳ; khi phân tích cần xem chính xác loại giấy, người đứng tên, thửa đất và nội dung ghi chú.",
+            "sổ hồng là gì": "**Sổ hồng** là cách gọi thông dụng của Giấy chứng nhận liên quan đến quyền sử dụng đất và quyền sở hữu nhà ở/tài sản gắn liền với đất. Để biết giá trị và phạm vi quyền, cần đọc nội dung cụ thể trên Giấy chứng nhận thay vì chỉ dựa vào màu bìa.",
+            "sang tên là gì": "**Sang tên** là cách gọi thông dụng của việc đăng ký biến động để ghi nhận người có quyền mới sau chuyển nhượng, tặng cho, thừa kế hoặc giao dịch phù hợp khác. Đây là bước đăng ký pháp lý, không chỉ là ký hợp đồng.",
+            "đăng ký biến động là gì": "**Đăng ký biến động đất đai** là thủ tục cập nhật thay đổi về người sử dụng đất, tài sản, diện tích, mục đích hoặc thông tin pháp lý khác vào hồ sơ địa chính và Giấy chứng nhận theo trường hợp cụ thể.",
+        }
+        for phrase, answer in definitions.items():
+            if phrase in text:
+                return answer
+        if text.endswith("?") or re.search(r"\b(là gì|vì sao|tại sao|giải thích|khác nhau)\b", text):
+            return (
+                "Mình có thể trả lời câu hỏi này độc lập với hồ sơ đang trao đổi. Tuy nhiên, nội dung bạn hỏi chưa đủ cụ thể để mình nhận diện chính xác vấn đề pháp lý. "
+                "Bạn hãy nêu rõ thuật ngữ hoặc tình huống muốn giải thích; mình sẽ trả lời trực tiếp trước rồi mới quay lại vấn đề cũ nếu bạn muốn."
+            )
+        return None

@@ -1,17 +1,211 @@
-const api='/api/v1'; let caseId=null, busy=false;
-const $=id=>document.getElementById(id);
-const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function format(text){let html=escapeHtml(text);html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');html=html.split('\n').map(line=>line.startsWith('- ')?`<p>• ${line.slice(2)}</p>`:line?`<p>${line}</p>`:'').join('');return html}
-async function call(path,opt={}){const key=localStorage.getItem('mla_api_key');const headers={'Content-Type':'application/json',...(key?{'X-API-Key':key}:{}),...(opt.headers||{})};const res=await fetch(api+path,{...opt,headers});if(res.status===401){const entered=prompt('Nhập API key để tiếp tục:');if(entered){localStorage.setItem('mla_api_key',entered.trim());return call(path,opt)}}if(!res.ok){const body=await res.json().catch(()=>({}));throw new Error(body.detail||'Không thể kết nối tới Legal Agent')}return res.json()}
-function addMessage(role,content,citations=[]){$('welcome').style.display='none';const row=document.createElement('div');row.className=`message ${role}`;const avatar=role==='assistant'?'<div class="avatar">ML</div>':'';const sources=citations.length?`<details class="sources"><summary>${citations.length} nguồn pháp lý được sử dụng</summary>${citations.map(c=>`<div class="source">${c.url?`<a href="${escapeHtml(c.url)}" target="_blank" rel="noopener">${escapeHtml(c.title)}</a>`:escapeHtml(c.title)}<br>${escapeHtml(c.location)} · ${escapeHtml(c.version||'')}</div>`).join('')}</details>`:'';row.innerHTML=`${avatar}<div class="bubble">${format(content)}${sources}</div>`;$('messages').appendChild(row);scrollBottom()}
-function showTyping(){const row=document.createElement('div');row.id='typing';row.className='message assistant';row.innerHTML='<div class="avatar">ML</div><div class="bubble"><div class="typing"><i></i><i></i><i></i></div></div>';$('messages').appendChild(row);scrollBottom()}
-function scrollBottom(){requestAnimationFrame(()=>$('conversation').scrollTop=$('conversation').scrollHeight)}
-function setSuggestions(items=[]){$('suggestions').innerHTML=items.map(x=>`<button>${escapeHtml(x)}</button>`).join('');$('suggestions').querySelectorAll('button').forEach(b=>b.onclick=()=>send(b.textContent))}
-async function send(text){text=(text||$('messageInput').value).trim();if(!text||busy)return;busy=true;$('messageInput').value='';resize();setSuggestions([]);addMessage('user',text);showTyping();$('send').disabled=true;try{const data=await call('/chat',{method:'POST',body:JSON.stringify({message:text,case_id:caseId})});caseId=data.case_id;$('typing')?.remove();addMessage('assistant',data.answer,data.citations);setSuggestions(data.suggestions);$('caseStatus').textContent=statusLabel(data.status);await loadHistory()}catch(err){$('typing')?.remove();addMessage('assistant',`Mình chưa xử lý được yêu cầu này: ${err.message}`)}finally{busy=false;$('send').disabled=false;$('messageInput').focus()}}
-function statusLabel(s){return({intake_in_progress:'Đang làm rõ tình huống',research_ready:'Sẵn sàng nghiên cứu',analysis_ready:'Đã có phân tích',review_required:'Cần kiểm tra chuyên môn',action_ready:'Sẵn sàng hành động'})[s]||'Đang hỗ trợ'}
-async function loadHistory(){try{const rows=await call('/cases');$('history').innerHTML=rows.map(c=>`<button data-id="${c.id}" class="${c.id===caseId?'active':''}">${escapeHtml(c.purpose.slice(0,48))}<small>${statusLabel(c.status)}</small></button>`).join('');$('history').querySelectorAll('button').forEach(b=>b.onclick=()=>openConversation(b.dataset.id))}catch(e){$('history').innerHTML=''}}
-async function openConversation(id){caseId=id;const rows=await call(`/cases/${id}/messages`);$('messages').innerHTML='';$('welcome').style.display=rows.length?'none':'block';rows.forEach(m=>addMessage(m.role,m.content,m.citations));setSuggestions([]);document.querySelectorAll('.history button').forEach(b=>b.classList.toggle('active',b.dataset.id===id));closeMenu()}
-function newConversation(){caseId=null;$('messages').innerHTML='';$('welcome').style.display='block';$('caseStatus').textContent='Sẵn sàng hỗ trợ';setSuggestions([]);document.querySelectorAll('.history button').forEach(b=>b.classList.remove('active'));closeMenu();$('messageInput').focus()}
-function resize(){$('messageInput').style.height='auto';$('messageInput').style.height=Math.min($('messageInput').scrollHeight,140)+'px'}
-function closeMenu(){$('sidebar').classList.remove('open');$('overlay').classList.remove('open')}
-$('composer').onsubmit=e=>{e.preventDefault();send()};$('messageInput').oninput=resize;$('messageInput').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}};$('newChat').onclick=newConversation;document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>send(b.dataset.prompt));$('menu').onclick=()=>{$('sidebar').classList.add('open');$('overlay').classList.add('open')};$('overlay').onclick=closeMenu;loadHistory();
+const api = "/api/v1";
+
+let caseId = null;
+let busy = false;
+
+const $ = (id) => document.getElementById(id);
+
+async function call(path, options = {}) {
+  const key = localStorage.getItem("mla_api_key");
+  const response = await fetch(`${api}${path}`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(key ? { "X-API-Key": key } : {}),
+      ...(options.headers || {}),
+    },
+    ...options,
+  });
+
+  if (response.status === 401) {
+    const entered = window.prompt("Nhập API key để tiếp tục:");
+    if (entered?.trim()) {
+      localStorage.setItem("mla_api_key", entered.trim());
+      return call(path, options);
+    }
+  }
+
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({}));
+    throw new Error(payload.detail || "Không thể kết nối với trợ lý lúc này.");
+  }
+
+  return response.json();
+}
+
+function format(text) {
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>");
+}
+
+function scrollBottom() {
+  requestAnimationFrame(() => {
+    const conversation = $("conversation");
+    conversation.scrollTop = conversation.scrollHeight;
+  });
+}
+
+function addMessage(role, text, citations = []) {
+  const welcome = $("welcome");
+  if (welcome) welcome.hidden = true;
+
+  const row = document.createElement("div");
+  row.className = `message ${role}`;
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  avatar.textContent = role === "assistant" ? "ML" : "Bạn";
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.innerHTML = format(text);
+
+  if (citations.length) {
+    const details = document.createElement("details");
+    details.className = "sources";
+    const summary = document.createElement("summary");
+    summary.textContent = `${citations.length} nguồn pháp lý được sử dụng`;
+    details.appendChild(summary);
+
+    citations.forEach((citation) => {
+      const source = document.createElement("div");
+      source.className = "source";
+      const title = String(citation.title || "Nguồn pháp lý");
+      if (/^https?:\/\//i.test(citation.url || "")) {
+        const link = document.createElement("a");
+        link.href = citation.url;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = title;
+        source.appendChild(link);
+      } else {
+        source.appendChild(document.createTextNode(title));
+      }
+      source.appendChild(document.createElement("br"));
+      source.appendChild(document.createTextNode(
+        [citation.location, citation.version].filter(Boolean).join(" · ")
+      ));
+      details.appendChild(source);
+    });
+    bubble.appendChild(details);
+  }
+
+  if (role === "assistant") row.appendChild(avatar);
+  row.appendChild(bubble);
+  $("messages").appendChild(row);
+  scrollBottom();
+}
+
+function showTyping(show) {
+  const existing = $("typing");
+  if (!show) {
+    if (existing) existing.remove();
+    return;
+  }
+  if (existing) return;
+
+  const row = document.createElement("div");
+  row.id = "typing";
+  row.className = "message assistant";
+  row.innerHTML = '<div class="avatar">ML</div><div class="bubble typing" aria-label="Đang trả lời"><i></i><i></i><i></i></div>';
+  $("messages").appendChild(row);
+  scrollBottom();
+}
+
+function setSuggestions(suggestions = []) {
+  const container = $("suggestions");
+  container.replaceChildren();
+
+  suggestions.slice(0, 3).forEach((suggestion) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = suggestion;
+    button.addEventListener("click", () => send(suggestion));
+    container.appendChild(button);
+  });
+}
+
+function statusLabel(status) {
+  return {
+    conversation: "Bạn cần hỗ trợ gì?",
+    intake_in_progress: "Mình đang lắng nghe",
+    ready_for_analysis: "Đang phân tích tình huống",
+    analysis_complete: "Đã có phân tích sơ bộ",
+    review_required: "Đã có phân tích sơ bộ",
+    needs_expert_review: "Cần chuyên gia kiểm tra",
+  }[status] || "Bạn cần hỗ trợ gì?";
+}
+
+async function send(rawText) {
+  const text = String(rawText || "").trim();
+  if (!text || busy) return;
+
+  busy = true;
+  $("send").disabled = true;
+  $("messageInput").value = "";
+  resize();
+  setSuggestions();
+  addMessage("user", text);
+  showTyping(true);
+
+  try {
+    const data = await call("/chat", {
+      method: "POST",
+      body: JSON.stringify({ case_id: caseId, message: text }),
+    });
+
+    caseId = data.case_id;
+    addMessage("assistant", data.answer, data.citations);
+    setSuggestions(data.suggestions);
+    $("caseStatus").textContent = statusLabel(data.status);
+  } catch (error) {
+    addMessage("assistant", `Mình gặp lỗi kết nối: ${error.message}`);
+    $("caseStatus").textContent = "Chưa thể kết nối";
+  } finally {
+    showTyping(false);
+    busy = false;
+    $("send").disabled = false;
+    $("messageInput").focus();
+    scrollBottom();
+  }
+}
+
+function newConversation() {
+  caseId = null;
+  $("messages").replaceChildren();
+  setSuggestions();
+  $("welcome").hidden = false;
+  $("caseStatus").textContent = "Bạn cần hỗ trợ gì?";
+  $("messageInput").value = "";
+  resize();
+  $("messageInput").focus();
+}
+
+function resize() {
+  const input = $("messageInput");
+  input.style.height = "auto";
+  input.style.height = `${Math.min(input.scrollHeight, 160)}px`;
+}
+
+$("composer").addEventListener("submit", (event) => {
+  event.preventDefault();
+  send($("messageInput").value);
+});
+
+$("messageInput").addEventListener("input", resize);
+$("messageInput").addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    $("composer").requestSubmit();
+  }
+});
+
+$("newChat").addEventListener("click", newConversation);
+document.querySelectorAll("[data-prompt]").forEach((button) => {
+  button.addEventListener("click", () => send(button.dataset.prompt));
+});
+
+$("messageInput").focus();

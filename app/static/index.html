@@ -1,55 +1,35 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Trợ lý pháp luật đất đai Minh Long">
-  <title>Minh Long Legal Agent</title>
-  <link rel="stylesheet" href="/static/styles.css">
+  <title>Minh Long Legal Agent</title><link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand"><div class="brand-mark">ML</div><div><strong>Minh Long</strong><span>Legal Agent</span></div></div>
-      <button class="new-chat" id="newChat"><span>＋</span> Cuộc trò chuyện mới</button>
-      <div class="history-label">Gần đây</div>
-      <nav id="history" class="history"></nav>
-      <div class="sidebar-note"><span class="shield">◆</span><div><strong>Hỗ trợ ra quyết định</strong><small>Không thay thế luật sư hoặc cơ quan có thẩm quyền.</small></div></div>
-    </aside>
-
-    <main class="chat-main">
-      <header class="topbar">
-        <button class="menu" id="menu" aria-label="Mở menu">☰</button>
-        <div><strong>Trợ lý pháp luật đất đai</strong><span id="caseStatus">Sẵn sàng hỗ trợ</span></div>
-        <div class="coverage"><i></i> TP. Hồ Chí Minh</div>
-      </header>
-
-      <section class="conversation" id="conversation">
-        <div class="welcome" id="welcome">
-          <div class="agent-orb"><span>ML</span></div>
-          <h1>Bạn đang cần hỗ trợ<br><em>vấn đề đất đai nào?</em></h1>
-          <p>Hãy kể tình huống bằng lời của bạn. Mình sẽ hỏi thêm thông tin cần thiết, kiểm tra quy định và giải thích từng bước.</p>
-          <div class="starters">
-            <button data-prompt="Tôi muốn kiểm tra điều kiện chuyển nhượng một thửa đất tại TP.HCM."><span>↗</span><b>Kiểm tra chuyển nhượng</b><small>Điều kiện, rủi ro và các bước cần làm</small></button>
-            <button data-prompt="Tôi đang chuẩn bị sang tên sổ đỏ tại TP.HCM, cần chuẩn bị những gì?"><span>▤</span><b>Chuẩn bị sang tên</b><small>Hồ sơ và quy trình đăng ký biến động</small></button>
-            <button data-prompt="Đất của tôi đang có tranh chấp, tôi cần làm gì trước?"><span>⚑</span><b>Đất đang tranh chấp</b><small>Xác định rủi ro và hướng xử lý an toàn</small></button>
-          </div>
+  <main class="chat-main">
+    <header class="topbar">
+      <div class="compact-brand"><div class="brand-mark">ML</div><div><strong>Minh Long Legal Agent</strong><span id="caseStatus">Bạn cần hỗ trợ gì?</span></div></div>
+      <div class="top-actions"><div class="coverage"><i></i> TP. Hồ Chí Minh</div><button class="new-chat" id="newChat">＋ Cuộc trò chuyện mới</button></div>
+    </header>
+    <section class="conversation" id="conversation">
+      <div class="welcome" id="welcome">
+        <div class="agent-orb"><span>ML</span></div>
+        <h1>Bạn cần hỗ trợ gì?</h1>
+        <p>Hãy hỏi trực tiếp như khi đang trò chuyện. Bạn có thể đổi chủ đề bất kỳ lúc nào; mình sẽ không bắt bạn hoàn thành một biểu mẫu.</p>
+        <div class="starters">
+          <button data-prompt="Tách thửa là gì?"><span>◇</span><b>Giải thích tách thửa</b><small>Khái niệm và những điều cần kiểm tra</small></button>
+          <button data-prompt="Tôi muốn kiểm tra điều kiện chuyển nhượng một thửa đất tại TP.HCM."><span>↗</span><b>Kiểm tra chuyển nhượng</b><small>Điều kiện, rủi ro và các bước cần làm</small></button>
+          <button data-prompt="Đất của tôi đang có tranh chấp, tôi cần làm gì trước?"><span>⚑</span><b>Đất đang tranh chấp</b><small>Xác định rủi ro và hướng xử lý an toàn</small></button>
         </div>
-        <div class="messages" id="messages"></div>
-      </section>
-
-      <footer class="composer-wrap">
-        <div class="suggestions" id="suggestions"></div>
-        <form class="composer" id="composer">
-          <textarea id="messageInput" rows="1" placeholder="Nhập tình huống pháp lý của bạn..." aria-label="Tin nhắn"></textarea>
-          <button type="submit" id="send" aria-label="Gửi">➤</button>
-        </form>
-        <p class="disclaimer">AI có thể mắc lỗi. Kết luận quan trọng cần được chuyên gia pháp lý kiểm tra.</p>
-      </footer>
-    </main>
-  </div>
-  <div class="overlay" id="overlay"></div>
+      </div>
+      <div class="messages" id="messages"></div>
+    </section>
+    <footer class="composer-wrap">
+      <div class="suggestions" id="suggestions"></div>
+      <form class="composer" id="composer"><textarea id="messageInput" rows="1" placeholder="Hỏi bất kỳ điều gì về pháp luật đất đai..." aria-label="Tin nhắn"></textarea><button type="submit" id="send" aria-label="Gửi">➤</button></form>
+      <p class="disclaimer">AI có thể mắc lỗi. Kết luận quan trọng cần được chuyên gia pháp lý kiểm tra.</p>
+    </footer>
+  </main>
   <script src="/static/app.js"></script>
 </body>
 </html>
-

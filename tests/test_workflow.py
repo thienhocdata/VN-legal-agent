@@ -124,3 +124,33 @@ def test_chat_asks_one_material_question_at_a_time(client):
     assert "tỉnh hoặc thành phố" in first["answer"]
     second = client.post("/api/v1/chat", json={"case_id": first["case_id"], "message": "TP.HCM"}).json()
     assert "diễn ra vào ngày nào" in second["answer"]
+
+
+def test_chat_answers_interruption_instead_of_repeating_pending_question(client):
+    first = client.post("/api/v1/chat", json={
+        "message": "Tôi muốn kiểm tra điều kiện chuyển nhượng một thửa đất tại TP.HCM."
+    }).json()
+    assert "diễn ra vào ngày nào" in first["answer"]
+
+    definition = client.post("/api/v1/chat", json={
+        "case_id": first["case_id"], "message": "Tách thửa là gì?"
+    }).json()
+    assert definition["status"] == "conversation"
+    assert "Tách thửa" in definition["answer"]
+    assert "diễn ra vào ngày nào" not in definition["answer"]
+
+    topic_change = client.post("/api/v1/chat", json={
+        "case_id": first["case_id"], "message": "Bạn có thể trả lời nội dung khác không?"
+    }).json()
+    assert topic_change["status"] == "conversation"
+    assert "câu hoàn toàn khác" in topic_change["answer"]
+    assert "diễn ra vào ngày nào" not in topic_change["answer"]
+
+
+def test_chat_ui_is_single_conversation_and_scrollable(client):
+    html = client.get("/").text
+    css = client.get("/static/styles.css").text
+    assert "Bạn cần hỗ trợ gì?" in html
+    assert "sidebar" not in html
+    assert "id=\"menu\"" not in html
+    assert ".conversation{min-height:0;overflow-y:auto" in css
