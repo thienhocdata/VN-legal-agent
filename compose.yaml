@@ -1,0 +1,19 @@
+services:
+  legal-agent:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - legal-agent-data:/data
+    command: ["sh", "-c", "python scripts/bootstrap_source_packs.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --proxy-headers"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  legal-agent-data:

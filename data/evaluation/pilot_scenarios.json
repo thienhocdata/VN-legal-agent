@@ -1,0 +1,38 @@
+[
+  {
+    "id": "HCM-TRANSFER-CURRENT",
+    "query": "điều kiện chuyển nhượng giấy chứng nhận tranh chấp đăng ký biến động",
+    "relevant_date": "2026-07-14",
+    "locality": "TP. Hồ Chí Minh",
+    "expected_candidate_sources": ["law-31-2024-qh15", "hcm-decision-3279-2025"]
+  },
+  {
+    "id": "HCM-EFFECTIVE-DATE",
+    "query": "hiệu lực Luật Đất đai 31/2024/QH15 01 tháng 8 năm 2024",
+    "relevant_date": "2024-08-01",
+    "locality": "TPHCM",
+    "expected_candidate_sources": ["law-43-2024-qh15"]
+  },
+  {
+    "id": "HCM-FINANCIAL-OBLIGATION",
+    "query": "nghĩa vụ tài chính ghi nợ trước khi chuyển nhượng",
+    "relevant_date": "2026-07-14",
+    "locality": "Hồ Chí Minh",
+    "expected_candidate_sources": ["law-31-2024-qh15"]
+  },
+  {
+    "id": "NEIGHBOR-NO-HCM-LEAKAGE",
+    "query": "đăng ký biến động chuyển nhượng chi nhánh văn phòng đăng ký đất đai",
+    "relevant_date": "2026-07-14",
+    "locality": "Đồng Nai",
+    "forbidden_candidate_sources": ["hcm-decision-3279-2025", "hcm-decision-1351-2025"]
+  },
+  {
+    "id": "PRE-EFFECTIVE-GUARD",
+    "query": "điều kiện chuyển nhượng giấy chứng nhận",
+    "relevant_date": "2024-07-31",
+    "locality": "TP. Hồ Chí Minh",
+    "forbidden_candidate_sources": ["law-31-2024-qh15", "law-43-2024-qh15"]
+  }
+]
+

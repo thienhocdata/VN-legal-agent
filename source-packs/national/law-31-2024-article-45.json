@@ -1,0 +1,32 @@
+{
+  "document": {
+    "id": "law-31-2024-qh15",
+    "title": "Luật Đất đai 2024",
+    "number": "31/2024/QH15",
+    "authority": "Quốc hội",
+    "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=211189&pageid=27160&typegroupid=3",
+    "content_hash": "2558044082ee768192a311aee548eb9fae4daada546013aa5181eb91c8842637",
+    "issued_date": "2024-01-18",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "31-2024-as-effective-2024-08-01"
+  },
+  "provisions": [
+    {
+      "id": "law-31-2024-art45-cl1",
+      "location": "Điều 45 khoản 1",
+      "keywords": ["chuyển nhượng", "giấy chứng nhận", "tranh chấp", "kê biên", "thời hạn sử dụng đất", "biện pháp khẩn cấp"],
+      "text": "Người sử dụng đất thực hiện quyền chuyển nhượng khi đáp ứng các điều kiện tại khoản 1 Điều 45: có Giấy chứng nhận trừ các ngoại lệ luật định; đất không có tranh chấp hoặc tranh chấp đã được giải quyết bằng quyết định có hiệu lực; quyền sử dụng đất không bị kê biên hoặc áp dụng biện pháp bảo đảm thi hành án; đất còn trong thời hạn sử dụng; và quyền sử dụng đất không bị áp dụng biện pháp khẩn cấp tạm thời. Phải kiểm tra thêm các điều kiện và ngoại lệ tại các khoản còn lại của Điều 45 và quy định liên quan theo đúng đối tượng, loại đất và giao dịch."
+    },
+    {
+      "id": "law-31-2024-art45-cl5",
+      "location": "Điều 45 khoản 5",
+      "keywords": ["nghĩa vụ tài chính", "ghi nợ", "chuyển nhượng"],
+      "text": "Trường hợp người sử dụng đất được chậm thực hiện nghĩa vụ tài chính hoặc được ghi nợ nghĩa vụ tài chính thì phải thực hiện xong nghĩa vụ tài chính trước khi thực hiện quyền chuyển nhượng và các quyền được liệt kê tại khoản 5 Điều 45."
+    }
+  ]
+}
+

@@ -2,7 +2,50 @@
 
 An independently deployable Vietnamese legal decision-support service, initially focused on land law.
 
-> **Project status:** Product Definition v1.0 is approved. The repository is currently in use-case and architecture design. No production-ready legal agent has been released yet.
+> **Project status:** Product Definition v1.0 is approved and an auditable local MVP is available for evaluation. It uses a deliberately small demo corpus and is not a production-ready legal adviser.
+
+## Run the local MVP
+
+Prerequisites: Python 3.11 or newer.
+
+```powershell
+python -m pip install -e ".[dev]"
+python -m uvicorn app.main:app --reload
+```
+
+Open `http://127.0.0.1:8000` for the operational console or `http://127.0.0.1:8000/docs` for the API explorer.
+
+Run the tests with:
+
+```powershell
+python -m pytest
+```
+
+The default database is created at `data/legal_agent.db`. Set `LEGAL_AGENT_DB` to use another path.
+
+Production-like environments require API-key authentication. Create keys per actor, tenant, and role:
+
+```powershell
+$env:LEGAL_AGENT_ENV="pilot"
+python scripts/create_api_key.py --actor staff-001 --tenant minhlong --role case_staff
+python scripts/create_api_key.py --actor reviewer-001 --tenant minhlong --role professional_reviewer
+python -m uvicorn app.main:app
+```
+
+The console requests the key on the first protected API call. Development mode permits a local demo principal when no key is supplied; non-development mode requires `X-API-Key`.
+
+For an isolated pilot deployment:
+
+```powershell
+Copy-Item .env.example .env
+docker compose up --build -d
+docker compose exec legal-agent python scripts/create_api_key.py --actor staff-001 --tenant minhlong --role case_staff
+docker compose exec legal-agent python scripts/bootstrap_source_packs.py
+```
+
+Pilot mode intentionally refuses the embedded demo corpus. A reviewed source pack must be imported before research can return a governed candidate provision. See the [Controlled Pilot Runbook](docs/operations/pilot-runbook.md).
+
+The demo can create a case, record Vietnamese intake, preserve fact provenance, identify missing information and issues, resolve research context, run controlled demo research, build an evidence map, produce bounded analysis and an action plan, and require professional review. Its embedded legal metadata is insufficient for real legal reliance.
 
 ## Vision
 
@@ -165,7 +208,7 @@ Progress is not measured by the number of modules implemented. A capability is c
 
 ## Repository status
 
-The repository currently contains the approved product definition and the first system-boundary decisions. Use-case, data, security, prompt, evaluation, and detailed architecture specifications will be added before production implementation begins.
+The repository contains the approved product definition, use-case blueprint, acceptance plan, first-release proposals, MVP architecture, runnable API and console, SQLite persistence, and workflow tests. Production source governance, security, provider integration, evaluation thresholds, and deployment remain future approval gates.
 
 ```text
 docs/
@@ -177,6 +220,8 @@ docs/
     ├── 0001-new-product-repository.md
     └── 0002-agent-service-boundary.md
 ```
+
+Runtime code is organized under `app/`; tests are under `tests/`.
 
 ## Product governance
 
@@ -191,6 +236,13 @@ The earlier `ai-legal-assistant` repository is retained as a land-law RAG protot
 ## Documentation
 
 - [Product Definition v1.0](docs/product/product-definition.md)
+- [First-Release Decision Register](docs/product/first-release-decisions.md)
+- [First-Release Locality Scope](docs/product/locality-scope.md)
+- [Agent Core Use-Case Specification](docs/use-cases/README.md)
+- [Use-Case Traceability and Acceptance Plan](docs/use-cases/traceability-and-acceptance.md)
 - [System Boundary](docs/architecture/system-boundary.md)
+- [MVP Architecture](docs/architecture/mvp-architecture.md)
+- [Controlled Pilot Runbook](docs/operations/pilot-runbook.md)
+- [Pilot Readiness Report](docs/evaluation/pilot-readiness-report.md)
 - [ADR-0001: New Product Repository](docs/decisions/0001-new-product-repository.md)
 - [ADR-0002: Agent Service Boundary](docs/decisions/0002-agent-service-boundary.md)

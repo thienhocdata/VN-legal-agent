@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Minh Long Legal Agent</title><link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header><div><span class="eyebrow">CONTROLLED MVP</span><h1>Minh Long Legal Agent</h1><p>Không gian làm việc hồ sơ pháp lý có truy vết</p></div><div class="badge">Demo sources only</div></header>
+<main>
+  <aside>
+    <button id="newCase">+ Hồ sơ mới</button><h2>Hồ sơ</h2><div id="cases"></div>
+  </aside>
+  <section id="workspace">
+    <div class="empty"><h2>Legal Case, không phải một đoạn chat</h2><p>Tạo hồ sơ để thử intake, provenance, research context, evidence map và professional review.</p></div>
+  </section>
+</main>
+<dialog id="createDialog"><form method="dialog"><h2>Tạo Legal Case</h2><label>Mục đích<textarea id="purpose" required>Kiểm tra điều kiện và chuẩn bị chuyển nhượng quyền sử dụng đất</textarea></label><div class="actions"><button value="cancel" class="secondary">Hủy</button><button id="createConfirm" value="default">Tạo hồ sơ</button></div></form></dialog>
+<template id="caseTemplate">
+  <div class="case-head"><div><span class="eyebrow">LEGAL CASE</span><h2 class="case-title"></h2><p class="case-id"></p></div><span class="status"></span></div>
+  <div class="grid">
+    <article><h3>1. Tiếp nhận tình huống</h3><textarea id="intakeText" placeholder="Mô tả tình huống bằng tiếng Việt..."></textarea><button data-action="intake">Ghi nhận & phân tích facts</button></article>
+    <article><h3>2. Bối cảnh áp dụng</h3><div class="fields"><label>Ngày liên quan<input id="relevantDate" type="date"></label><label>Tỉnh/thành<input id="locality" placeholder="Ví dụ: TP. Hồ Chí Minh"></label></div><button data-action="context">Xác lập bối cảnh</button></article>
+    <article><h3>3. Nghiên cứu</h3><input id="query" value="điều kiện chuyển nhượng giấy chứng nhận tranh chấp"><button data-action="research">Chạy nghiên cứu có version</button></article>
+    <article><h3>4. Phân tích & hành động</h3><p>Chỉ sinh kết luận khi đã có research context và evidence.</p><button data-action="analyze">Tạo evidence-linked analysis</button></article>
+  </div>
+  <div class="tabs"><button class="active" data-tab="overview">Tổng quan</button><button data-tab="facts">Facts</button><button data-tab="artifacts">Artifacts</button><button data-tab="audit">Audit</button></div><div id="panel"></div>
+</template>
+<script src="/static/app.js"></script>
+</body></html>
+
