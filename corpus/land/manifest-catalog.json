@@ -1,0 +1,40 @@
+{
+  "catalog_version": 1,
+  "documents": [
+    {
+      "directory": "corpus/land/national/land-law-consolidated-44-2026",
+      "document": {"id": "land-law-consolidated-44-2026-vbhn-vpqh", "title": "Văn bản hợp nhất Luật Đất đai", "number": "44/VBHN-VPQH", "authority": "Văn phòng Quốc hội", "issued_date": "2026-03-16", "effective_from": "2024-08-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2026-03-16", "document_type": "consolidated_law", "completeness_status": "full_text_unverified", "expected_article_count": 260, "article_selection": "first_complete_sequence", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "consolidates", "target_document_id": "law-31-2024-qh15"}]
+    },
+    {
+      "directory": "corpus/land/national/decree-102-2024",
+      "document": {"id": "decree-102-2024-nd-cp", "title": "Quy định chi tiết thi hành một số điều của Luật Đất đai", "number": "102/2024/NĐ-CP", "authority": "Chính phủ", "issued_date": "2024-07-30", "effective_from": "2024-08-01", "effective_to": null, "legal_status": "partially_effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-with-amendment-graph", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 113, "article_selection": "first_complete_sequence", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "references", "target_document_id": "decree-226-2025-nd-cp", "note": "Amended by target"}, {"relation_type": "references", "target_document_id": "decree-49-2026-nd-cp", "note": "Amended by target"}]
+    },
+    {
+      "directory": "corpus/land/national/circular-10-2024",
+      "document": {"id": "circular-10-2024-tt-btnmt", "title": "Quy định về hồ sơ địa chính, Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất", "number": "10/2024/TT-BTNMT", "authority": "Bộ Tài nguyên và Môi trường", "issued_date": "2024-07-31", "effective_from": "2024-08-01", "effective_to": null, "legal_status": "partially_effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-with-2026-change-audit", "document_type": "circular", "completeness_status": "full_text_unverified", "expected_article_count": 45, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "references", "target_document_id": "circular-19-2026-tt-bnnmt", "note": "Mandatory 2026 change audit"}]
+    },
+    {
+      "directory": "corpus/land/national/decree-123-2024",
+      "document": {"id": "decree-123-2024-nd-cp", "title": "Quy định về xử phạt vi phạm hành chính trong lĩnh vực đất đai", "number": "123/2024/NĐ-CP", "authority": "Chính phủ", "issued_date": "2024-10-04", "effective_from": "2024-10-04", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "effective-before-281-2026", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 36, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "references", "target_document_id": "decree-281-2026-nd-cp", "note": "Future amendment not effective on 2026-07-15"}]
+    },
+    {
+      "directory": "corpus/land/national/decree-49-2026",
+      "document": {"id": "decree-49-2026-nd-cp", "title": "Hướng dẫn một số điều của Nghị quyết 254/2025/QH15", "number": "49/2026/NĐ-CP", "authority": "Chính phủ", "issued_date": "2026-01-31", "effective_from": "2026-01-31", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 22, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "implements", "target_document_id": "resolution-254-2025-qh15"}]
+    },
+    {
+      "directory": "corpus/land/national/decree-50-2026",
+      "document": {"id": "decree-50-2026-nd-cp", "title": "Hướng dẫn Nghị quyết 254/2025/QH15 về tiền sử dụng đất, tiền thuê đất", "number": "50/2026/NĐ-CP", "authority": "Chính phủ", "issued_date": "2026-01-31", "effective_from": "2026-01-31", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 14, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "implements", "target_document_id": "resolution-254-2025-qh15"}]
+    },
+    {
+      "directory": "corpus/land/national/decree-71-2024",
+      "document": {"id": "decree-71-2024-nd-cp", "title": "Quy định về giá đất", "number": "71/2024/NĐ-CP", "authority": "Chính phủ", "issued_date": "2024-06-27", "effective_from": "2024-08-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 40, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    }
+  ]
+}

@@ -9,9 +9,6 @@ from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.config import Settings
-from app.database import Database
-
 
 LEGAL_STATUSES = {"effective", "expired", "not_yet_effective", "superseded", "partially_effective"}
 COMPLETENESS_STATUSES = {"summary_only", "excerpt", "partial", "full_text_unverified", "full_text_verified"}
@@ -90,6 +87,8 @@ def validate(pack: dict, pack_path: Path | None = None) -> None:
 
 
 def import_pack(pack_path: Path, database_path: str | Path) -> tuple[str, int]:
+    from app.database import Database
+
     pack_path = pack_path.resolve()
     pack = json.loads(pack_path.read_text(encoding="utf-8"))
     validate(pack, pack_path)
@@ -184,6 +183,8 @@ def import_pack(pack_path: Path, database_path: str | Path) -> tuple[str, int]:
 
 
 def main() -> None:
+    from app.config import Settings
+
     parser = argparse.ArgumentParser(description="Import a reviewed legal source pack")
     parser.add_argument("path", type=Path)
     parser.add_argument("--database", type=Path)

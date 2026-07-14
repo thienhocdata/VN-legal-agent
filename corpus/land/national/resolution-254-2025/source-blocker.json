@@ -1,0 +1,8 @@
+{
+  "document_id": "resolution-254-2025-qh15",
+  "status": "blocked_official_artifact_endpoint_404",
+  "official_metadata_url": "https://vbpl.vn/TW/Pages/vbpq-thuoctinh.aspx?ItemID=186273",
+  "checked_at": "2026-07-15",
+  "reason": "CSDL quốc gia xác nhận văn bản còn hiệu lực nhưng endpoint FileData cũ hiện trả 404. Không thay bằng bản sao thương mại.",
+  "next_action": "Thu thập qua endpoint mới của CSDL quốc gia hoặc bản Công báo Quốc hội chính thức."
+}

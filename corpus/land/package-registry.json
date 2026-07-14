@@ -1,7 +1,8 @@
 {
-  "registry_version": 1,
+  "registry_version": 2,
   "domain": "vietnamese_land_law",
-  "approved_at": "2026-07-14",
+  "approved_at": "2026-07-15",
+  "applicability_date": "2026-07-15",
   "activation_policy": "all_mandatory_sources_full_text_verified_and_tests_passed",
   "packages": [
     {
@@ -10,7 +11,7 @@
       "priority": "P0",
       "status": "building",
       "topics": ["đăng ký lần đầu", "cấp lần đầu", "cấp đổi", "cấp lại do mất", "đính chính", "xác nhận thay đổi", "đăng ký biến động", "tài sản gắn liền với đất", "không có giấy tờ", "dữ liệu địa chính"],
-      "mandatory_documents": ["law-45-2013-qh13", "law-35-2018-qh14", "law-31-2024-qh15", "law-43-2024-qh15", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "circular-09-2024-tt-btnmt", "hcm-decision-651-2025"],
+      "mandatory_documents": ["law-45-2013-qh13", "land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "decree-226-2025-nd-cp", "decree-49-2026-nd-cp", "circular-10-2024-tt-btnmt", "circular-19-2026-tt-bnnmt", "hcm-decision-44-2026"],
       "mandatory_source_families": ["historical_certificate_rules_and_version_maps", "current_certificate_and_cadastral_circulars", "hcm_certificate_procedure_publications", "hcm_certificate_internal_processes", "hcm_certificate_fees_forms_and_receiving_offices"]
     },
     {
@@ -19,7 +20,7 @@
       "priority": "P0",
       "status": "planned",
       "topics": ["chuyển nhượng", "tặng cho", "thừa kế", "góp vốn", "đặt cọc", "hợp đồng vô hiệu", "công chứng", "tài sản chung", "người đại diện", "người chưa thành niên", "thế chấp"],
-      "mandatory_documents": ["law-31-2024-qh15", "law-43-2024-qh15", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "civil-code-current", "notarization-law-46-2024-qh15", "marriage-family-law-current", "real-estate-business-law-current", "housing-law-current", "credit-institutions-law-current", "security-registration-decree-current"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "civil-code-current", "notarization-law-current", "marriage-family-law-current", "real-estate-business-law-current", "housing-law-current", "credit-institutions-law-current", "security-registration-decree-current"],
       "mandatory_source_families": ["hcm_transaction_change_registration", "civil_transaction_guidance", "inheritance_guidance", "notarization_guidance", "security_registration_guidance"]
     },
     {
@@ -28,7 +29,7 @@
       "priority": "P1",
       "status": "planned",
       "topics": ["tách thửa", "hợp thửa", "diện tích tối thiểu", "kích thước cạnh", "lối đi", "ranh giới", "mốc giới", "nhiều mục đích", "quy hoạch", "hạ tầng"],
-      "mandatory_documents": ["law-31-2024-qh15", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "civil-code-current", "hcm-current-split-merge-decision"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "civil-code-current", "circular-26-2024-tt-btnmt", "hcm-decision-100-2024", "hcm-former-binhduong-split-decision-current", "hcm-former-vungtau-decision-24-2024"],
       "mandatory_source_families": ["cadastral_surveying_and_mapping", "neighboring_property_rights", "hcm_split_merge_history", "hcm_split_merge_procedures", "hcm_linked_planning_and_infrastructure"]
     },
     {
@@ -37,7 +38,7 @@
       "priority": "P0",
       "status": "planned",
       "topics": ["tranh chấp", "kê biên", "thế chấp", "hạn chế giao dịch", "thu hồi", "vi phạm đất đai", "biện pháp bảo đảm", "ngăn chặn", "điều kiện chuyển nhượng"],
-      "mandatory_documents": ["law-31-2024-qh15", "civil-code-current", "civil-procedure-code-current", "civil-judgment-enforcement-law-current", "notarization-law-46-2024-qh15", "credit-institutions-law-current", "security-registration-decree-current", "decree-123-2024-nd-cp", "decree-281-2026-nd-cp"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "civil-code-current", "civil-procedure-code-current", "civil-judgment-enforcement-law-current", "notarization-law-current", "credit-institutions-law-current", "security-registration-decree-current", "decree-123-2024-nd-cp"],
       "mandatory_source_families": ["land_information_access", "hcm_land_information_procedure", "official_due_diligence_sources"]
     },
     {
@@ -46,7 +47,7 @@
       "priority": "P1",
       "status": "planned",
       "topics": ["quy hoạch sử dụng đất", "kế hoạch sử dụng đất", "quy hoạch xây dựng", "chỉ giới", "lộ giới", "mật độ", "hệ số sử dụng đất", "dự án", "thu hồi", "xây dựng sơ bộ"],
-      "mandatory_documents": ["law-31-2024-qh15", "decree-102-2024-nd-cp", "planning-law-current", "urban-rural-planning-law-current", "construction-law-current", "national-planning-technical-regulations-current"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-102-2024-nd-cp", "circular-29-2024-tt-btnmt", "planning-law-current", "urban-rural-planning-law-current", "construction-law-current", "national-planning-technical-regulations-current"],
       "mandatory_source_families": ["hcm_approved_plans", "hcm_annual_land_use_plans", "hcm_local_planning_decisions", "hcm_building_permit_rules", "linked_geospatial_artifacts"]
     },
     {
@@ -55,7 +56,7 @@
       "priority": "P1",
       "status": "planned",
       "topics": ["đất ở", "đất nông nghiệp", "đất lúa", "thương mại dịch vụ", "sản xuất", "hỗn hợp", "chuyển mục đích", "xin phép", "đăng ký", "nghĩa vụ tài chính"],
-      "mandatory_documents": ["law-31-2024-qh15", "decree-102-2024-nd-cp", "decree-103-2024-nd-cp", "decree-291-2025-nd-cp", "decree-71-2024-nd-cp"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-102-2024-nd-cp", "decree-103-2024-nd-cp", "decree-291-2025-nd-cp", "decree-50-2026-nd-cp", "decree-71-2024-nd-cp"],
       "mandatory_source_families": ["rice_land_conversion", "hcm_land_limits_and_price_tables", "hcm_conversion_procedure", "hcm_competence_delegations", "applicable_land_use_plans"]
     },
     {
@@ -64,7 +65,7 @@
       "priority": "P2",
       "status": "planned",
       "topics": ["căn cứ thu hồi", "thông báo", "khảo sát", "đo đạc", "kiểm đếm", "cưỡng chế", "bồi thường", "giá đất", "hỗ trợ", "tái định cư", "khiếu nại", "bàn giao"],
-      "mandatory_documents": ["law-31-2024-qh15", "decree-88-2024-nd-cp", "decree-71-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "decree-50-2026-nd-cp", "complaints-law-current", "administrative-procedure-law-current", "state-compensation-law-current"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-88-2024-nd-cp", "decree-71-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "complaints-law-current", "administrative-procedure-law-current", "state-compensation-law-current", "hcm-decision-11-2026"],
       "mandatory_source_families": ["hcm_compensation_support_resettlement", "hcm_minimum_resettlement", "hcm_livelihood_and_vocational_support", "hcm_specific_land_price", "hcm_compensation_plan_process"]
     },
     {
@@ -73,7 +74,7 @@
       "priority": "P1",
       "status": "planned",
       "topics": ["thuế thu nhập cá nhân", "lệ phí trước bạ", "phí thẩm định", "phí cấp giấy", "tiền sử dụng đất", "tiền thuê đất", "chuyển mục đích", "miễn giảm"],
-      "mandatory_documents": ["decree-103-2024-nd-cp", "decree-291-2025-nd-cp", "decree-71-2024-nd-cp", "decree-50-2026-nd-cp", "personal-income-tax-law-current", "registration-fee-decree-current", "fees-and-charges-law-current"],
+      "mandatory_documents": ["decree-103-2024-nd-cp", "decree-291-2025-nd-cp", "decree-71-2024-nd-cp", "decree-50-2026-nd-cp", "personal-income-tax-law-current", "registration-fee-decree-current", "fees-and-charges-law-current", "hcm-land-price-resolution-87-2025", "hcm-decision-2944-2026"],
       "mandatory_source_families": ["real_estate_transfer_tax_guidance", "hcm_fee_resolutions", "hcm_land_price_tables", "hcm_land_price_adjustments", "hcm_financial_obligation_procedure"]
     },
     {
@@ -82,7 +83,7 @@
       "priority": "P0",
       "status": "building",
       "topics": ["đăng ký lần đầu", "cấp giấy", "chuyển nhượng", "tặng cho", "thừa kế", "góp vốn", "cấp đổi", "cấp lại", "đính chính", "tách hợp thửa", "chuyển mục đích", "tài sản gắn liền", "xóa thế chấp", "dữ liệu đất đai", "nghĩa vụ tài chính"],
-      "mandatory_documents": ["hcm-decision-651-2025", "hcm-decision-3279-2025", "hcm-decision-1351-2025"],
+      "mandatory_documents": ["hcm-decision-44-2026", "hcm-decision-2944-2026", "hcm-procedure-publication-current", "hcm-internal-process-current"],
       "mandatory_source_families": ["hcm_procedure_portal", "hcm_procedure_publication_decisions", "hcm_internal_process_decisions", "hcm_amendment_and_repeal_decisions", "hcm_public_service_operational_records"]
     },
     {
@@ -91,7 +92,7 @@
       "priority": "P2",
       "status": "planned",
       "topics": ["quyền sử dụng đất", "ranh giới", "lối đi", "hợp đồng", "thừa kế", "tài sản chung", "quyết định hành chính", "bồi thường thu hồi", "hòa giải", "thẩm quyền", "thời hiệu", "biện pháp khẩn cấp"],
-      "mandatory_documents": ["law-31-2024-qh15", "civil-code-current", "civil-procedure-code-current", "administrative-procedure-law-current", "complaints-law-current", "grassroots-conciliation-law-current", "civil-judgment-enforcement-law-current", "notarization-law-46-2024-qh15", "marriage-family-law-current"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "civil-code-current", "civil-procedure-code-current", "administrative-procedure-law-current", "complaints-law-current", "grassroots-conciliation-law-current", "civil-judgment-enforcement-law-current", "notarization-law-current", "marriage-family-law-current"],
       "mandatory_source_families": ["judicial_council_land_guidance", "official_land_precedents", "selected_official_land_judgments", "commune_land_dispute_conciliation", "hcm_administrative_complaint_procedure"]
     }
   ]

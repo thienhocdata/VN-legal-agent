@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "circular-10-2024-tt-btnmt",
+    "title": "Quy định về hồ sơ địa chính, Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất",
+    "number": "10/2024/TT-BTNMT",
+    "authority": "Bộ Tài nguyên và Môi trường",
+    "issued_date": "2024-07-31",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "partially_effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-with-2026-change-audit",
+    "document_type": "circular",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 45,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-10-2024-tt-btnmt-42545/51401.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/10-2024-tt-btnmt.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42545/51401-1-2024973-97410-2024-tt-btnmt.pdf",
+      "page_count": 95
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "references",
+      "target_document_id": "circular-19-2026-tt-bnnmt",
+      "note": "Mandatory 2026 change audit"
+    }
+  ]
+}

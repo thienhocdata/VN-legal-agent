@@ -1,0 +1,8 @@
+{
+  "document_id": "hcm-former-vungtau-decision-24-2024",
+  "status": "blocked_official_artifact_endpoint_404",
+  "official_metadata_url": "https://vbpl.vn/bariavungtau/Pages/vbpq-thuoctinh.aspx?ItemID=174168",
+  "checked_at": "2026-07-15",
+  "reason": "Trang thuộc tính chính thức còn được lập chỉ mục nhưng endpoint FileData cũ hiện trả 404.",
+  "next_action": "Lấy lại từ kho văn bản kế thừa của TP.HCM hoặc API mới của CSDL quốc gia."
+}

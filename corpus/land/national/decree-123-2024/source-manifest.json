@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-123-2024-nd-cp",
+    "title": "Quy định về xử phạt vi phạm hành chính trong lĩnh vực đất đai",
+    "number": "123/2024/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2024-10-04",
+    "effective_from": "2024-10-04",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "effective-before-281-2026",
+    "document_type": "decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 36,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-123-2024-nd-cp-42851/52004.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/123-2024-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/10/42851/52004-1-20241115-1116123-2024-nd-cp.pdf",
+      "page_count": 43
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "references",
+      "target_document_id": "decree-281-2026-nd-cp",
+      "note": "Future amendment not effective on 2026-07-15"
+    }
+  ]
+}

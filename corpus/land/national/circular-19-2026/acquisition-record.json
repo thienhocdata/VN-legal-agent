@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "circular-19-2026-tt-bnnmt",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-19-2026-tt-bnnmt-469254.htm",
+  "source_authority": "Bộ Nông nghiệp và Môi trường / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:28.218997+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/19-2026-tt-bnnmt.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/15/469254-1776236204_v1_1776238178_signed.pdf",
+      "sha256": "064969400b88c42c12af167341a0c81a282b96752ddd132492faf54edfd5c381",
+      "bytes": 838020,
+      "page_count": 15
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

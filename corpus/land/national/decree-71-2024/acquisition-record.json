@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-71-2024-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-71-2024-nd-cp-42155/50667.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:14.471876+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/71-2024-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/6/42155/50667-1-2024783-78471-2024-nd-cp.pdf",
+      "sha256": "8a3c787a8346a0b1dd2cd06398a91270a11375416ebfe6c80bf465757719ed4c",
+      "bytes": 1316121,
+      "page_count": 95
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

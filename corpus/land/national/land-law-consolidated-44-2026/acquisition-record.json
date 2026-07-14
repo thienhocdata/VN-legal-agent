@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "land-law-consolidated-44-2026-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-44-vbhn-vpqh-469129/63476.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:10.484227+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/44-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/1/469129-1774926486_v1_1775005859_signed.pdf",
+      "sha256": "53a9fd698dcc8a303661a86d3222b8a16bd21fb14b50c97a34d56765705db00e",
+      "bytes": 3098910,
+      "page_count": 222
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

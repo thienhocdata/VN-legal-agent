@@ -2,6 +2,7 @@ import hashlib
 import json
 from pathlib import Path
 
+from scripts.build_full_text_pack import ARTICLE_RE, select_article_matches
 from scripts.verify_source_pack import build_report
 
 
@@ -57,3 +58,12 @@ def test_missing_article_breaks_structural_check(tmp_path):
 
     assert report["checks"]["article_sequence_complete"] is False
     assert report["structural_checks_passed"] is False
+
+
+def test_article_selector_ignores_restarted_appendix_sequence():
+    text = "Điều 1. Một\nĐiều 2. Hai\nĐiều 3. Ba\nĐiều 1. Mẫu\nĐiều 2. Mẫu"
+    matches = list(ARTICLE_RE.finditer(text))
+
+    selected = select_article_matches(matches, 3, "first_complete_sequence")
+
+    assert [int(item.group(1)) for item in selected] == [1, 2, 3]

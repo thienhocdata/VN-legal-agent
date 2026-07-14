@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "document_id": "decree-102-2024-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-102-2024-nd-cp-42485.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:10.583598+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/102-2024-nd-cp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51273-1-2024931-932102-2024-nd-cp.pdf",
+      "sha256": "c2c866816515c7d2becf2e2701d4469c581efa7ade361eb280ca7cf640cf4569",
+      "bytes": 1363931,
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/102-2024-nd-cp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51276-1-2024933-934102-2024-nd-cp.pdf",
+      "sha256": "6a5535c981dacd5f99d82293e3672a47197b7b20d0a2d19acbde7e4e0696127f",
+      "bytes": 1306272,
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/102-2024-nd-cp-part-3.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51279-1-2024935-936102-2024-nd-cp.pdf",
+      "sha256": "3721836093d9ca3bcb0452f0cca29d14189643d2b9af8492a6440feadbcc1952",
+      "bytes": 514225,
+      "page_count": 26
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

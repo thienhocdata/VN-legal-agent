@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "hcm-decision-100-2024",
+  "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/100-2024-qd-ubnd/ngay/31-10-2024/47054",
+  "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM",
+  "acquired_at": "2026-07-14T17:44:28.407844+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/100-2024-qd-ubnd.pdf",
+      "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/100-2024-qd-ubnd/ngay/31-10-2024/tai-ve/47054?cbid=47111",
+      "sha256": "6a9cc443a89ff6f66343520ca13ec279daa3eddf241d64b129f28aa73d323476",
+      "bytes": 234980,
+      "page_count": 4
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

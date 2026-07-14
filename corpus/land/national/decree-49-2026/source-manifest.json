@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-49-2026-nd-cp",
+    "title": "Hướng dẫn một số điều của Nghị quyết 254/2025/QH15",
+    "number": "49/2026/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2026-01-31",
+    "effective_from": "2026-01-31",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original",
+    "document_type": "decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 22,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-49-2026-nd-cp-468908/62347.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/49-2026-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/2/13/49signed-1770949449211701133233.pdf",
+      "page_count": 37
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "implements",
+      "target_document_id": "resolution-254-2025-qh15"
+    }
+  ]
+}

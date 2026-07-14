@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-123-2024-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-123-2024-nd-cp-42851/52004.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:14.873212+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/123-2024-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/10/42851/52004-1-20241115-1116123-2024-nd-cp.pdf",
+      "sha256": "dcd6c295d408db09a1c2f4cdfe705427f50a62c205fca5a5305d33c4b26ce5f3",
+      "bytes": 566595,
+      "page_count": 43
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

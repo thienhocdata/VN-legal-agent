@@ -1,0 +1,223 @@
+{
+  "report_version": 1,
+  "generated_at": "2026-07-14T18:02:23.455598+00:00",
+  "totals": {
+    "sources_with_artifacts": 22,
+    "artifacts": 29,
+    "pages": 3064,
+    "bytes": 69328104,
+    "blockers": 3
+  },
+  "sources": [
+    {
+      "document_id": "hcm-decision-11-2026",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 37,
+      "bytes": 535087,
+      "record": "corpus/land/hcm/decision-11-2026/acquisition-record.json"
+    },
+    {
+      "document_id": "hcm-decision-2944-2026",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 3,
+      "bytes": 226474,
+      "record": "corpus/land/hcm/decision-2944-2026/acquisition-record.json"
+    },
+    {
+      "document_id": "hcm-decision-44-2026",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 5,
+      "bytes": 381894,
+      "record": "corpus/land/hcm/decision-44-2026/acquisition-record.json"
+    },
+    {
+      "document_id": "hcm-land-price-resolution-87-2025",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 1262,
+      "bytes": 10895746,
+      "record": "corpus/land/hcm/price-table-87-2025/acquisition-record.json"
+    },
+    {
+      "document_id": "hcm-decision-100-2024",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 4,
+      "bytes": 234980,
+      "record": "corpus/land/hcm/split-rules/former-hcm-decision-100-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "circular-10-2024-tt-btnmt",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 95,
+      "bytes": 2045141,
+      "record": "corpus/land/national/circular-10-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "circular-19-2026-tt-bnnmt",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 15,
+      "bytes": 838020,
+      "record": "corpus/land/national/circular-19-2026/acquisition-record.json"
+    },
+    {
+      "document_id": "circular-26-2024-tt-btnmt",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 2,
+      "pages": 115,
+      "bytes": 5705528,
+      "record": "corpus/land/national/circular-26-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "circular-29-2024-tt-btnmt",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 3,
+      "pages": 190,
+      "bytes": 20958554,
+      "record": "corpus/land/national/circular-29-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-101-2024-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 137,
+      "bytes": 5546344,
+      "record": "corpus/land/national/decree-101-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-102-2024-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 3,
+      "pages": 216,
+      "bytes": 3184428,
+      "record": "corpus/land/national/decree-102-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-103-2024-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 117,
+      "bytes": 5028692,
+      "record": "corpus/land/national/decree-103-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-123-2024-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 43,
+      "bytes": 566595,
+      "record": "corpus/land/national/decree-123-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-151-2025-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 3,
+      "pages": 251,
+      "bytes": 2674725,
+      "record": "corpus/land/national/decree-151-2025/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-226-2025-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 44,
+      "bytes": 604446,
+      "record": "corpus/land/national/decree-226-2025/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-291-2025-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 41,
+      "bytes": 560514,
+      "record": "corpus/land/national/decree-291-2025/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-49-2026-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 37,
+      "bytes": 1220905,
+      "record": "corpus/land/national/decree-49-2026/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-50-2026-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 30,
+      "bytes": 875901,
+      "record": "corpus/land/national/decree-50-2026/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-71-2024-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 95,
+      "bytes": 1316121,
+      "record": "corpus/land/national/decree-71-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "decree-88-2024-nd-cp",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 36,
+      "bytes": 1662340,
+      "record": "corpus/land/national/decree-88-2024/acquisition-record.json"
+    },
+    {
+      "document_id": "land-law-consolidated-44-2026-vbhn-vpqh",
+      "status": "artifact_visual_verified_text_unverified",
+      "artifacts": 1,
+      "pages": 222,
+      "bytes": 3098910,
+      "record": "corpus/land/national/land-law-consolidated-44-2026/acquisition-record.json"
+    },
+    {
+      "document_id": "law-35-2018-qh14",
+      "status": "legacy_record",
+      "artifacts": 1,
+      "pages": 69,
+      "bytes": 1166759,
+      "record": "corpus/land/national/law-35-2018/acquisition-record.json"
+    }
+  ],
+  "blockers": [
+    {
+      "document_id": "hcm-former-vungtau-decision-24-2024",
+      "status": "blocked_official_artifact_endpoint_404",
+      "official_metadata_url": "https://vbpl.vn/bariavungtau/Pages/vbpq-thuoctinh.aspx?ItemID=174168",
+      "checked_at": "2026-07-15",
+      "reason": "Trang thuộc tính chính thức còn được lập chỉ mục nhưng endpoint FileData cũ hiện trả 404.",
+      "next_action": "Lấy lại từ kho văn bản kế thừa của TP.HCM hoặc API mới của CSDL quốc gia.",
+      "record": "corpus/land/hcm/split-rules/former-vungtau-decision-24-2024/source-blocker.json"
+    },
+    {
+      "document_id": "decree-102-2024-nd-cp",
+      "checked_at": "2026-07-14",
+      "official_metadata_url": "https://vanban.chinhphu.vn/?docid=210795&pageid=27160",
+      "status": "blocked",
+      "blockers": [
+        "Trang metadata Chính phủ đang trỏ tệp 102-cp.signed.pdf và pl.pdf trong thư mục năm 2025, không phải bản gốc ban hành ngày 30/07/2024.",
+        "URL cùng tên trong thư mục 2024/7 là Nghị quyết 102/NQ-CP về phòng, chống thiên tai; đã bị loại sau kiểm tra trực quan.",
+        "CSDL quốc gia ghi nhận văn bản đã bị bãi bỏ một phần bởi Nghị định 175/2024/NĐ-CP, sửa đổi bởi Nghị định 226/2025/NĐ-CP và sửa đổi/hết hiệu lực một phần bởi Nghị định 49/2026/NĐ-CP.",
+        "Chưa thu thập được đầy đủ bản gốc và phụ lục từ một liên kết chính thức có danh tính khớp."
+      ],
+      "activation_eligible": false,
+      "record": "corpus/land/national/decree-102-2024/source-blocker.json"
+    },
+    {
+      "document_id": "resolution-254-2025-qh15",
+      "status": "blocked_official_artifact_endpoint_404",
+      "official_metadata_url": "https://vbpl.vn/TW/Pages/vbpq-thuoctinh.aspx?ItemID=186273",
+      "checked_at": "2026-07-15",
+      "reason": "CSDL quốc gia xác nhận văn bản còn hiệu lực nhưng endpoint FileData cũ hiện trả 404. Không thay bằng bản sao thương mại.",
+      "next_action": "Thu thập qua endpoint mới của CSDL quốc gia hoặc bản Công báo Quốc hội chính thức.",
+      "record": "corpus/land/national/resolution-254-2025/source-blocker.json"
+    }
+  ]
+}

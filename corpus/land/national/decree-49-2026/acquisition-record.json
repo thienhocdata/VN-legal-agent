@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-49-2026-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-49-2026-nd-cp-468908/62347.htm",
+  "source_authority": "Chính phủ / CSDL quốc gia về văn bản pháp luật",
+  "acquired_at": "2026-07-14T17:44:11.600281+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/49-2026-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/2/13/49signed-1770949449211701133233.pdf",
+      "sha256": "c9fe6b704a7a7992895fbaf58979ad2dbcdda596ea6490716fa75cc5fa951f4c",
+      "bytes": 1220905,
+      "page_count": 37
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

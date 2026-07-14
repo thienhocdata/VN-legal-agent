@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "hcm-decision-11-2026",
+  "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/11-2026-qd-ubnd/ngay/06-03-2026/49124?cbid=49135",
+  "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM",
+  "acquired_at": "2026-07-14T17:44:28.564631+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/11-2026-qd-ubnd.pdf",
+      "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/11-2026-qd-ubnd/ngay/06-03-2026/tai-ve/49124?cbid=49135",
+      "sha256": "692f2a687bbb995a6c0da19efc1205cccb25b092541445f63b8d689fee90dd11",
+      "bytes": 535087,
+      "page_count": 37
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

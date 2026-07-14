@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "hcm-decision-2944-2026",
+  "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+  "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM",
+  "acquired_at": "2026-07-14T17:44:28.681816+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/2944-2026-qd-ubnd.pdf",
+      "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+      "sha256": "8b85716ccb9b5b4e3abddc1926dc941e181ebcbba6fd79eb63ad7c83a0e9dc5f",
+      "bytes": 226474,
+      "page_count": 3
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

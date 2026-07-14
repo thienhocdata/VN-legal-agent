@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-71-2024-nd-cp",
+    "title": "Quy định về giá đất",
+    "number": "71/2024/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2024-06-27",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original",
+    "document_type": "decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 40,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-71-2024-nd-cp-42155/50667.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/71-2024-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/6/42155/50667-1-2024783-78471-2024-nd-cp.pdf",
+      "page_count": 95
+    }
+  ],
+  "relationships": []
+}

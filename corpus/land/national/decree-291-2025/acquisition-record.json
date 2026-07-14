@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-291-2025-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-291-2025-nd-cp-46567.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:17.056313+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/291-2025-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/11/46567/59711-1-20251591-1592291-2025-nd-cp.pdf",
+      "sha256": "d3467e19beba1368e09ffb8dd1bdcfe53f66cb9b1e17a75e8f91b62dc316a287",
+      "bytes": 560514,
+      "page_count": 41
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

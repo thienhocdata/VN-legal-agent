@@ -1,0 +1,147 @@
+{
+  "catalog_version": 1,
+  "approved_as_of": "2026-07-15",
+  "policy": "Only immutable PDF artifacts hosted by an official state portal are accepted here; download does not imply legal or visual verification.",
+  "sources": [
+    {
+      "id": "land-law-consolidated-44-2026-vbhn-vpqh",
+      "directory": "corpus/land/national/land-law-consolidated-44-2026",
+      "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+      "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-44-vbhn-vpqh-469129/63476.htm",
+      "artifacts": [{"filename": "44-2026-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/1/469129-1774926486_v1_1775005859_signed.pdf"}]
+    },
+    {
+      "id": "decree-101-2024-nd-cp",
+      "directory": "corpus/land/national/decree-101-2024",
+      "source_authority": "Chính phủ",
+      "source_page_url": "https://vanban.chinhphu.vn/?docid=210791&pageid=27160",
+      "artifacts": [{"filename": "101-2024-nd-cp.pdf", "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/7/101-nd.signed.pdf"}]
+    },
+    {
+      "id": "decree-102-2024-nd-cp",
+      "directory": "corpus/land/national/decree-102-2024",
+      "source_authority": "Chính phủ / Công báo Chính phủ",
+      "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-102-2024-nd-cp-42485.htm",
+      "artifacts": [
+        {"filename": "102-2024-nd-cp-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51273-1-2024931-932102-2024-nd-cp.pdf"},
+        {"filename": "102-2024-nd-cp-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51276-1-2024933-934102-2024-nd-cp.pdf"},
+        {"filename": "102-2024-nd-cp-part-3.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51279-1-2024935-936102-2024-nd-cp.pdf"}
+      ]
+    },
+    {
+      "id": "decree-88-2024-nd-cp",
+      "directory": "corpus/land/national/decree-88-2024",
+      "source_authority": "Chính phủ",
+      "source_page_url": "https://vanban.chinhphu.vn/?classid=1&docid=210658&pageid=27160&typegroupid=4",
+      "artifacts": [{"filename": "88-2024-nd-cp.pdf", "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/7/88nd.signed.pdf"}]
+    },
+    {
+      "id": "decree-103-2024-nd-cp",
+      "directory": "corpus/land/national/decree-103-2024",
+      "source_authority": "Chính phủ",
+      "source_page_url": "https://vanban.chinhphu.vn/?classid=1&docid=210797&orggroupid=2&pageid=27160",
+      "artifacts": [{"filename": "103-2024-nd-cp.pdf", "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/8/103-nd.signed.pdf"}]
+    },
+    {
+      "id": "resolution-254-2025-qh15",
+      "directory": "corpus/land/national/resolution-254-2025",
+      "source_authority": "Quốc hội / CSDL quốc gia về văn bản pháp luật",
+      "source_page_url": "https://vbpl.vn/TW/Pages/vbpq-thuoctinh.aspx?ItemID=186273",
+      "artifacts": [{"filename": "254-2025-qh15.pdf", "official_url": "https://vbpl.vn/FileData/TW/Lists/vbpq/Attachments/186273/VanBanGoc_s_254_2025_qh15_151225082614_1512085955.pdf"}]
+    },
+    {
+      "id": "decree-49-2026-nd-cp",
+      "directory": "corpus/land/national/decree-49-2026",
+      "source_authority": "Chính phủ / CSDL quốc gia về văn bản pháp luật",
+      "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-49-2026-nd-cp-468908/62347.htm",
+      "artifacts": [{"filename": "49-2026-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/2/13/49signed-1770949449211701133233.pdf"}]
+    },
+    {
+      "id": "circular-10-2024-tt-btnmt",
+      "directory": "corpus/land/national/circular-10-2024",
+      "source_authority": "Bộ Tài nguyên và Môi trường / Công báo Chính phủ",
+      "source_page_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-10-2024-tt-btnmt-42545/51401.htm",
+      "artifacts": [{"filename": "10-2024-tt-btnmt.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42545/51401-1-2024973-97410-2024-tt-btnmt.pdf"}]
+    },
+    {
+      "id": "hcm-decision-44-2026",
+      "directory": "corpus/land/hcm/decision-44-2026",
+      "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM",
+      "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/44-2026-qd-ubnd/ngay/30-06-2026/49534",
+      "artifacts": [{"filename": "44-2026-qd-ubnd-main.pdf", "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/44-2026-qd-ubnd/ngay/30-06-2026/tai-ve/49534"}]
+    },
+    {
+      "id": "hcm-former-vungtau-decision-24-2024",
+      "directory": "corpus/land/hcm/split-rules/former-vungtau-decision-24-2024",
+      "source_authority": "Ủy ban nhân dân tỉnh Bà Rịa - Vũng Tàu / CSDL quốc gia về văn bản pháp luật",
+      "source_page_url": "https://vbpl.vn/bariavungtau/Pages/vbpq-thuoctinh.aspx?ItemID=174168",
+      "artifacts": [{"filename": "24-2024-qd-ubnd.pdf", "official_url": "https://vbpl.vn/FileData/TW/Lists/vbpq/Attachments/174168/VanBanGoc_QD%2024.2024.pdf"}]
+    },
+    {
+      "id": "hcm-land-price-resolution-87-2025",
+      "directory": "corpus/land/hcm/price-table-87-2025",
+      "source_authority": "Hội đồng nhân dân Thành phố Hồ Chí Minh / Sở Nông nghiệp và Môi trường",
+      "source_page_url": "https://sonnmt.hochiminhcity.gov.vn/portal/editor/files/BG%C4%90%2087%202025.pdf",
+      "artifacts": [{"filename": "87-2025-nq-hdnd-price-table.pdf", "official_url": "https://sonnmt.hochiminhcity.gov.vn/portal/editor/files/BG%C4%90%2087%202025.pdf"}]
+    },
+    {
+      "id": "decree-71-2024-nd-cp", "directory": "corpus/land/national/decree-71-2024", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-71-2024-nd-cp-42155/50667.htm",
+      "artifacts": [{"filename": "71-2024-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/6/42155/50667-1-2024783-78471-2024-nd-cp.pdf"}]
+    },
+    {
+      "id": "decree-123-2024-nd-cp", "directory": "corpus/land/national/decree-123-2024", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-123-2024-nd-cp-42851/52004.htm",
+      "artifacts": [{"filename": "123-2024-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/10/42851/52004-1-20241115-1116123-2024-nd-cp.pdf"}]
+    },
+    {
+      "id": "decree-151-2025-nd-cp", "directory": "corpus/land/national/decree-151-2025", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-151-2025-nd-cp-45191/56977.htm",
+      "artifacts": [
+        {"filename": "151-2025-nd-cp-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45191/56974-1-2025829-830151-2025-nd-cp.pdf"},
+        {"filename": "151-2025-nd-cp-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45191/56977-1-2025831-832151-2025-nd-cp.pdf"},
+        {"filename": "151-2025-nd-cp-part-3.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45191/56980-1-2025833-834151-2025-nd-cp.pdf"}
+      ]
+    },
+    {
+      "id": "decree-226-2025-nd-cp", "directory": "corpus/land/national/decree-226-2025", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-226-2025-nd-cp-45839.htm",
+      "artifacts": [{"filename": "226-2025-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/45839/58217-1-20251089-1090226-2025-nd-cp.pdf"}]
+    },
+    {
+      "id": "decree-291-2025-nd-cp", "directory": "corpus/land/national/decree-291-2025", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-291-2025-nd-cp-46567.htm",
+      "artifacts": [{"filename": "291-2025-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/11/46567/59711-1-20251591-1592291-2025-nd-cp.pdf"}]
+    },
+    {
+      "id": "decree-50-2026-nd-cp", "directory": "corpus/land/national/decree-50-2026", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-50-2026-nd-cp-468912/62328.htm",
+      "artifacts": [{"filename": "50-2026-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/2/13/50signed-1770950381712640922750.pdf"}]
+    },
+    {
+      "id": "circular-26-2024-tt-btnmt", "directory": "corpus/land/national/circular-26-2024", "source_authority": "Bộ Tài nguyên và Môi trường / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-26-2024-tt-btnmt-43701.htm",
+      "artifacts": [
+        {"filename": "26-2024-tt-btnmt-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/11/43701/53950-1-202559-6026-2024-tt-btnmt.pdf"},
+        {"filename": "26-2024-tt-btnmt-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/11/43701/53976-1-202561-6226-2024-tt-btnmt.pdf"}
+      ]
+    },
+    {
+      "id": "circular-29-2024-tt-btnmt", "directory": "corpus/land/national/circular-29-2024", "source_authority": "Bộ Tài nguyên và Môi trường / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-29-2024-tt-btnmt-43765.htm",
+      "artifacts": [
+        {"filename": "29-2024-tt-btnmt-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/12/43765/54082-1-202597-9829-2024-tt-btnmt.pdf"},
+        {"filename": "29-2024-tt-btnmt-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/12/43765/54085-1-202599-10029-2024-tt-btnmt.pdf"},
+        {"filename": "29-2024-tt-btnmt-part-3.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/12/43765/54088-1-2025101-10229-2024-tt-btnmt.pdf"}
+      ]
+    },
+    {
+      "id": "circular-19-2026-tt-bnnmt", "directory": "corpus/land/national/circular-19-2026", "source_authority": "Bộ Nông nghiệp và Môi trường / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-19-2026-tt-bnnmt-469254.htm",
+      "artifacts": [{"filename": "19-2026-tt-bnnmt.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/15/469254-1776236204_v1_1776238178_signed.pdf"}]
+    },
+    {
+      "id": "hcm-decision-100-2024", "directory": "corpus/land/hcm/split-rules/former-hcm-decision-100-2024", "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM", "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/100-2024-qd-ubnd/ngay/31-10-2024/47054",
+      "artifacts": [{"filename": "100-2024-qd-ubnd.pdf", "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/100-2024-qd-ubnd/ngay/31-10-2024/tai-ve/47054?cbid=47111"}]
+    },
+    {
+      "id": "hcm-decision-11-2026", "directory": "corpus/land/hcm/decision-11-2026", "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM", "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/11-2026-qd-ubnd/ngay/06-03-2026/49124?cbid=49135",
+      "artifacts": [{"filename": "11-2026-qd-ubnd.pdf", "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/11-2026-qd-ubnd/ngay/06-03-2026/tai-ve/49124?cbid=49135"}]
+    },
+    {
+      "id": "hcm-decision-2944-2026", "directory": "corpus/land/hcm/decision-2944-2026", "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM", "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+      "artifacts": [{"filename": "2944-2026-qd-ubnd.pdf", "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452"}]
+    }
+  ]
+}

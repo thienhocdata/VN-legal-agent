@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "document_id": "decree-151-2025-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-151-2025-nd-cp-45191/56977.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:16.255349+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/151-2025-nd-cp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45191/56974-1-2025829-830151-2025-nd-cp.pdf",
+      "sha256": "f1afcacdcb141daf0c3ff0a933950333b86d6ac29eba078f573ac4fb3897181e",
+      "bytes": 755932,
+      "page_count": 61
+    },
+    {
+      "path": "artifacts/151-2025-nd-cp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45191/56977-1-2025831-832151-2025-nd-cp.pdf",
+      "sha256": "a0950e474b71766e70bd86e562bcd8ac5cd355c455d83fa6ec28c11b15ba5e02",
+      "bytes": 958703,
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/151-2025-nd-cp-part-3.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45191/56980-1-2025833-834151-2025-nd-cp.pdf",
+      "sha256": "51413960183c657fe20276f8f6d1c51a4e12780b836e32ea5941c25cbf8f065c",
+      "bytes": 960090,
+      "page_count": 95
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "hcm-land-price-resolution-87-2025",
+  "source_page_url": "https://sonnmt.hochiminhcity.gov.vn/portal/editor/files/BG%C4%90%2087%202025.pdf",
+  "source_authority": "Hội đồng nhân dân Thành phố Hồ Chí Minh / Sở Nông nghiệp và Môi trường",
+  "acquired_at": "2026-07-14T17:44:13.789496+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/87-2025-nq-hdnd-price-table.pdf",
+      "official_url": "https://sonnmt.hochiminhcity.gov.vn/portal/editor/files/BG%C4%90%2087%202025.pdf",
+      "sha256": "a8e6fee0a6c5698b2937662d71cc858009edf0406c1f2655a4de494f479cfcb6",
+      "bytes": 10895746,
+      "page_count": 1262
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-102-2024-nd-cp",
+    "title": "Quy định chi tiết thi hành một số điều của Luật Đất đai",
+    "number": "102/2024/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2024-07-30",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "partially_effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-with-amendment-graph",
+    "document_type": "decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 113,
+    "article_selection": "first_complete_sequence",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-102-2024-nd-cp-42485.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/102-2024-nd-cp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51273-1-2024931-932102-2024-nd-cp.pdf",
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/102-2024-nd-cp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51276-1-2024933-934102-2024-nd-cp.pdf",
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/102-2024-nd-cp-part-3.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42485/51279-1-2024935-936102-2024-nd-cp.pdf",
+      "page_count": 26
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "references",
+      "target_document_id": "decree-226-2025-nd-cp",
+      "note": "Amended by target"
+    },
+    {
+      "relation_type": "references",
+      "target_document_id": "decree-49-2026-nd-cp",
+      "note": "Amended by target"
+    }
+  ]
+}

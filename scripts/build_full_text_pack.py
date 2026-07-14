@@ -9,9 +9,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from pypdf import PdfReader
-
-
 ARTICLE_RE = re.compile(r"(?m)^[ \t]*Điều\s+(\d+)\.\s*([^\n]*)")
 CLAUSE_RE = re.compile(r"(?m)^(\d+)\.\s+(?=\S)")
 POINT_RE = re.compile(r"(?m)^([a-zđ])\)\s+(?=\S)", re.IGNORECASE)
@@ -28,6 +25,36 @@ def file_hash(path: Path) -> str:
 def normalized_page_text(value: str) -> str:
     value = value.replace("\x00", "").replace("\r\n", "\n").replace("\r", "\n")
     return "\n".join(line.rstrip() for line in value.splitlines()).strip()
+
+
+def select_article_matches(matches: list[re.Match[str]], expected_count: int, policy: str) -> list[re.Match[str]]:
+    numbers = [int(match.group(1)) for match in matches]
+    expected = list(range(1, expected_count + 1))
+    if numbers == expected:
+        return matches
+    if policy not in {"first_complete_sequence", "last_complete_sequence"}:
+        raise ValueError(f"Expected {expected_count} unique articles, found {len(set(numbers))}/{len(numbers)}")
+    candidates = []
+    for start, number in enumerate(numbers):
+        if number != 1:
+            continue
+        candidate = [matches[start]]
+        wanted = 2
+        for index in range(start + 1, len(matches)):
+            if numbers[index] == wanted:
+                candidate.append(matches[index])
+                wanted += 1
+                if wanted > expected_count:
+                    candidates.append(candidate)
+                    break
+    if not candidates:
+        raise ValueError(
+            f"No complete top-level article sequence 1..{expected_count}; "
+            f"found {len(set(numbers))}/{len(numbers)} unique/total headings"
+        )
+    shortest_span = min(item[-1].start() - item[0].start() for item in candidates)
+    shortest = [item for item in candidates if item[-1].start() - item[0].start() == shortest_span]
+    return shortest[0] if policy == "first_complete_sequence" else shortest[-1]
 
 
 def source_position(page_spans: list[dict[str, Any]], offset: int) -> dict[str, Any]:
@@ -112,6 +139,8 @@ def nested_provisions(
 
 
 def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
+    from pypdf import PdfReader
+
     manifest_path = manifest_path.resolve()
     base = manifest_path.parent
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -151,11 +180,18 @@ def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
             current_offset = end
 
     full_text = "".join(full_text_parts).strip() + "\n"
-    article_matches = list(ARTICLE_RE.finditer(full_text))
-    numbers = [int(match.group(1)) for match in article_matches]
+    all_article_matches = list(ARTICLE_RE.finditer(full_text))
     expected_count = document["expected_article_count"]
-    if len(numbers) != expected_count or len(set(numbers)) != expected_count:
-        raise ValueError(f"Expected {expected_count} unique articles, found {len(set(numbers))}/{len(numbers)}")
+    article_matches = select_article_matches(
+        all_article_matches,
+        expected_count,
+        document.get("article_selection", "strict"),
+    )
+    trailing_match = next(
+        (match for match in all_article_matches if match.start() > article_matches[-1].start()),
+        None,
+    )
+    numbers = [int(match.group(1)) for match in article_matches]
     expected_numbers = set(range(1, expected_count + 1))
     if set(numbers) != expected_numbers:
         missing = sorted(expected_numbers - set(numbers))
@@ -166,7 +202,9 @@ def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
     provisions: list[dict[str, Any]] = []
     for index, match in enumerate(article_matches):
         article_number = int(match.group(1))
-        end = article_matches[index + 1].start() if index + 1 < len(article_matches) else len(full_text)
+        end = article_matches[index + 1].start() if index + 1 < len(article_matches) else (
+            trailing_match.start() if trailing_match else len(full_text)
+        )
         article_text = full_text[match.start():end].strip()
         start_page = source_position(page_spans, match.start())
         end_page = source_position(page_spans, max(match.start(), end - 1))

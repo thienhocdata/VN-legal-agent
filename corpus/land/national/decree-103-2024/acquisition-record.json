@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-103-2024-nd-cp",
+  "source_page_url": "https://vanban.chinhphu.vn/?classid=1&docid=210797&orggroupid=2&pageid=27160",
+  "source_authority": "Chính phủ",
+  "acquired_at": "2026-07-14T17:44:10.634897+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/103-2024-nd-cp.pdf",
+      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/8/103-nd.signed.pdf",
+      "sha256": "01db4fbbed2e8d593947fa959b687bc70c2e2012c525ad6fb104f62d7f352a55",
+      "bytes": 5028692,
+      "page_count": 117
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

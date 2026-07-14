@@ -1,0 +1,26 @@
+{
+  "record_version": 1,
+  "document_id": "circular-26-2024-tt-btnmt",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-26-2024-tt-btnmt-43701.htm",
+  "source_authority": "Bộ Tài nguyên và Môi trường / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:19.989690+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/26-2024-tt-btnmt-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/11/43701/53950-1-202559-6026-2024-tt-btnmt.pdf",
+      "sha256": "1904f6cdd60f587dbaedc33b41db1aa0d7c940761f372e252ccf0c4b7645f9d6",
+      "bytes": 1844689,
+      "page_count": 66
+    },
+    {
+      "path": "artifacts/26-2024-tt-btnmt-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/11/43701/53976-1-202561-6226-2024-tt-btnmt.pdf",
+      "sha256": "e9d8eb868c129ec3e927413298e6ea957da2500c1f4153d338be9767c09127b3",
+      "bytes": 3860839,
+      "page_count": 49
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

@@ -1,0 +1,20 @@
+{
+  "report_version": 1,
+  "document_id": "circular-10-2024-tt-btnmt",
+  "checked_at": "2026-07-14T17:53:13.795239+00:00",
+  "checked_by": "Codex",
+  "sampling": "first_middle_last_across_artifact_set",
+  "samples": {
+    "first": "tmp/pdfs/qa/circular-10-2024-tt-btnmt-first.png",
+    "middle": "tmp/pdfs/qa/circular-10-2024-tt-btnmt-middle.png",
+    "last": "tmp/pdfs/qa/circular-10-2024-tt-btnmt-last.png"
+  },
+  "checks": {
+    "correct_document_identity": true,
+    "pages_readable": true,
+    "page_order_plausible": true,
+    "no_portal_error_page": true
+  },
+  "visual_checks_passed": true,
+  "note": "Visual acceptance covers artifact identity and readability only; legal status and extracted text remain separately governed."
+}

@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-88-2024-nd-cp",
+  "source_page_url": "https://vanban.chinhphu.vn/?classid=1&docid=210658&pageid=27160&typegroupid=4",
+  "source_authority": "Chính phủ",
+  "acquired_at": "2026-07-14T17:44:10.599282+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/88-2024-nd-cp.pdf",
+      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/7/88nd.signed.pdf",
+      "sha256": "931662aec330900c4c137d840081a92ae38867dd9c5e939f4e7163368bc56bda",
+      "bytes": 1662340,
+      "page_count": 36
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}

@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-50-2026-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-50-2026-nd-cp-468912/62328.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T17:44:17.620420+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/50-2026-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/2/13/50signed-1770950381712640922750.pdf",
+      "sha256": "9f73d956804e0d64cb73a6dab2c8fc52e618599e8044cf743571ab582009ed9e",
+      "bytes": 875901,
+      "page_count": 30
+    }
+  ],
+  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_by": "Codex"
+}
