@@ -204,8 +204,4 @@ $("messageInput").addEventListener("keydown", (event) => {
 });
 
 $("newChat").addEventListener("click", newConversation);
-document.querySelectorAll("[data-prompt]").forEach((button) => {
-  button.addEventListener("click", () => send(button.dataset.prompt));
-});
-
 $("messageInput").focus();

@@ -155,4 +155,7 @@ def test_chat_ui_is_single_conversation_and_scrollable(client):
     assert 'http://127.0.0.1:8000/' in html
     assert "sidebar" not in html
     assert "id=\"menu\"" not in html
+    assert "data-prompt" not in html
+    assert "Giải thích tách thửa" not in html
+    assert "Georgia" not in css
     assert ".conversation{min-height:0;overflow-y:auto" in css
