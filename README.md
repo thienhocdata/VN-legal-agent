@@ -17,14 +17,25 @@ Open `http://127.0.0.1:8000` for the conversational Legal Agent or `http://127.0
 
 ### Enable real AI conversation
 
-The application keeps the auditable case, facts, legal sources, and citations locally, while using the OpenAI Responses API for natural Vietnamese conversation. Without a server-side API key it deliberately stays in the limited rule-based fallback mode.
+The application keeps the auditable case, facts, legal sources, and citations locally, while using Gemini or OpenAI for natural Vietnamese conversation. Without a server-side API key it deliberately stays in the limited rule-based fallback mode.
+
+For a Gemini free-tier trial, create a key in [Google AI Studio](https://aistudio.google.com/apikey), then run:
+
+```powershell
+python scripts/configure_gemini.py
+python -m uvicorn app.main:app --reload
+```
+
+Do not paste the key into chat, screenshots, frontend code, or Git. Gemini's free tier has usage limits, and Google states that free-tier content may be used to improve its products, so use synthetic test scenarios rather than confidential client documents.
+
+To use OpenAI instead:
 
 ```powershell
 python scripts/configure_ai.py
 python -m uvicorn app.main:app --reload
 ```
 
-The key is read only by the backend and must never be placed in `app/static`. `LEGAL_AGENT_MODEL` is configurable; the default is `gpt-5.4`. Model responses are requested with `store=false`; conversation history remains in the local Legal Agent database.
+The key is read only by the backend and must never be placed in `app/static`. Select the provider with `LEGAL_AGENT_PROVIDER=gemini` or `LEGAL_AGENT_PROVIDER=openai`. The default models are `gemini-3.5-flash` and `gpt-5.4`. OpenAI responses are requested with `store=false`; conversation history remains in the local Legal Agent database.
 
 Run the tests with:
 

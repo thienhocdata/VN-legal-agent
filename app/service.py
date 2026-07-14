@@ -28,7 +28,13 @@ class LegalCaseService:
 
     def ai_status(self) -> dict:
         if not self.legal_ai:
-            return {"mode": "rule_fallback", "configured": False, "model": None, "configuration_error": None}
+            return {
+                "mode": "rule_fallback",
+                "configured": False,
+                "provider": None,
+                "model": None,
+                "configuration_error": None,
+            }
         return self.legal_ai.status()
 
     def audit(self, con, case_id: str, event: str, actor: str, payload: dict):
@@ -264,6 +270,11 @@ class LegalCaseService:
                     )
                 elif exc.code == "rate_limit_exceeded":
                     answer = "AI đang nhận quá nhiều yêu cầu trong thời gian ngắn. Bạn vui lòng thử lại sau một chút."
+                elif exc.code == "invalid_api_key":
+                    answer = (
+                        "Khóa API của AI không hợp lệ hoặc chưa được cấp quyền. "
+                        "Chủ hệ thống cần cấu hình lại khóa ở máy chủ rồi khởi động lại ứng dụng."
+                    )
                 else:
                     answer = "AI hội thoại đang tạm thời không phản hồi. Hệ thống đã ghi nhận lỗi để kiểm tra; bạn vui lòng thử lại sau."
                 return self._chat_reply(case_id, answer, [], [], "ai_unavailable")
@@ -366,7 +377,11 @@ class LegalCaseService:
                 case_id,
                 "ai.response_generated",
                 "legal-agent",
-                {"model": result.model, "source_ids": [item["source_id"] for item in sources[:8]]},
+                {
+                    "provider": result.provider,
+                    "model": result.model,
+                    "source_ids": [item["source_id"] for item in sources[:8]],
+                },
             )
         return self._chat_reply(case_id, result.answer, citations, result.suggestions, "conversation")
 

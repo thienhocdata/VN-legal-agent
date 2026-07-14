@@ -8,6 +8,7 @@ dependencies = [
   "uvicorn>=0.30,<1",
   "pydantic>=2.7,<3",
   "openai>=1.66,<3",
+  "google-genai>=1,<2",
   "python-dotenv>=1,<2",
 ]
 

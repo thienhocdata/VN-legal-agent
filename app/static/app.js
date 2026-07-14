@@ -197,7 +197,10 @@ async function checkAIStatus() {
     const health = await response.json();
     if (health.ai_chat?.mode !== "model") {
       $("caseStatus").textContent = "AI chưa được kết nối";
-      $("caseStatus").title = "Cần cấu hình OPENAI_API_KEY trên server";
+      const provider = health.ai_chat?.provider;
+      $("caseStatus").title = provider === "gemini"
+        ? "Cần cấu hình GEMINI_API_KEY trên server"
+        : "Cần cấu hình API key của nhà cung cấp AI trên server";
     }
   } catch (_) {
     $("caseStatus").textContent = "Chưa thể kết nối";

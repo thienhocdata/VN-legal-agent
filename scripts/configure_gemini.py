@@ -1,4 +1,4 @@
-"""Safely create the local .env without echoing the API key to the terminal."""
+"""Safely configure Gemini without printing or replacing other provider keys."""
 
 from __future__ import annotations
 
@@ -26,25 +26,24 @@ def update_env(path: Path, values: dict[str, str]) -> None:
 
 
 def main() -> None:
-    print("Cấu hình bộ não hội thoại cho Minh Long Legal Agent")
-    api_key = getpass("OpenAI API key (không hiển thị khi nhập): ").strip()
+    print("Cấu hình Gemini cho Minh Long Legal Agent")
+    api_key = getpass("Gemini API key (không hiển thị khi nhập): ").strip()
     if len(api_key) < 20:
         raise SystemExit("API key không hợp lệ hoặc chưa được dán đầy đủ; chưa thay đổi cấu hình.")
-    model = input("Model [gpt-5.4]: ").strip() or "gpt-5.4"
+    model = input("Model [gemini-3.5-flash]: ").strip() or "gemini-3.5-flash"
     env_path = ROOT / ".env"
     update_env(env_path, {
-        "LEGAL_AGENT_PROVIDER": "openai",
-        "OPENAI_API_KEY": api_key,
-        "LEGAL_AGENT_MODEL": model,
-        "LEGAL_AGENT_AI_REASONING_EFFORT": "low",
+        "LEGAL_AGENT_PROVIDER": "gemini",
+        "GEMINI_API_KEY": api_key,
+        "GEMINI_MODEL": model,
         "LEGAL_AGENT_AI_MAX_OUTPUT_TOKENS": "1400",
         "LEGAL_AGENT_AI_TIMEOUT": "60",
         "LEGAL_AGENT_ENV": "development",
         "LEGAL_AGENT_AUTH_REQUIRED": "false",
         "LEGAL_AGENT_ALLOW_DEMO_SOURCES": "true",
     })
-    print(f"Đã lưu cấu hình tại {env_path}")
-    print("Hãy khởi động lại server để bật AI conversation.")
+    print(f"Đã lưu cấu hình Gemini tại {env_path}")
+    print("Hãy khởi động lại server để dùng Gemini conversation.")
 
 
 if __name__ == "__main__":

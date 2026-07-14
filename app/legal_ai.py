@@ -49,26 +49,39 @@ class LegalAIResult:
     answer: str
     suggestions: list[str]
     model: str
+    provider: str = "openai"
 
 
 class LegalAI:
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.configured = bool(settings.openai_api_key)
+        self.provider = settings.ai_provider if settings.ai_provider in {"openai", "gemini"} else "openai"
+        self.configured = bool(
+            settings.gemini_api_key if self.provider == "gemini" else settings.openai_api_key
+        )
         self.client: Any | None = None
         self.initialization_error: str | None = None
         if self.configured:
             try:
-                from openai import OpenAI
+                if self.provider == "gemini":
+                    from google import genai
+                    from google.genai import types
 
-                kwargs: dict[str, Any] = {
-                    "api_key": settings.openai_api_key,
-                    "timeout": settings.ai_timeout_seconds,
-                    "max_retries": 2,
-                }
-                if settings.ai_base_url:
-                    kwargs["base_url"] = settings.ai_base_url
-                self.client = OpenAI(**kwargs)
+                    self.client = genai.Client(
+                        api_key=settings.gemini_api_key,
+                        http_options=types.HttpOptions(timeout=int(settings.ai_timeout_seconds * 1000)),
+                    )
+                else:
+                    from openai import OpenAI
+
+                    kwargs: dict[str, Any] = {
+                        "api_key": settings.openai_api_key,
+                        "timeout": settings.ai_timeout_seconds,
+                        "max_retries": 2,
+                    }
+                    if settings.ai_base_url:
+                        kwargs["base_url"] = settings.ai_base_url
+                    self.client = OpenAI(**kwargs)
             except Exception as exc:  # configuration/import failure, not user content
                 self.initialization_error = type(exc).__name__
 
@@ -80,9 +93,14 @@ class LegalAI:
         return {
             "mode": "model" if self.available else "rule_fallback",
             "configured": self.configured,
-            "model": self.settings.ai_model if self.available else None,
+            "provider": self.provider,
+            "model": self.model_name if self.available else None,
             "configuration_error": self.initialization_error,
         }
+
+    @property
+    def model_name(self) -> str:
+        return self.settings.gemini_model if self.provider == "gemini" else self.settings.ai_model
 
     def generate(
         self,
@@ -107,6 +125,21 @@ class LegalAI:
         if not input_messages:
             raise LegalAIError("Conversation has no messages")
 
+        if self.provider == "gemini":
+            answer = self._generate_gemini(instructions, input_messages)
+        else:
+            answer = self._generate_openai(instructions, input_messages)
+
+        if not answer:
+            raise LegalAIError("Model returned an empty answer")
+        return LegalAIResult(
+            answer=answer,
+            suggestions=self._suggestions(answer),
+            model=self.model_name,
+            provider=self.provider,
+        )
+
+    def _generate_openai(self, instructions: str, input_messages: list[dict]) -> str:
         request: dict[str, Any] = {
             "model": self.settings.ai_model,
             "instructions": instructions,
@@ -116,22 +149,54 @@ class LegalAI:
         }
         if self.settings.ai_reasoning_effort:
             request["reasoning"] = {"effort": self.settings.ai_reasoning_effort}
-
         try:
             response = self.client.responses.create(**request)
-            answer = (response.output_text or "").strip()
+            return (response.output_text or "").strip()
         except Exception as exc:
-            body = getattr(exc, "body", None)
-            code = body.get("code") if isinstance(body, dict) else None
-            raise LegalAIError(f"Model request failed: {type(exc).__name__}", code=code) from exc
+            raise self._provider_error(exc) from exc
 
-        if not answer:
-            raise LegalAIError("Model returned an empty answer")
-        return LegalAIResult(
-            answer=answer,
-            suggestions=self._suggestions(answer),
-            model=self.settings.ai_model,
+    def _generate_gemini(self, instructions: str, input_messages: list[dict]) -> str:
+        from google.genai import types
+
+        contents = [
+            types.Content(
+                role="model" if row["role"] == "assistant" else "user",
+                parts=[types.Part.from_text(text=row["content"])],
+            )
+            for row in input_messages
+        ]
+        config = types.GenerateContentConfig(
+            system_instruction=instructions,
+            max_output_tokens=self.settings.ai_max_output_tokens,
+            temperature=0.2,
         )
+        try:
+            response = self.client.models.generate_content(
+                model=self.settings.gemini_model,
+                contents=contents,
+                config=config,
+            )
+            return (response.text or "").strip()
+        except Exception as exc:
+            raise self._provider_error(exc) from exc
+
+    @staticmethod
+    def _provider_error(exc: Exception) -> LegalAIError:
+        body = getattr(exc, "body", None)
+        code = body.get("code") if isinstance(body, dict) else None
+        status = getattr(exc, "status_code", None) or getattr(exc, "code", None)
+        nested_error = body.get("error") if isinstance(body, dict) else None
+        if isinstance(nested_error, dict):
+            status = status or nested_error.get("code") or nested_error.get("status")
+            code = code or nested_error.get("status")
+        if isinstance(code, int):
+            status, code = status or code, None
+        error_marker = str(body or getattr(exc, "message", "")).upper()
+        if status == 429 or code == "RESOURCE_EXHAUSTED":
+            code = "rate_limit_exceeded"
+        elif status in {401, 403} or "API_KEY_INVALID" in error_marker:
+            code = "invalid_api_key"
+        return LegalAIError(f"Model request failed: {type(exc).__name__}", code=str(code) if code else None)
 
     @staticmethod
     def _instructions(facts: dict[str, Any], sources: list[dict], source_notice: str | None) -> str:
