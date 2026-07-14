@@ -1,0 +1,25 @@
+{
+  "document_id": "decree-101-2024-nd-cp",
+  "acquired_at": "2026-07-14",
+  "artifact": {
+    "path": "artifacts/101-2024-nd-cp.pdf",
+    "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/7/101-nd.signed.pdf",
+    "sha256": "dc5764aa9ce1332e044be3b41b74eeb4f5b831af72deb740e8f9975dad96592e",
+    "page_count": 137,
+    "byte_size": 5546344,
+    "media_type": "application/pdf"
+  },
+  "identity_check": {
+    "result": "passed",
+    "evidence": "Trang đầu hiển thị đúng số 101/2024/NĐ-CP, ngày 29/07/2024 và đúng trích yếu về đăng ký, cấp Giấy chứng nhận và Hệ thống thông tin đất đai."
+  },
+  "text_extraction_check": {
+    "result": "blocked",
+    "reason": "PDF scan ảnh; pypdf chỉ trích xuất được 136 ký tự trên 137 trang. Cần OCR tiếng Việt và đối soát điều-khoản-trang trước khi tạo source pack."
+  },
+  "version_check": {
+    "result": "blocked",
+    "reason": "Bản gốc đã được sửa đổi bởi Nghị định 226/2025/NĐ-CP và sửa đổi/hết hiệu lực một phần bởi Nghị định 49/2026/NĐ-CP; cần lập quan hệ phiên bản đến từng điều khoản."
+  },
+  "activation_eligible": false
+}

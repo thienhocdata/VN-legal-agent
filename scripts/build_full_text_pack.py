@@ -1,0 +1,239 @@
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+import hashlib
+import json
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+from pypdf import PdfReader
+
+
+ARTICLE_RE = re.compile(r"(?m)^[ \t]*Điều\s+(\d+)\.\s*([^\n]*)")
+CLAUSE_RE = re.compile(r"(?m)^(\d+)\.\s+(?=\S)")
+POINT_RE = re.compile(r"(?m)^([a-zđ])\)\s+(?=\S)", re.IGNORECASE)
+
+
+def file_hash(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def normalized_page_text(value: str) -> str:
+    value = value.replace("\x00", "").replace("\r\n", "\n").replace("\r", "\n")
+    return "\n".join(line.rstrip() for line in value.splitlines()).strip()
+
+
+def source_position(page_spans: list[dict[str, Any]], offset: int) -> dict[str, Any]:
+    for page in page_spans:
+        if page["start"] <= offset < page["end"]:
+            return page
+    return page_spans[-1]
+
+
+def nested_provisions(
+    *,
+    document_id: str,
+    article_number: int,
+    article_text: str,
+    article_start: int,
+    page_spans: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    provisions: list[dict[str, Any]] = []
+    clause_matches = list(CLAUSE_RE.finditer(article_text))
+    clause_occurrences: Counter[str] = Counter()
+    for clause_index, match in enumerate(clause_matches):
+        clause_number = match.group(1)
+        clause_occurrences[clause_number] += 1
+        clause_occurrence = clause_occurrences[clause_number]
+        end = clause_matches[clause_index + 1].start() if clause_index + 1 < len(clause_matches) else len(article_text)
+        clause_text = article_text[match.start():end].strip()
+        global_start = article_start + match.start()
+        global_end = article_start + max(match.start(), end - 1)
+        start_page = source_position(page_spans, global_start)
+        end_page = source_position(page_spans, global_end)
+        clause_id = f"{document_id}-art-{article_number}-cl-{clause_number}"
+        if clause_occurrence > 1:
+            clause_id += f"-occ-{clause_occurrence}"
+        location = f"Điều {article_number} khoản {clause_number}"
+        if clause_occurrence > 1:
+            location += f" (ứng viên xuất hiện {clause_occurrence})"
+        provisions.append({
+            "id": clause_id,
+            "parent_id": f"{document_id}-art-{article_number}",
+            "level": "clause",
+            "ordinal": int(clause_number),
+            "number": clause_number,
+            "location": location,
+            "text": clause_text,
+            "source_artifact_id": start_page["artifact_id"],
+            "source_page_start": start_page["page_number"],
+            "source_page_end": end_page["page_number"],
+            "keywords": [],
+        })
+        point_matches = list(POINT_RE.finditer(clause_text))
+        point_occurrences: Counter[str] = Counter()
+        for point_index, point_match in enumerate(point_matches):
+            point_number = point_match.group(1).lower()
+            point_occurrences[point_number] += 1
+            point_occurrence = point_occurrences[point_number]
+            point_end = point_matches[point_index + 1].start() if point_index + 1 < len(point_matches) else len(clause_text)
+            point_text = clause_text[point_match.start():point_end].strip()
+            point_global_start = global_start + point_match.start()
+            point_global_end = global_start + max(point_match.start(), point_end - 1)
+            point_start_page = source_position(page_spans, point_global_start)
+            point_end_page = source_position(page_spans, point_global_end)
+            point_id = f"{clause_id}-pt-{point_number}"
+            if point_occurrence > 1:
+                point_id += f"-occ-{point_occurrence}"
+            point_location = f"Điều {article_number} khoản {clause_number} điểm {point_number}"
+            if point_occurrence > 1:
+                point_location += f" (ứng viên xuất hiện {point_occurrence})"
+            provisions.append({
+                "id": point_id,
+                "parent_id": clause_id,
+                "level": "point",
+                "ordinal": point_index + 1,
+                "number": point_number,
+                "location": point_location,
+                "text": point_text,
+                "source_artifact_id": point_start_page["artifact_id"],
+                "source_page_start": point_start_page["page_number"],
+                "source_page_end": point_end_page["page_number"],
+                "keywords": [],
+            })
+    return provisions
+
+
+def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
+    manifest_path = manifest_path.resolve()
+    base = manifest_path.parent
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    document = manifest["document"]
+    document_id = document["id"]
+    full_text_parts: list[str] = []
+    page_spans: list[dict[str, Any]] = []
+    artifacts = []
+    current_offset = 0
+
+    for part_number, artifact in enumerate(manifest["artifacts"], 1):
+        path = (base / artifact["path"]).resolve()
+        reader = PdfReader(path)
+        if len(reader.pages) != artifact["page_count"]:
+            raise ValueError(f"{path.name}: expected {artifact['page_count']} pages, found {len(reader.pages)}")
+        artifact_id = f"{document_id}-artifact-{part_number}"
+        artifacts.append({
+            "path": artifact["path"],
+            "official_url": artifact["official_url"],
+            "sha256": file_hash(path),
+            "media_type": "application/pdf",
+            "page_count": len(reader.pages),
+        })
+        for page_number, page in enumerate(reader.pages, 1):
+            marker = f"\n\n[[SOURCE {artifact_id} PAGE {page_number}]]\n"
+            text = normalized_page_text(page.extract_text() or "")
+            block = marker + text
+            start = current_offset + len(marker)
+            end = current_offset + len(block)
+            page_spans.append({
+                "artifact_id": artifact_id,
+                "page_number": page_number,
+                "start": start,
+                "end": end,
+            })
+            full_text_parts.append(block)
+            current_offset = end
+
+    full_text = "".join(full_text_parts).strip() + "\n"
+    article_matches = list(ARTICLE_RE.finditer(full_text))
+    numbers = [int(match.group(1)) for match in article_matches]
+    expected_count = document["expected_article_count"]
+    if len(numbers) != expected_count or len(set(numbers)) != expected_count:
+        raise ValueError(f"Expected {expected_count} unique articles, found {len(set(numbers))}/{len(numbers)}")
+    expected_numbers = set(range(1, expected_count + 1))
+    if set(numbers) != expected_numbers:
+        missing = sorted(expected_numbers - set(numbers))
+        extra = sorted(set(numbers) - expected_numbers)
+        raise ValueError(f"Article sequence mismatch; missing={missing}, extra={extra}")
+
+    effective_overrides = {str(key): value for key, value in document.get("provision_effective_dates", {}).items()}
+    provisions: list[dict[str, Any]] = []
+    for index, match in enumerate(article_matches):
+        article_number = int(match.group(1))
+        end = article_matches[index + 1].start() if index + 1 < len(article_matches) else len(full_text)
+        article_text = full_text[match.start():end].strip()
+        start_page = source_position(page_spans, match.start())
+        end_page = source_position(page_spans, max(match.start(), end - 1))
+        article_id = f"{document_id}-art-{article_number}"
+        provisions.append({
+            "id": article_id,
+            "level": "article",
+            "ordinal": article_number,
+            "number": str(article_number),
+            "heading": match.group(2).strip(),
+            "location": f"Điều {article_number}",
+            "text": article_text,
+            "source_artifact_id": start_page["artifact_id"],
+            "source_page_start": start_page["page_number"],
+            "source_page_end": end_page["page_number"],
+            "effective_from": effective_overrides.get(str(article_number), document["effective_from"]),
+            "legal_status": "effective",
+            "keywords": [],
+        })
+        provisions.extend(nested_provisions(
+            document_id=document_id,
+            article_number=article_number,
+            article_text=article_text,
+            article_start=match.start(),
+            page_spans=page_spans,
+        ))
+
+    full_text_path = base / "full-text.txt"
+    full_text_path.write_text(full_text, encoding="utf-8")
+    combined_artifact_hash = hashlib.sha256(
+        "".join(artifact["sha256"] for artifact in artifacts).encode("ascii")
+    ).hexdigest()
+    source_pack = {
+        "schema_version": 2,
+        "document": {
+            **document,
+            "content_hash": combined_artifact_hash,
+            "source_format": "pdf",
+            "full_text_file": full_text_path.name,
+            "full_text_hash": file_hash(full_text_path),
+            "source_artifacts": artifacts,
+        },
+        "provisions": provisions,
+        "relationships": manifest.get("relationships", []),
+    }
+    pack_path = base / "source-pack.json"
+    pack_path.write_text(json.dumps(source_pack, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    counts = {
+        "pages": len(page_spans),
+        "characters": len(full_text),
+        "articles": sum(1 for item in provisions if item["level"] == "article"),
+        "clauses": sum(1 for item in provisions if item["level"] == "clause"),
+        "points": sum(1 for item in provisions if item["level"] == "point"),
+    }
+    return pack_path, counts
+
+
+def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    parser = argparse.ArgumentParser(description="Build a full-text governed source pack from official PDF parts")
+    parser.add_argument("manifest", type=Path)
+    args = parser.parse_args()
+    pack_path, counts = build(args.manifest)
+    print(f"Built {pack_path}")
+    print(json.dumps(counts, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

@@ -257,7 +257,15 @@ The earlier `ai-legal-assistant` repository is retained as a land-law RAG protot
 
 ## Documentation
 
-- [Product Definition v1.0](docs/product/product-definition.md)
+- [Product Definition v1.1](docs/product/product-definition.md)
+- [Land-Law Corpus Standard](docs/product/land-law-corpus-standard.md)
+- [Land-Law Corpus Packages](docs/product/land-law-corpus-packages.md)
+
+Check governed corpus completeness by package with:
+
+```powershell
+python scripts/corpus_coverage.py
+```
 - [First-Release Decision Register](docs/product/first-release-decisions.md)
 - [First-Release Locality Scope](docs/product/locality-scope.md)
 - [Agent Core Use-Case Specification](docs/use-cases/README.md)

@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-07-14",
+  "method": "Poppler render and human visual inspection",
+  "sample_pages": [1, 60, 118],
+  "result": "passed",
+  "findings": "Trang đầu đúng Luật 45/2013/QH13; trang giữa rõ, không cắt chữ; trang cuối là thông tin xuất bản Công báo. Bố cục và dấu tiếng Việt hiển thị đầy đủ."
+}

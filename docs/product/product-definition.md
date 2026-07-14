@@ -1,6 +1,6 @@
 # Product Definition
 
-**Version:** 1.0
+**Version:** 1.1
 **Status:** Approved
 **Approved:** 2026-07-14
 **Product:** Minh Long Legal Agent
@@ -79,7 +79,9 @@ The product should be able to:
 
 ## 6. Initial production scope
 
-The first production domain is Vietnamese land law. Breadth will be constrained until depth, source quality, evaluation, and operational safety meet the acceptance criteria.
+The first production domain is Vietnamese land law. The product develops one complete legal domain at a time: breadth across additional legal domains is deferred until land-law depth, historical coverage, source quality, evaluation, and operational safety meet the acceptance criteria.
+
+The governed corpus must preserve complete official documents and their historical versions. Selected excerpts, summaries, embeddings, or model knowledge do not constitute domain coverage. Retrieval units must be derived from preserved full text and remain traceable to it. The binding completeness, historical, adjacent-law, and release-gate rules are defined by the [Land-Law Corpus Standard](land-law-corpus-standard.md).
 
 Candidate subdomains will be selected through the use-case specification rather than assumed here. Possible areas include land-use-right certificates, transfers, inheritance, administrative procedures, land recovery and compensation, planning information, land-use conversion, and common disputes.
 
@@ -107,6 +109,7 @@ The agent must not:
 The first release will not:
 
 - support every field of Vietnamese law;
+- treat partial extracts or model pretraining as a complete legal source;
 - support every province or municipality;
 - submit administrative procedures or legal filings automatically;
 - replace professional legal review;

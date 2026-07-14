@@ -41,11 +41,35 @@ CREATE TABLE IF NOT EXISTS legal_documents (
   authority TEXT NOT NULL, official_url TEXT NOT NULL, content_hash TEXT NOT NULL,
   issued_date TEXT, effective_from TEXT NOT NULL, effective_to TEXT,
   legal_status TEXT NOT NULL, jurisdiction TEXT NOT NULL, locality TEXT,
-  version TEXT NOT NULL, imported_at TEXT NOT NULL
+  version TEXT NOT NULL, imported_at TEXT NOT NULL,
+  document_type TEXT NOT NULL DEFAULT 'unknown', source_format TEXT,
+  full_text TEXT, full_text_hash TEXT,
+  completeness_status TEXT NOT NULL DEFAULT 'partial',
+  expected_article_count INTEGER, parsed_article_count INTEGER,
+  extraction_method TEXT, verified_at TEXT, verified_by TEXT
 );
 CREATE TABLE IF NOT EXISTS legal_provisions (
   id TEXT PRIMARY KEY, document_id TEXT NOT NULL REFERENCES legal_documents(id),
-  location TEXT NOT NULL, text TEXT NOT NULL, keywords TEXT NOT NULL
+  location TEXT NOT NULL, text TEXT NOT NULL, keywords TEXT NOT NULL,
+  parent_id TEXT, level TEXT NOT NULL DEFAULT 'provision', ordinal INTEGER,
+  number TEXT, heading TEXT, source_page_start INTEGER, source_page_end INTEGER,
+  source_artifact_id TEXT,
+  effective_from TEXT, effective_to TEXT,
+  legal_status TEXT NOT NULL DEFAULT 'effective', text_hash TEXT
+);
+CREATE TABLE IF NOT EXISTS legal_source_artifacts (
+  id TEXT PRIMARY KEY, document_id TEXT NOT NULL REFERENCES legal_documents(id),
+  part_number INTEGER NOT NULL, official_url TEXT NOT NULL, local_path TEXT NOT NULL,
+  media_type TEXT NOT NULL, sha256 TEXT NOT NULL, page_count INTEGER,
+  byte_size INTEGER NOT NULL, fetched_at TEXT NOT NULL, verified_at TEXT,
+  UNIQUE(document_id,part_number)
+);
+CREATE TABLE IF NOT EXISTS legal_document_relationships (
+  id TEXT PRIMARY KEY,
+  source_document_id TEXT NOT NULL REFERENCES legal_documents(id),
+  source_provision_id TEXT, target_document_id TEXT NOT NULL,
+  target_provision_id TEXT, relation_type TEXT NOT NULL,
+  effective_from TEXT, evidence_location TEXT, note TEXT
 );
 CREATE TABLE IF NOT EXISTS messages (
   id TEXT PRIMARY KEY, case_id TEXT NOT NULL REFERENCES cases(id),
@@ -57,8 +81,40 @@ CREATE INDEX IF NOT EXISTS idx_artifacts_case ON artifacts(case_id);
 CREATE INDEX IF NOT EXISTS idx_audit_case ON audit_events(case_id);
 CREATE INDEX IF NOT EXISTS idx_api_key_hash ON api_keys(key_hash);
 CREATE INDEX IF NOT EXISTS idx_provisions_document ON legal_provisions(document_id);
+CREATE INDEX IF NOT EXISTS idx_artifacts_document ON legal_source_artifacts(document_id);
+CREATE INDEX IF NOT EXISTS idx_relationships_source ON legal_document_relationships(source_document_id);
+CREATE INDEX IF NOT EXISTS idx_relationships_target ON legal_document_relationships(target_document_id);
 CREATE INDEX IF NOT EXISTS idx_messages_case ON messages(case_id,created_at);
 """
+
+
+DOCUMENT_COLUMNS_V2 = {
+    "document_type": "TEXT NOT NULL DEFAULT 'unknown'",
+    "source_format": "TEXT",
+    "full_text": "TEXT",
+    "full_text_hash": "TEXT",
+    "completeness_status": "TEXT NOT NULL DEFAULT 'partial'",
+    "expected_article_count": "INTEGER",
+    "parsed_article_count": "INTEGER",
+    "extraction_method": "TEXT",
+    "verified_at": "TEXT",
+    "verified_by": "TEXT",
+}
+
+PROVISION_COLUMNS_V2 = {
+    "parent_id": "TEXT",
+    "level": "TEXT NOT NULL DEFAULT 'provision'",
+    "ordinal": "INTEGER",
+    "number": "TEXT",
+    "heading": "TEXT",
+    "source_page_start": "INTEGER",
+    "source_page_end": "INTEGER",
+    "source_artifact_id": "TEXT",
+    "effective_from": "TEXT",
+    "effective_to": "TEXT",
+    "legal_status": "TEXT NOT NULL DEFAULT 'effective'",
+    "text_hash": "TEXT",
+}
 
 
 class Database:
@@ -68,11 +124,25 @@ class Database:
         with self.connect() as con:
             con.executescript(SCHEMA)
             con.execute("INSERT OR IGNORE INTO schema_migrations(version,applied_at) VALUES(1,datetime('now'))")
+            self._migrate_v2(con)
+
+    @staticmethod
+    def _migrate_v2(con: sqlite3.Connection) -> None:
+        for table, columns in (
+            ("legal_documents", DOCUMENT_COLUMNS_V2),
+            ("legal_provisions", PROVISION_COLUMNS_V2),
+        ):
+            existing = {row[1] for row in con.execute(f"PRAGMA table_info({table})")}
+            for name, definition in columns.items():
+                if name not in existing:
+                    con.execute(f"ALTER TABLE {table} ADD COLUMN {name} {definition}")
+        con.execute("INSERT OR IGNORE INTO schema_migrations(version,applied_at) VALUES(2,datetime('now'))")
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
         con = sqlite3.connect(self.path)
         con.row_factory = sqlite3.Row
+        con.execute("PRAGMA foreign_keys=ON")
         try:
             yield con
             con.commit()

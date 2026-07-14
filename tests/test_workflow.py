@@ -112,9 +112,9 @@ def test_chat_first_flow_creates_hidden_case_and_answers(client):
     assert response.status_code == 200
     data = response.json()
     assert data["case_id"].startswith("case_")
-    assert data["status"] == "review_required"
-    assert "Nhận định ban đầu" in data["answer"]
-    assert data["citations"]
+    assert data["status"] == "corpus_gap"
+    assert "corpus toàn văn đã kiểm chứng" in data["answer"]
+    assert data["citations"] == []
     messages = client.get(f"/api/v1/cases/{data['case_id']}/messages")
     assert [m["role"] for m in messages.json()] == ["user", "assistant"]
 

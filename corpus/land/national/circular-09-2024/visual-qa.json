@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-07-14",
+  "method": "Poppler render and human visual inspection",
+  "sample_pages": [1, 169, 337],
+  "result": "passed",
+  "findings": "Trang đầu đúng Thông tư 09/2024/TT-BTNMT; mẫu giữa và cuối của phụ lục dữ liệu hiển thị bảng rõ, đủ cột, không cắt chữ. Phụ lục phải được tách thành lớp dữ liệu cấu trúc trước khi kích hoạt."
+}

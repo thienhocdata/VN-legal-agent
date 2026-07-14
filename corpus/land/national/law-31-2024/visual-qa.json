@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-07-14",
+  "method": "Poppler render and human visual inspection",
+  "sample_artifacts": [
+    {"part": 1, "page": 1},
+    {"part": 2, "page": 48},
+    {"part": 3, "page": 66}
+  ],
+  "result": "passed",
+  "findings": "Mẫu đầu, giữa và cuối của ba phần đều rõ, đúng định dạng Công báo, không cắt chữ; trang cuối có phần kết thúc và chữ ký. Kiểm tra cấu trúc khoản/điểm và ánh xạ sửa đổi vẫn còn chờ duyệt."
+}

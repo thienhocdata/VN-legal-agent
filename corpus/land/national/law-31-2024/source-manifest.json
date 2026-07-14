@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "law-31-2024-qh15",
+    "title": "Luật Đất đai 2024",
+    "number": "31/2024/QH15",
+    "authority": "Quốc hội",
+    "official_url": "https://vanban.chinhphu.vn/?docid=211189&pageid=27160",
+    "issued_date": "2024-01-18",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-as-published-effective-date-controlled-by-law-43-2024",
+    "document_type": "law",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 260,
+    "extraction_method": "pypdf-structured-v1",
+    "verified_at": null,
+    "verified_by": null,
+    "provision_effective_dates": {
+      "190": "2024-04-01",
+      "248": "2024-04-01"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/31-2024-qh15-part-1.pdf",
+      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/9/31-2024-qh15_1.pdf",
+      "page_count": 94
+    },
+    {
+      "path": "artifacts/31-2024-qh15-part-2.pdf",
+      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/9/31-2024-qh15_2.pdf",
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/31-2024-qh15-part-3.pdf",
+      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/9/31-2024-qh15_3.pdf",
+      "page_count": 66
+    }
+  ],
+  "relationships": []
+}

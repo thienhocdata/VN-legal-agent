@@ -310,12 +310,31 @@ class LegalCaseService:
         self.set_context(case_id, context)
         research = self.research(case_id, ResearchRequest(query="điều kiện chuyển nhượng giấy chứng nhận tranh chấp nghĩa vụ tài chính đăng ký biến động thời hạn"))
         results = self._current_artifact(research, "research_session").get("results", [])
-        candidate_results = [item for item in results if item.get("applicability") == "candidate"]
+        candidate_results = [
+            item for item in results
+            if item.get("applicability") == "candidate"
+            and item.get("governance_status") == "full_text_verified"
+        ]
         citations = [{
             "title": item["title"], "location": item["location"],
             "source_id": item["source_id"], "url": item.get("official_url"),
             "version": item.get("snapshot"),
         } for item in candidate_results]
+        if not candidate_results:
+            answer = (
+                "Mình đã ghi nhận đủ thông tin ban đầu, nhưng corpus toàn văn đã kiểm chứng "
+                "hiện chưa đủ để đưa ra kết luận pháp lý cho giao dịch này.\n\n"
+                "Trong lúc nguồn đang được hoàn thiện, bạn có thể chuẩn bị Giấy chứng nhận, "
+                "thông tin chủ sử dụng, loại đất, thời hạn sử dụng và tài liệu thể hiện tình trạng "
+                "tranh chấp/thế chấp. Mình sẽ không dùng dữ liệu demo hoặc trí nhớ mô hình để thay "
+                "cho căn cứ pháp luật chính thức."
+            )
+            return self._chat_reply(
+                case_id, answer, [],
+                ["Corpus đang thiếu nguồn nào?", "Tôi cần chuẩn bị dữ liệu gì?"],
+                "corpus_gap",
+            )
+
         self.analyze(case_id)
 
         if current["dispute_status"] is True:
@@ -370,6 +389,7 @@ class LegalCaseService:
             }
             for item in sources
             if item.get("applicability") == "candidate"
+            and item.get("governance_status") == "full_text_verified"
         ]
         with self.db.connect() as con:
             self.audit(

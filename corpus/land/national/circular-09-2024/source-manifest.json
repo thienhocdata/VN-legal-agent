@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "circular-09-2024-tt-btnmt",
+    "title": "Thông tư về cấu trúc cơ sở dữ liệu quốc gia về đất đai và yêu cầu kỹ thuật phần mềm",
+    "number": "09/2024/TT-BTNMT",
+    "authority": "Bộ Tài nguyên và Môi trường",
+    "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=210903&pageid=27160&typegroupid=6",
+    "issued_date": "2024-07-31",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-as-published-change-audit-pending",
+    "document_type": "circular",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 16,
+    "extraction_method": "pypdf-structured-v1-with-annexes",
+    "verified_at": null,
+    "verified_by": null
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/09-2024-tt-btnmt.pdf",
+      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/8/09-btnmt.pdf",
+      "page_count": 337
+    }
+  ],
+  "relationships": [
+    {
+      "id": "circular-09-2024-implements-law-31-2024",
+      "target_document_id": "law-31-2024-qh15",
+      "relation_type": "implements",
+      "effective_from": "2024-08-01",
+      "evidence_location": "Phần căn cứ và Điều 1",
+      "note": "Quy định lớp dữ liệu và yêu cầu kỹ thuật; các phụ lục phải được kiểm định như dữ liệu có cấu trúc, không chỉ như điều khoản văn bản."
+    }
+  ]
+}

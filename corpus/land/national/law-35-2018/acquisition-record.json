@@ -1,0 +1,26 @@
+{
+  "document_id": "law-35-2018-qh14",
+  "acquired_at": "2026-07-14",
+  "artifact": {
+    "path": "artifacts/35-2018-qh14.pdf",
+    "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2022/07/35.2018.qh14.pdf",
+    "secondary_official_url": "https://vbpl.moj.gov.vn/FileData/TW/Lists/vbpq/Attachments/132982/VanBanGoc_Luat%2035.2018.QH14%20(PDF).pdf",
+    "sha256": "2802d3978f4005ba6bba019bed67b3ad166b356d21b6e386113da35b81d6d0cf",
+    "page_count": 69,
+    "byte_size": 1166759,
+    "media_type": "application/pdf"
+  },
+  "identity_check": {
+    "result": "passed",
+    "evidence": "Hai cổng chính thức cung cấp tệp có cùng SHA-256; metadata xác định Luật 35/2018/QH14 ban hành ngày 20/11/2018 và Điều 6 sửa Luật Đất đai 2013."
+  },
+  "text_extraction_check": {
+    "result": "blocked",
+    "reason": "PDF scan ảnh; pypdf chỉ trích xuất được 68 ký tự trên 69 trang. Cần OCR tiếng Việt và đối soát toàn bộ 31 điều trước khi tạo source pack."
+  },
+  "version_check": {
+    "result": "blocked",
+    "reason": "Bản thân Luật 35/2018/QH14 đã được sửa đổi và hết hiệu lực một phần qua nhiều văn bản; riêng Điều 6 về Luật Đất đai phải được đặt hiệu lực đến ngày 31/07/2024."
+  },
+  "activation_eligible": false
+}

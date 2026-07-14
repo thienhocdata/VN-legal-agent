@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "law-43-2024-qh15",
+    "title": "Luật sửa đổi Luật Đất đai, Luật Nhà ở, Luật Kinh doanh bất động sản và Luật Các tổ chức tín dụng",
+    "number": "43/2024/QH15",
+    "authority": "Quốc hội",
+    "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=211201&pageid=27160&typegroupid=3",
+    "issued_date": "2024-06-29",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-as-published",
+    "document_type": "law",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 5,
+    "extraction_method": "pypdf-structured-v1",
+    "verified_at": null,
+    "verified_by": null
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/43-2024-qh15.pdf",
+      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/9/43-2024-qh15.pdf",
+      "page_count": 2
+    }
+  ],
+  "relationships": [
+    {
+      "id": "law-43-2024-amends-law-31-2024",
+      "target_document_id": "law-31-2024-qh15",
+      "relation_type": "amends",
+      "effective_from": "2024-08-01",
+      "evidence_location": "Điều 1",
+      "note": "Sửa các Điều 251, 252, 255 và 260 của Luật 31/2024/QH15; cần ánh xạ đến từng khoản trước khi kích hoạt sản xuất."
+    }
+  ]
+}

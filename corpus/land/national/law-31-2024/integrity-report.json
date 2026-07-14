@@ -1,0 +1,46 @@
+{
+  "report_version": 1,
+  "checked_at": "2026-07-14T16:53:11.122069+00:00",
+  "document_id": "law-31-2024-qh15",
+  "document_number": "31/2024/QH15",
+  "completeness_status": "full_text_unverified",
+  "checks": {
+    "pack_validation_passed": true,
+    "provision_ids_unique": true,
+    "all_provisions_nonempty": true,
+    "article_sequence_complete": true
+  },
+  "errors": [],
+  "metrics": {
+    "expected_articles": 260,
+    "parsed_articles": 260,
+    "total_provisions": 2615,
+    "clauses": 1248,
+    "points": 1107,
+    "candidate_duplicate_nested_locations": 16
+  },
+  "findings": {
+    "duplicate_ids": [],
+    "empty_provisions": [],
+    "candidate_duplicate_nested_location_ids": [
+      "law-31-2024-qh15-art-181-cl-1-pt-a-occ-2",
+      "law-31-2024-qh15-art-181-cl-1-pt-b-occ-2",
+      "law-31-2024-qh15-art-181-cl-1-pt-c-occ-2",
+      "law-31-2024-qh15-art-181-cl-1-pt-d-occ-2",
+      "law-31-2024-qh15-art-181-cl-1-pt-đ-occ-2",
+      "law-31-2024-qh15-art-243-cl-2-pt-a-occ-2",
+      "law-31-2024-qh15-art-243-cl-2-pt-b-occ-2",
+      "law-31-2024-qh15-art-243-cl-2-pt-c-occ-2",
+      "law-31-2024-qh15-art-245-cl-1-occ-2",
+      "law-31-2024-qh15-art-245-cl-2-occ-2",
+      "law-31-2024-qh15-art-245-cl-3-occ-2",
+      "law-31-2024-qh15-art-248-cl-2-occ-2",
+      "law-31-2024-qh15-art-248-cl-6-pt-a-occ-2",
+      "law-31-2024-qh15-art-248-cl-6-pt-b-occ-2",
+      "law-31-2024-qh15-art-248-cl-6-occ-2",
+      "law-31-2024-qh15-art-248-cl-6-occ-3"
+    ]
+  },
+  "structural_checks_passed": true,
+  "activation_eligible": false
+}

@@ -47,7 +47,8 @@ class KnowledgeRepository:
         with self.db.connect() as con:
             rows = con.execute(
                 """SELECT p.id provision_id,p.location,p.text,p.keywords,
-                d.* FROM legal_provisions p JOIN legal_documents d ON d.id=p.document_id"""
+                d.* FROM legal_provisions p JOIN legal_documents d ON d.id=p.document_id
+                WHERE d.completeness_status='full_text_verified'"""
             ).fetchall()
         hits = []
         relevant_date = context.get("relevant_date")
@@ -79,19 +80,28 @@ class KnowledgeRepository:
                 "summary": item["text"], "authority": item["authority"],
                 "official_url": item["official_url"], "content_hash": item["content_hash"],
                 "applicability": applicability,
+                "governance_status": "full_text_verified",
                 "snapshot": f'{item["id"]}:{item["version"]}:{item["content_hash"][:12]}',
                 "score": score,
             })
         if hits:
             return sorted(hits, key=lambda x: x["score"], reverse=True), None
         if not self.allow_demo:
-            return [], "No governed source matched. Pilot mode forbids demo-source fallback."
+            return [], (
+                "Không có nguồn toàn văn đã kiểm chứng phù hợp. "
+                "Chế độ chính thức không cho phép dùng dữ liệu demo hoặc tài liệu chưa kiểm chứng."
+            )
         demo_hits = []
         for rule in DEMO_RULES:
             if any(k.lower() in query.lower() for k in rule["keywords"]):
                 applicable = rule["locality"] is None or rule["locality"] == context.get("locality")
-                demo_hits.append({**rule, "applicability": "candidate" if applicable else "not_applicable", "snapshot": rule["source_id"] + ":demo-v1"})
-        return demo_hits, "Development demo corpus only; official-source verification required."
+                demo_hits.append({
+                    **rule,
+                    "applicability": "candidate" if applicable else "not_applicable",
+                    "governance_status": "demo",
+                    "snapshot": rule["source_id"] + ":demo-v1",
+                })
+        return demo_hits, "Chỉ là corpus demo phát triển; phải kiểm chứng lại bằng nguồn chính thức."
 
     @staticmethod
     def _fold(value: str) -> str:
@@ -121,6 +131,7 @@ class KnowledgeRepository:
         with self.db.connect() as con:
             row = con.execute(
                 """SELECT 1 FROM legal_documents WHERE locality=? AND legal_status='effective'
+                AND completeness_status='full_text_verified'
                 AND effective_from<=? AND (effective_to IS NULL OR effective_to>=?) LIMIT 1""",
                 (locality, relevant_date, relevant_date),
             ).fetchone()

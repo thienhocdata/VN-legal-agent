@@ -1,0 +1,171 @@
+{
+  "inventory_version": 1,
+  "verified_as_of": "2026-07-14",
+  "status_meanings": {
+    "official_metadata_verified": "Identity and headline metadata checked against an official portal; full text not yet accepted",
+    "candidate": "Named by the corpus plan but official metadata or applicability still requires verification"
+  },
+  "sources": [
+    {
+      "id": "law-45-2013-qh13",
+      "number": "45/2013/QH13",
+      "title": "Luật Đất đai 2013",
+      "authority": "Quốc hội",
+      "official_url": "https://vbpl.moj.gov.vn/botainguyen/Pages/vbpq-thuoctinh.aspx?ItemID=32833",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "full_text_unverified",
+      "issued_date": "2013-11-29",
+      "effective_from": "2014-07-01",
+      "effective_to": "2024-07-31",
+      "legal_status": "expired",
+      "notes": "Bản gốc 212 điều đã tải từ CSDL quốc gia về VBPL. Luật 35/2018/QH14 sửa đổi một phần; phải dựng phiên bản thời gian trước khi dùng để trả lời các mốc 2019-2024."
+    },
+    {
+      "id": "law-35-2018-qh14",
+      "number": "35/2018/QH14",
+      "title": "Luật sửa đổi, bổ sung một số điều của 37 luật có liên quan đến quy hoạch",
+      "authority": "Quốc hội",
+      "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=206103&pageid=27160&typegroupid=3",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "artifact_downloaded_ocr_required",
+      "issued_date": "2018-11-20",
+      "effective_from": "2019-01-01",
+      "legal_status": "partially_effective",
+      "notes": "Điều 6 sửa Luật Đất đai 2013. PDF 69 trang là bản scan ảnh và không có lớp chữ; cần OCR toàn văn, đối soát Điều 1-31 và ánh xạ riêng các sửa đổi của Điều 6."
+    },
+    {
+      "id": "law-31-2024-qh15",
+      "number": "31/2024/QH15",
+      "title": "Luật Đất đai",
+      "authority": "Quốc hội",
+      "official_url": "https://vanban.chinhphu.vn/?docid=211189&pageid=27160",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "full_text_unverified",
+      "issued_date": "2024-01-18",
+      "effective_from": "2024-08-01",
+      "legal_status": "effective",
+      "notes": "General effective date changed by Law 43/2024/QH15; special dates require provision-level mapping."
+    },
+    {
+      "id": "law-43-2024-qh15",
+      "number": "43/2024/QH15",
+      "title": "Luật sửa đổi Luật Đất đai, Luật Nhà ở, Luật Kinh doanh bất động sản và Luật Các tổ chức tín dụng",
+      "authority": "Quốc hội",
+      "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=211201&pageid=27160&typegroupid=3",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "full_text_unverified",
+      "issued_date": "2024-06-29",
+      "effective_from": "2024-08-01",
+      "legal_status": "effective"
+    },
+    {
+      "id": "decree-101-2024-nd-cp",
+      "number": "101/2024/NĐ-CP",
+      "title": "Đăng ký, cấp Giấy chứng nhận và Hệ thống thông tin đất đai",
+      "authority": "Chính phủ",
+      "official_url": "https://vanban.chinhphu.vn/?docid=210791&pageid=27160",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "artifact_downloaded_ocr_required",
+      "issued_date": "2024-07-29",
+      "effective_from": "2024-08-01",
+      "legal_status": "partially_effective",
+      "notes": "CSDL quốc gia ghi nhận sửa đổi bởi Nghị định 226/2025/NĐ-CP và sửa đổi/hết hiệu lực một phần bởi Nghị định 49/2026/NĐ-CP. PDF chính thức là ảnh, cần OCR và đối soát với toàn văn chính thức."
+    },
+    {
+      "id": "decree-102-2024-nd-cp",
+      "number": "102/2024/NĐ-CP",
+      "title": "Quy định chi tiết thi hành một số điều của Luật Đất đai",
+      "authority": "Chính phủ",
+      "official_url": "https://vanban.chinhphu.vn/?docid=210795&pageid=27160",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "blocked_official_attachment_mismatch",
+      "issued_date": "2024-07-30",
+      "effective_from": "2024-08-01",
+      "legal_status": "partially_effective",
+      "notes": "CSDL quốc gia ghi nhận bãi bỏ một phần bởi Nghị định 175/2024/NĐ-CP, sửa đổi bởi Nghị định 226/2025/NĐ-CP và sửa đổi/hết hiệu lực một phần bởi Nghị định 49/2026/NĐ-CP. Trang Chính phủ hiện trỏ nhầm tệp đính kèm năm 2025; URL suy đoán năm 2024 là Nghị quyết 102/NQ-CP, đã bị loại sau kiểm tra trực quan. Chưa có artifact toàn văn hợp lệ."
+    },
+    {
+      "id": "circular-09-2024-tt-btnmt",
+      "number": "09/2024/TT-BTNMT",
+      "title": "Cấu trúc cơ sở dữ liệu quốc gia về đất đai và yêu cầu kỹ thuật phần mềm",
+      "authority": "Bộ Tài nguyên và Môi trường",
+      "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=210903&orggroupid=4&pageid=27160",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "full_text_unverified",
+      "issued_date": "2024-07-31",
+      "effective_from": "2024-08-01",
+      "legal_status": "effective"
+    },
+    {
+      "id": "hcm-decision-651-2025",
+      "number": "651/QĐ-UBND",
+      "title": "Quy trình nội bộ đăng ký, cấp Giấy chứng nhận tại TP.HCM",
+      "authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh",
+      "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/651-qd-ubnd/ngay/18-02-2025/47802",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "queued_with_change_audit_required",
+      "issued_date": "2025-02-18",
+      "effective_from": "2025-02-18",
+      "legal_status": "effective",
+      "notes": "Official portal currently labels the decision effective; later competence and procedure changes must be resolved before activation."
+    },
+    {
+      "id": "decree-291-2025-nd-cp",
+      "number": "291/2025/NĐ-CP",
+      "title": "Sửa đổi Nghị định 103/2024/NĐ-CP và Nghị định 104/2024/NĐ-CP",
+      "authority": "Chính phủ",
+      "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=215808&pageid=27160&typegroupid=4",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "queued",
+      "issued_date": "2025-11-06",
+      "effective_from": "2025-11-06",
+      "legal_status": "effective"
+    },
+    {
+      "id": "decree-49-2026-nd-cp",
+      "number": "49/2026/NĐ-CP",
+      "title": "Hướng dẫn cơ chế tháo gỡ vướng mắc thi hành Luật Đất đai",
+      "authority": "Chính phủ",
+      "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=216860&pageid=27160",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "queued",
+      "issued_date": "2026-01-31",
+      "effective_from": "2026-01-31",
+      "legal_status": "effective"
+    },
+    {
+      "id": "decree-50-2026-nd-cp",
+      "number": "50/2026/NĐ-CP",
+      "title": "Hướng dẫn Nghị quyết 254/2025/QH15 về tiền sử dụng đất, tiền thuê đất",
+      "authority": "Chính phủ",
+      "official_url": "https://vanban.chinhphu.vn/?classid=1&docid=216861&orggroupid=2&pageid=27160",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "queued",
+      "issued_date": "2026-01-31",
+      "effective_from": "2026-01-31",
+      "legal_status": "effective"
+    },
+    {
+      "id": "decree-281-2026-nd-cp",
+      "number": "281/2026/NĐ-CP",
+      "title": "Sửa đổi Nghị định 123/2024/NĐ-CP về xử phạt vi phạm hành chính đất đai",
+      "authority": "Chính phủ",
+      "official_url": "https://vanban.chinhphu.vn/?classid=0&docid=218863&pageid=27160",
+      "inventory_status": "official_metadata_verified",
+      "ingestion_status": "queued",
+      "issued_date": "2026-07-13",
+      "effective_from": "2026-08-31",
+      "legal_status": "not_yet_effective"
+    },
+    {
+      "id": "resolution-254-2025-qh15",
+      "number": "254/2025/QH15",
+      "title": "Cơ chế, chính sách tháo gỡ khó khăn trong tổ chức thi hành Luật Đất đai",
+      "authority": "Quốc hội",
+      "official_url": null,
+      "inventory_status": "candidate",
+      "ingestion_status": "awaiting_direct_official_verification",
+      "legal_status": "unknown"
+    }
+  ]
+}

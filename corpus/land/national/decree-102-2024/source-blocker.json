@@ -1,0 +1,13 @@
+{
+  "document_id": "decree-102-2024-nd-cp",
+  "checked_at": "2026-07-14",
+  "official_metadata_url": "https://vanban.chinhphu.vn/?docid=210795&pageid=27160",
+  "status": "blocked",
+  "blockers": [
+    "Trang metadata Chính phủ đang trỏ tệp 102-cp.signed.pdf và pl.pdf trong thư mục năm 2025, không phải bản gốc ban hành ngày 30/07/2024.",
+    "URL cùng tên trong thư mục 2024/7 là Nghị quyết 102/NQ-CP về phòng, chống thiên tai; đã bị loại sau kiểm tra trực quan.",
+    "CSDL quốc gia ghi nhận văn bản đã bị bãi bỏ một phần bởi Nghị định 175/2024/NĐ-CP, sửa đổi bởi Nghị định 226/2025/NĐ-CP và sửa đổi/hết hiệu lực một phần bởi Nghị định 49/2026/NĐ-CP.",
+    "Chưa thu thập được đầy đủ bản gốc và phụ lục từ một liên kết chính thức có danh tính khớp."
+  ],
+  "activation_eligible": false
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "law-45-2013-qh13",
+    "title": "Luật Đất đai 2013",
+    "number": "45/2013/QH13",
+    "authority": "Quốc hội",
+    "official_url": "https://vbpl.moj.gov.vn/botainguyen/Pages/vbpq-thuoctinh.aspx?ItemID=32833",
+    "issued_date": "2013-11-29",
+    "effective_from": "2014-07-01",
+    "effective_to": "2024-07-31",
+    "legal_status": "expired",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-as-published-amendment-map-pending",
+    "document_type": "law",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 212,
+    "extraction_method": "pypdf-structured-v1",
+    "verified_at": null,
+    "verified_by": null
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/45-2013-qh13.pdf",
+      "official_url": "https://vbpl.moj.gov.vn/FileData/TW/Lists/vbpq/Attachments/32833/VanBanGoc_45.2013.QH13.pdf",
+      "page_count": 118
+    }
+  ],
+  "relationships": [
+    {
+      "id": "law-45-2013-replaced-by-law-31-2024",
+      "target_document_id": "law-31-2024-qh15",
+      "relation_type": "replaced_by",
+      "effective_from": "2024-08-01",
+      "evidence_location": "Khoản 4 Điều 252 Luật 31/2024/QH15",
+      "note": "Quan hệ được lưu theo chiều văn bản lịch sử đến văn bản kế nhiệm để phục vụ tra cứu; nội dung sửa đổi bởi Luật 35/2018/QH14 vẫn phải được ánh xạ riêng."
+    }
+  ]
+}
