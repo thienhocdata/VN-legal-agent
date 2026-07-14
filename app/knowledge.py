@@ -47,6 +47,11 @@ class KnowledgeRepository:
         with self.db.connect() as con:
             rows = con.execute(
                 """SELECT p.id provision_id,p.location,p.text,p.keywords,
+                COALESCE(p.effective_from,d.effective_from) applicable_from,
+                COALESCE(p.effective_to,d.effective_to) applicable_to,
+                p.effective_from provision_effective_from,
+                p.effective_to provision_effective_to,
+                p.legal_status provision_legal_status,
                 d.* FROM legal_provisions p JOIN legal_documents d ON d.id=p.document_id
                 WHERE d.completeness_status='full_text_verified'"""
             ).fetchall()
@@ -63,9 +68,30 @@ class KnowledgeRepository:
             )
             if not score:
                 continue
-            temporal = bool(relevant_date and item["effective_from"] <= relevant_date and (not item["effective_to"] or relevant_date <= item["effective_to"]))
+            applicable_from = item["applicable_from"] or item["effective_from"]
+            applicable_to = item["applicable_to"] or item["effective_to"]
+            temporal = bool(
+                relevant_date and applicable_from <= relevant_date
+                and (not applicable_to or relevant_date <= applicable_to)
+            )
             locality = item["locality"] is None or item["locality"] == context.get("locality")
-            status_ok = item["legal_status"] == "effective"
+            document_current = item["legal_status"] in {"effective", "partially_effective"}
+            document_historical = bool(
+                item["legal_status"] in {"expired", "repealed", "partially_expired"}
+                and applicable_to
+                and relevant_date
+                and relevant_date <= applicable_to
+            )
+            provision_current = item["provision_legal_status"] in {"effective", "partially_effective"}
+            provision_historical = bool(
+                item["provision_legal_status"] in {"expired", "repealed", "partially_expired"}
+                and item["provision_effective_to"]
+                and relevant_date
+                and relevant_date <= item["provision_effective_to"]
+            )
+            status_ok = (document_current or document_historical) and (
+                provision_current or provision_historical
+            )
             if temporal and locality and status_ok:
                 applicability = "candidate"
             elif not relevant_date and locality and status_ok:
@@ -75,7 +101,8 @@ class KnowledgeRepository:
             hits.append({
                 "source_id": item["id"], "provision_id": item["provision_id"],
                 "title": item["title"], "location": item["location"],
-                "effective_from": item["effective_from"], "effective_to": item["effective_to"],
+                "effective_from": applicable_from, "effective_to": applicable_to,
+                "legal_status": item["legal_status"], "document_type": item["document_type"],
                 "jurisdiction": item["jurisdiction"], "locality": item["locality"],
                 "summary": item["text"], "authority": item["authority"],
                 "official_url": item["official_url"], "content_hash": item["content_hash"],

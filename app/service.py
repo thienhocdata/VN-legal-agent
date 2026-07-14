@@ -387,7 +387,7 @@ class LegalCaseService:
                 "url": item.get("official_url"),
                 "version": item.get("snapshot"),
             }
-            for item in sources
+            for item in sources[:8]
             if item.get("applicability") == "candidate"
             and item.get("governance_status") == "full_text_verified"
         ]
@@ -401,9 +401,13 @@ class LegalCaseService:
                     "provider": result.provider,
                     "model": result.model,
                     "source_ids": [item["source_id"] for item in sources[:8]],
+                    "decision_audit": result.decision_audit,
+                    "response_status": result.response_status,
                 },
             )
-        return self._chat_reply(case_id, result.answer, citations, result.suggestions, "conversation")
+        return self._chat_reply(
+            case_id, result.answer, citations, result.suggestions, result.response_status
+        )
 
     def _extract_chat_context(self, case_id: str, message: str, actor_id: str, role: Role, source_id: str):
         lower = message.lower()
