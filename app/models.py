@@ -79,6 +79,19 @@ class ReviewRequest(BaseModel):
     rationale: str = Field(min_length=3, max_length=4000)
 
 
+class ChatRequest(BaseModel):
+    message: str = Field(min_length=1, max_length=10000)
+    case_id: str | None = None
+
+
+class ChatResponse(BaseModel):
+    case_id: str
+    status: str
+    answer: str
+    citations: list[dict[str, Any]] = Field(default_factory=list)
+    suggestions: list[str] = Field(default_factory=list)
+
+
 class Artifact(BaseModel):
     id: str
     type: str
@@ -100,4 +113,3 @@ class CaseView(BaseModel):
     updated_at: str
     facts: list[dict[str, Any]] = []
     artifacts: list[Artifact] = []
-

@@ -47,11 +47,17 @@ CREATE TABLE IF NOT EXISTS legal_provisions (
   id TEXT PRIMARY KEY, document_id TEXT NOT NULL REFERENCES legal_documents(id),
   location TEXT NOT NULL, text TEXT NOT NULL, keywords TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS messages (
+  id TEXT PRIMARY KEY, case_id TEXT NOT NULL REFERENCES cases(id),
+  role TEXT NOT NULL, content TEXT NOT NULL, citations TEXT NOT NULL DEFAULT '[]',
+  actor_id TEXT NOT NULL, created_at TEXT NOT NULL
+);
 CREATE INDEX IF NOT EXISTS idx_facts_case ON facts(case_id);
 CREATE INDEX IF NOT EXISTS idx_artifacts_case ON artifacts(case_id);
 CREATE INDEX IF NOT EXISTS idx_audit_case ON audit_events(case_id);
 CREATE INDEX IF NOT EXISTS idx_api_key_hash ON api_keys(key_hash);
 CREATE INDEX IF NOT EXISTS idx_provisions_document ON legal_provisions(document_id);
+CREATE INDEX IF NOT EXISTS idx_messages_case ON messages(case_id,created_at);
 """
 
 

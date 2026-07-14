@@ -102,3 +102,25 @@ def test_fact_change_marks_artifacts_stale(client, case):
     })
     assert response.status_code == 200
     assert all(a["stale"] for a in response.json()["artifacts"])
+
+
+def test_chat_first_flow_creates_hidden_case_and_answers(client):
+    response = client.post("/api/v1/chat", json={
+        "message": "Tôi muốn sang tên đất tại TPHCM ngày 14/07/2026, đã có sổ đỏ và không có tranh chấp."
+    })
+    assert response.status_code == 200
+    data = response.json()
+    assert data["case_id"].startswith("case_")
+    assert data["status"] == "review_required"
+    assert "Nhận định ban đầu" in data["answer"]
+    assert data["citations"]
+    messages = client.get(f"/api/v1/cases/{data['case_id']}/messages")
+    assert [m["role"] for m in messages.json()] == ["user", "assistant"]
+
+
+def test_chat_asks_one_material_question_at_a_time(client):
+    first = client.post("/api/v1/chat", json={"message": "Tôi muốn bán một thửa đất."}).json()
+    assert first["status"] == "intake_in_progress"
+    assert "tỉnh hoặc thành phố" in first["answer"]
+    second = client.post("/api/v1/chat", json={"case_id": first["case_id"], "message": "TP.HCM"}).json()
+    assert "diễn ra vào ngày nào" in second["answer"]

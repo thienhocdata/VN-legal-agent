@@ -13,7 +13,7 @@ python -m pip install -e ".[dev]"
 python -m uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000` for the operational console or `http://127.0.0.1:8000/docs` for the API explorer.
+Open `http://127.0.0.1:8000` for the conversational Legal Agent or `http://127.0.0.1:8000/docs` for the API explorer.
 
 Run the tests with:
 
@@ -45,7 +45,7 @@ docker compose exec legal-agent python scripts/bootstrap_source_packs.py
 
 Pilot mode intentionally refuses the embedded demo corpus. A reviewed source pack must be imported before research can return a governed candidate provision. See the [Controlled Pilot Runbook](docs/operations/pilot-runbook.md).
 
-The demo can create a case, record Vietnamese intake, preserve fact provenance, identify missing information and issues, resolve research context, run controlled demo research, build an evidence map, produce bounded analysis and an action plan, and require professional review. Its embedded legal metadata is insufficient for real legal reliance.
+The product is chat-first: the user describes a situation naturally, while the Agent creates and maintains the Legal Case invisibly, asks one material clarification at a time, resolves research context, researches governed sources, and returns a readable answer with expandable citations. Provenance, evidence maps, audit records, and professional review remain enforced behind the conversation.
 
 ## Vision
 
@@ -208,7 +208,7 @@ Progress is not measured by the number of modules implemented. A capability is c
 
 ## Repository status
 
-The repository contains the approved product definition, use-case blueprint, acceptance plan, first-release proposals, MVP architecture, runnable API and console, SQLite persistence, and workflow tests. Production source governance, security, provider integration, evaluation thresholds, and deployment remain future approval gates.
+The repository contains the approved product definition, use-case blueprint, acceptance plan, TP.HCM scope, governed source packs, chat-first web application, API, SQLite persistence, authentication, evaluation, deployment packaging, and workflow tests.
 
 ```text
 docs/

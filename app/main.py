@@ -11,7 +11,7 @@ from .config import Settings
 from .coverage import coverage_view
 from .database import Database
 from .knowledge import KnowledgeRepository
-from .models import CaseCreate, ContextRequest, FactConfirm, FactCreate, IntakeRequest, Provenance, ResearchRequest, ReviewRequest, Role
+from .models import CaseCreate, ChatRequest, ChatResponse, ContextRequest, FactConfirm, FactCreate, IntakeRequest, Provenance, ResearchRequest, ReviewRequest, Role
 from .service import LegalCaseService
 
 settings = Settings.load()
@@ -39,6 +39,16 @@ async def coverage(): return coverage_view()
 async def create_case(req: CaseCreate, principal: Principal = Depends(auth.principal)):
     req.tenant_id, req.actor_id, req.actor_role = principal.tenant_id, principal.actor_id, principal.role
     return service.create_case(req)
+
+
+@app.post("/api/v1/chat", response_model=ChatResponse)
+async def chat(req: ChatRequest, principal: Principal = Depends(auth.principal)):
+    return service.chat(req.case_id, req.message, principal.tenant_id, principal.actor_id, principal.role)
+
+
+@app.get("/api/v1/cases/{case_id}/messages")
+async def messages(case_id: str, principal: Principal = Depends(auth.principal)):
+    return service.messages(case_id, principal.tenant_id)
 
 
 @app.get("/api/v1/cases")

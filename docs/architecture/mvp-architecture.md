@@ -6,14 +6,14 @@
 ## Components
 
 ```text
-Browser console
+Chat-first browser client
     -> FastAPI /api/v1
         -> LegalCaseService (workflow and invariants)
             -> SQLite (cases, facts, artifacts, audit events)
             -> Governed demo knowledge adapter
 ```
 
-The service layer, not a prompt, enforces provenance transitions, research prerequisites, artifact invalidation, review gating, and audit creation. The embedded knowledge corpus is intentionally marked as demo-only and must be replaced by a governed official-source pipeline before real legal use.
+The browser exposes one conversational surface. The orchestration endpoint creates the Legal Case invisibly, persists messages, extracts context, asks material questions, and invokes intake, research, evidence, analysis, and review controls. The service layer—not a prompt—enforces provenance transitions, research prerequisites, artifact invalidation, review gating, and audit creation.
 
 ## Implemented use-case coverage
 
@@ -39,4 +39,3 @@ The service layer, not a prompt, enforces provenance transitions, research prere
 - Retention, encryption, secrets, rate limiting, observability export, and deployment hardening remain to be designed.
 
 These limits are exposed in the health endpoint, UI, research gaps, and analysis output. They must not be removed merely to make a demonstration appear complete.
-

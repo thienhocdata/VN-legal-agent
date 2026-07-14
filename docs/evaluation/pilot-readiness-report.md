@@ -15,18 +15,18 @@
 
 ## Automated evidence
 
-The current suite contains 12 passing tests covering the end-to-end workflow, unresolved-context research blocking, provenance transitions, role restrictions, tenant isolation, stale artifacts, authentication, identity spoof prevention, temporal applicability, locality normalization, neighboring-locality leakage prevention, and governed-source fail-closed behavior.
+The current suite contains 14 passing tests covering the end-to-end workflow, unresolved-context research blocking, provenance transitions, role restrictions, tenant isolation, stale artifacts, authentication, identity spoof prevention, temporal applicability, locality normalization, neighboring-locality leakage prevention, governed-source fail-closed behavior, automatic chat-case creation, and one-question-at-a-time clarification.
 
 Command:
 
 ```text
 python -m pytest -q
-............ [100%]
+.............. [100%]
 ```
 
 The governed-source evaluation contains five scenario families and currently passes 5/5: current TP.HCM transfer, amended effective date, financial-obligation condition, neighboring-locality isolation, and pre-effective-date rejection.
 
-A pilot-mode HTTP smoke test also passed with authentication required, demo sources disabled, a tenant-scoped case created, TP.HCM context resolved, and five governed research results returned.
+A pilot-mode HTTP smoke test also passed with authentication required, demo sources disabled, a tenant-scoped case created, TP.HCM context resolved, and five governed research results returned. The chat-first HTTP smoke test passed with the conversation page rendered, a hidden case created, a complete answer returned, and seven citations attached.
 
 ## Legal-source audit finding
 
