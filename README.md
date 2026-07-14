@@ -10,6 +10,8 @@ Minh Long Legal Agent is designed to help users describe a legal situation, buil
 
 The product will operate independently through its own API and user experience, while remaining ready for integration into the Minh Long company website.
 
+The agent owns its legal-case data and processing state. It may reference users, organizations, properties, or business requests from a future real-estate platform, but it does not duplicate ownership of those platform records.
+
 ## Current phase
 
 No production implementation will begin until the following artifacts are reviewed:
@@ -27,4 +29,6 @@ The earlier `ai-legal-assistant` repository is a land-law RAG prototype. It is r
 ## Documentation
 
 - [Product definition](docs/product/product-definition.md)
+- [System boundary](docs/architecture/system-boundary.md)
 - [Architecture decision: new product repository](docs/decisions/0001-new-product-repository.md)
+- [Architecture decision: agent service boundary](docs/decisions/0002-agent-service-boundary.md)
