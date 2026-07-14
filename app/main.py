@@ -11,15 +11,16 @@ from .config import Settings
 from .coverage import coverage_view
 from .database import Database
 from .knowledge import KnowledgeRepository
+from .legal_ai import LegalAI
 from .models import CaseCreate, ChatRequest, ChatResponse, ContextRequest, FactConfirm, FactCreate, IntakeRequest, Provenance, ResearchRequest, ReviewRequest, Role
 from .service import LegalCaseService
 
 settings = Settings.load()
 ROOT = settings.root
 db = Database(settings.database_path)
-service = LegalCaseService(db, KnowledgeRepository(db, settings.allow_demo_sources))
+service = LegalCaseService(db, KnowledgeRepository(db, settings.allow_demo_sources), LegalAI(settings))
 auth = Authenticator(db, settings.auth_required)
-app = FastAPI(title="Minh Long Legal Agent", version="0.1.0", description="Auditable legal decision-support MVP; demo corpus is not legal advice.")
+app = FastAPI(title="Minh Long Legal Agent", version="0.2.0", description="Auditable legal decision-support service with constrained AI conversation.")
 app.mount("/static", StaticFiles(directory=ROOT / "app" / "static"), name="static")
 
 
@@ -28,7 +29,7 @@ async def console(): return FileResponse(ROOT / "app" / "static" / "index.html")
 
 
 @app.get("/health")
-async def health(): return {"status": "ok", "product": "Minh Long Legal Agent", "legal_coverage": "demo_allowed" if settings.allow_demo_sources else "governed_only", "environment": settings.environment, "auth_required": settings.auth_required}
+async def health(): return {"status": "ok", "product": "Minh Long Legal Agent", "legal_coverage": "demo_allowed" if settings.allow_demo_sources else "governed_only", "environment": settings.environment, "auth_required": settings.auth_required, "ai_chat": service.ai_status()}
 
 
 @app.get("/coverage")

@@ -190,6 +190,19 @@ function resize() {
   input.style.height = `${Math.min(input.scrollHeight, 160)}px`;
 }
 
+async function checkAIStatus() {
+  try {
+    const response = await fetch("/health");
+    const health = await response.json();
+    if (health.ai_chat?.mode !== "model") {
+      $("caseStatus").textContent = "AI chưa được kết nối";
+      $("caseStatus").title = "Cần cấu hình OPENAI_API_KEY trên server";
+    }
+  } catch (_) {
+    $("caseStatus").textContent = "Chưa thể kết nối";
+  }
+}
+
 $("composer").addEventListener("submit", (event) => {
   event.preventDefault();
   send($("messageInput").value);
@@ -205,3 +218,4 @@ $("messageInput").addEventListener("keydown", (event) => {
 
 $("newChat").addEventListener("click", newConversation);
 $("messageInput").focus();
+checkAIStatus();

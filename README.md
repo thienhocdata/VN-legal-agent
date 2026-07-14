@@ -15,6 +15,17 @@ python -m uvicorn app.main:app --reload
 
 Open `http://127.0.0.1:8000` for the conversational Legal Agent or `http://127.0.0.1:8000/docs` for the API explorer.
 
+### Enable real AI conversation
+
+The application keeps the auditable case, facts, legal sources, and citations locally, while using the OpenAI Responses API for natural Vietnamese conversation. Without a server-side API key it deliberately stays in the limited rule-based fallback mode.
+
+```powershell
+python scripts/configure_ai.py
+python -m uvicorn app.main:app --reload
+```
+
+The key is read only by the backend and must never be placed in `app/static`. `LEGAL_AGENT_MODEL` is configurable; the default is `gpt-5.4`. Model responses are requested with `store=false`; conversation history remains in the local Legal Agent database.
+
 Run the tests with:
 
 ```powershell

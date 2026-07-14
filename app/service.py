@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from datetime import UTC, datetime
 from uuid import uuid4
@@ -9,6 +10,7 @@ from fastapi import HTTPException
 
 from .database import Database
 from .knowledge import KnowledgeRepository
+from .legal_ai import LegalAI, LegalAIError
 from .coverage import normalize_locality
 from .models import CaseCreate, CaseStatus, ContextRequest, FactConfirm, FactCreate, Provenance, ResearchRequest, ReviewRequest, Role
 
@@ -18,9 +20,16 @@ def now() -> str:
 
 
 class LegalCaseService:
-    def __init__(self, db: Database, knowledge: KnowledgeRepository | None = None):
+    def __init__(self, db: Database, knowledge: KnowledgeRepository | None = None, legal_ai: LegalAI | None = None):
         self.db = db
         self.knowledge = knowledge or KnowledgeRepository(db, True)
+        self.legal_ai = legal_ai
+        self.logger = logging.getLogger(__name__)
+
+    def ai_status(self) -> dict:
+        if not self.legal_ai:
+            return {"mode": "rule_fallback", "configured": False, "model": None, "configuration_error": None}
+        return self.legal_ai.status()
 
     def audit(self, con, case_id: str, event: str, actor: str, payload: dict):
         con.execute("INSERT INTO audit_events(case_id,event_type,actor_id,payload,created_at) VALUES(?,?,?,?,?)", (case_id, event, actor, self.db.json(payload), now()))
@@ -239,6 +248,16 @@ class LegalCaseService:
         with self.db.connect() as con:
             user_message_id = self._message(con, case_id, "user", message, actor_id)
 
+        self._extract_chat_context(case_id, message, actor_id, actor_role, user_message_id)
+
+        if self.legal_ai and self.legal_ai.available:
+            try:
+                return self._ai_chat(case_id, message, tenant_id)
+            except LegalAIError as exc:
+                self.logger.warning("Legal AI generation failed for %s: %s", case_id, exc)
+                with self.db.connect() as con:
+                    self.audit(con, case_id, "ai.generation_failed", "legal-agent", {"error": str(exc)})
+
         general_answer = self._answer_general_question(message)
         if general_answer:
             return self._chat_reply(
@@ -248,7 +267,6 @@ class LegalCaseService:
             )
 
         self.intake(case_id, actor_id, actor_role, message)
-        self._extract_chat_context(case_id, message, actor_id, actor_role, user_message_id)
 
         with self.db.connect() as con:
             current = {key: self._latest(con, case_id, key) for key in ("locality", "relevant_date", "certificate_status", "dispute_status")}
@@ -302,6 +320,45 @@ class LegalCaseService:
             "Bạn có thể gửi thêm loại đất, thông tin trên Giấy chứng nhận và mục tiêu giao dịch để mình phân tích sâu hơn."
         )
         return self._chat_reply(case_id, answer, citations, ["Tôi cần chuẩn bị giấy tờ gì?", "Có rủi ro nào cần kiểm tra?", "Giải thích các điều kiện chuyển nhượng"], "review_required")
+
+    def _ai_chat(self, case_id: str, message: str, tenant_id: str) -> dict:
+        case = self.get_case(case_id, tenant_id)
+        facts: dict[str, object] = {}
+        for fact in case["facts"]:
+            facts[fact["key"]] = fact["value"]
+
+        context = {
+            "locality": facts.get("locality"),
+            "relevant_date": facts.get("relevant_date"),
+        }
+        sources, source_notice = self.knowledge.search(message, context)
+        history = self.messages(case_id, tenant_id)
+        result = self.legal_ai.generate(
+            history=history,
+            facts=facts,
+            sources=sources,
+            source_notice=source_notice,
+        )
+        citations = [
+            {
+                "title": item["title"],
+                "location": item["location"],
+                "source_id": item["source_id"],
+                "url": item.get("official_url"),
+                "version": item.get("snapshot"),
+            }
+            for item in sources
+            if item.get("applicability") == "candidate"
+        ]
+        with self.db.connect() as con:
+            self.audit(
+                con,
+                case_id,
+                "ai.response_generated",
+                "legal-agent",
+                {"model": result.model, "source_ids": [item["source_id"] for item in sources[:8]]},
+            )
+        return self._chat_reply(case_id, result.answer, citations, result.suggestions, "conversation")
 
     def _extract_chat_context(self, case_id: str, message: str, actor_id: str, role: Role, source_id: str):
         lower = message.lower()

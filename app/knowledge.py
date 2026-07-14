@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import json
+import re
+import unicodedata
 from datetime import date
+from difflib import SequenceMatcher
 
 from .database import Database
 
@@ -40,7 +43,7 @@ class KnowledgeRepository:
         self.db, self.allow_demo = db, allow_demo
 
     def search(self, query: str, context: dict) -> tuple[list[dict], str | None]:
-        terms = {term.lower() for term in query.split() if len(term) > 2}
+        terms = {term for term in self._tokens(query) if len(term) > 2}
         with self.db.connect() as con:
             rows = con.execute(
                 """SELECT p.id provision_id,p.location,p.text,p.keywords,
@@ -50,13 +53,24 @@ class KnowledgeRepository:
         relevant_date = context.get("relevant_date")
         for row in rows:
             item = dict(row)
-            haystack = (item["text"] + " " + item["keywords"] + " " + item["title"]).lower()
-            score = sum(1 for t in terms if t in haystack)
+            haystack = self._fold(item["text"] + " " + item["keywords"] + " " + item["title"])
+            haystack_tokens = set(self._tokens(haystack))
+            score = sum(
+                2 if term in haystack else 1
+                for term in terms
+                if term in haystack or self._near_token(term, haystack_tokens)
+            )
             if not score:
                 continue
             temporal = bool(relevant_date and item["effective_from"] <= relevant_date and (not item["effective_to"] or relevant_date <= item["effective_to"]))
             locality = item["locality"] is None or item["locality"] == context.get("locality")
             status_ok = item["legal_status"] == "effective"
+            if temporal and locality and status_ok:
+                applicability = "candidate"
+            elif not relevant_date and locality and status_ok:
+                applicability = "unverified"
+            else:
+                applicability = "not_applicable"
             hits.append({
                 "source_id": item["id"], "provision_id": item["provision_id"],
                 "title": item["title"], "location": item["location"],
@@ -64,7 +78,7 @@ class KnowledgeRepository:
                 "jurisdiction": item["jurisdiction"], "locality": item["locality"],
                 "summary": item["text"], "authority": item["authority"],
                 "official_url": item["official_url"], "content_hash": item["content_hash"],
-                "applicability": "candidate" if temporal and locality and status_ok else "not_applicable",
+                "applicability": applicability,
                 "snapshot": f'{item["id"]}:{item["version"]}:{item["content_hash"][:12]}',
                 "score": score,
             })
@@ -78,6 +92,28 @@ class KnowledgeRepository:
                 applicable = rule["locality"] is None or rule["locality"] == context.get("locality")
                 demo_hits.append({**rule, "applicability": "candidate" if applicable else "not_applicable", "snapshot": rule["source_id"] + ":demo-v1"})
         return demo_hits, "Development demo corpus only; official-source verification required."
+
+    @staticmethod
+    def _fold(value: str) -> str:
+        value = value.lower().replace("đ", "d")
+        return "".join(
+            char for char in unicodedata.normalize("NFD", value)
+            if unicodedata.category(char) != "Mn"
+        )
+
+    @classmethod
+    def _tokens(cls, value: str) -> list[str]:
+        return re.findall(r"[a-z0-9]+", cls._fold(value))
+
+    @staticmethod
+    def _near_token(term: str, candidates: set[str]) -> bool:
+        if len(term) < 4:
+            return False
+        return any(
+            abs(len(term) - len(candidate)) <= 2
+            and SequenceMatcher(None, term, candidate).ratio() >= 0.75
+            for candidate in candidates
+        )
 
     def has_locality(self, locality: str, relevant_date: str | None) -> bool:
         if not relevant_date:

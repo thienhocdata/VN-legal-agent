@@ -2,6 +2,7 @@ def test_health(client):
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["legal_coverage"] == "demo_allowed"
+    assert response.json()["ai_chat"]["mode"] == "rule_fallback"
 
 
 def test_end_to_end_case_workflow(client, case):
@@ -159,3 +160,33 @@ def test_chat_ui_is_single_conversation_and_scrollable(client):
     assert "Giải thích tách thửa" not in html
     assert "Georgia" not in css
     assert ".conversation{min-height:0;overflow-y:auto" in css
+
+
+def test_configured_ai_handles_typo_as_conversation(client):
+    import app.main as main
+    from app.legal_ai import LegalAIResult
+
+    class FakeLegalAI:
+        available = True
+        captured = None
+
+        @staticmethod
+        def status():
+            return {"mode": "model", "configured": True, "model": "test-legal-model", "configuration_error": None}
+
+        def generate(self, **kwargs):
+            self.captured = kwargs
+            return LegalAIResult(
+                answer="Mình hiểu bạn đang hỏi về tách thửa tại TP.HCM.",
+                suggestions=["Cho mình biết diện tích thửa đất"],
+                model="test-legal-model",
+            )
+
+    fake = FakeLegalAI()
+    main.service = main.LegalCaseService(main.db, legal_ai=fake)
+    response = client.post("/api/v1/chat", json={"message": "tahc thua o tphcm co dc ko?"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "conversation"
+    assert "tách thửa" in data["answer"]
+    assert fake.captured["history"][-1]["content"] == "tahc thua o tphcm co dc ko?"
