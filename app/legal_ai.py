@@ -91,6 +91,8 @@ class LegalAI:
     FAILOVER_CODES = {
         "rate_limit_exceeded",
         "insufficient_quota",
+        "invalid_api_key",
+        "invalid_model",
         "timeout",
         "network",
         "temporary_unavailable",

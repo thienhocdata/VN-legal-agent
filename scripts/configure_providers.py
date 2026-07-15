@@ -12,10 +12,19 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def optional_secret(label: str) -> str | None:
-    value = getpass(f"{label} (Enter để bỏ qua, không hiển thị khi nhập): ").strip()
-    if value and len(value) < 20:
-        raise SystemExit(f"{label} có vẻ chưa đầy đủ; chưa thay đổi cấu hình.")
-    return value or None
+    while True:
+        value = getpass(
+            f"{label} (dán key rồi nhấn Enter; để trống để bỏ qua): "
+        ).strip()
+        if not value:
+            return None
+        if len(value) < 20:
+            print(
+                f"Chỉ nhận được {len(value)} ký tự. Key có vẻ chưa đầy đủ; "
+                "hãy dán lại hoặc nhấn Enter để bỏ qua."
+            )
+            continue
+        return value
 
 
 def main() -> None:

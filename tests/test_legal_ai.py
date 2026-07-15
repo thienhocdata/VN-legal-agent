@@ -192,6 +192,8 @@ def chat_client(outcome):
 
 @pytest.mark.parametrize("first_error", [
     type("QuotaError", (Exception,), {"status_code": 429})(),
+    type("AuthenticationError", (Exception,), {"status_code": 401})(),
+    type("MissingModelError", (Exception,), {"status_code": 404})(),
     TimeoutError("private timeout detail"),
 ])
 def test_infrastructure_failure_moves_to_next_provider(first_error):
