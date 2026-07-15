@@ -270,7 +270,10 @@ def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
         ))
 
     full_text_path = base / "full-text.txt"
-    full_text_path.write_text(full_text, encoding="utf-8")
+    # This file is hash-governed. Writing bytes avoids Windows newline
+    # translation (LF -> CRLF), so the digest remains identical after Git
+    # checkout on Linux, macOS and Windows.
+    full_text_path.write_bytes(full_text.encode("utf-8"))
     combined_artifact_hash = hashlib.sha256(
         "".join(artifact["sha256"] for artifact in artifacts).encode("ascii")
     ).hexdigest()

@@ -170,6 +170,11 @@ def test_real_verified_corpus_hashes_and_atomic_staging_pass(tmp_path: Path):
     expected_provisions = sum(len(pack["provisions"]) for _, pack in packs)
     assert expected_documents > 0
     assert expected_provisions > 0
+    for pack_path, pack in packs:
+        full_text = pack_path.parent / pack["document"]["full_text_file"]
+        payload = full_text.read_bytes()
+        assert b"\r" not in payload
+        assert _hash(full_text) == pack["document"]["full_text_hash"]
 
     report = activate_corpus(
         corpus_root=corpus_root,
