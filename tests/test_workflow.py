@@ -200,6 +200,25 @@ def test_context_extraction_accepts_missing_accents_and_punctuation(client):
     assert latest["certificate_status"] is True
 
 
+def test_chua_co_tranh_chap_is_recorded_as_reported_absent(client):
+    for message in ("Chưa có tranh chấp gì cả.", "chua co tranh chap gi ca"):
+        response = client.post("/api/v1/chat", json={"message": message}).json()
+        case_data = client.get(f"/api/v1/cases/{response['case_id']}").json()
+        latest = {fact["key"]: fact["value"] for fact in case_data["facts"]}
+        assert latest["dispute_status"] is False
+        assert latest["dispute_report_status"] == "reported_absent"
+
+
+def test_intake_does_not_flag_chua_co_tranh_chap_as_positive(client, case):
+    result = client.post(f"/api/v1/cases/{case['id']}/intake", json={
+        "text": "Thửa đất chưa có tranh chấp gì cả.",
+        "actor_id": "user-1", "actor_role": "case_participant",
+    })
+    assert result.status_code == 200
+    keys = {fact["key"] for fact in result.json()["facts"]}
+    assert "dispute_mentioned" not in keys
+
+
 def test_status_question_is_not_recorded_as_a_confirmed_case_fact(client):
     response = client.post("/api/v1/chat", json={
         "message": "Dat co tranh chap khong? Co dang the chap ko?"

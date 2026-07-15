@@ -99,7 +99,9 @@ class LegalCaseService:
             "transfer_mentioned": r"chuyển nhượng|mua bán|sang tên",
         }.items():
             if re.search(pattern, text, re.I): candidates[label] = True
-        if re.search(r"tranh chấp|khởi kiện|khiếu nại", text, re.I) and not re.search(r"không (có )?(tranh chấp|khởi kiện|khiếu nại)", text, re.I):
+        if re.search(r"tranh chấp|khởi kiện|khiếu nại", text, re.I) and not re.search(
+            r"(?:không|chưa)\s+(?:có\s+)?(?:tranh chấp|khởi kiện|khiếu nại)", text, re.I
+        ):
             candidates["dispute_mentioned"] = True
         with self.db.connect() as con:
             self._case(con, case_id)
@@ -429,7 +431,7 @@ class LegalCaseService:
         ):
             facts["certificate_status"] = True
         dispute_negative = bool(re.search(
-            r"\b(?:khong|ko|k)\W*(?:co\W*)?(?:tranh chap|khieu nai|khoi kien)", folded
+            r"\b(?:khong|ko|k|chua)\W*(?:co\W*)?(?:tranh chap|khieu nai|khoi kien)", folded
         ))
         dispute_question = not dispute_negative and bool(re.search(
             r"\bco\W+(?:tranh chap|khieu nai|khoi kien)\W+(?:khong|ko|k)\b",
