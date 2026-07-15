@@ -1,8 +1,8 @@
 {
   "report_version": 1,
-  "checked_at": "2026-07-15T06:38:42.083147+00:00",
-  "document_id": "decree-123-2024-nd-cp",
-  "document_number": "123/2024/NĐ-CP",
+  "checked_at": "2026-07-15T06:38:42.008945+00:00",
+  "document_id": "civil-enforcement-consolidated-115-2025-vbhn-vpqh",
+  "document_number": "115/VBHN-VPQH",
   "completeness_status": "full_text_verified",
   "checks": {
     "pack_validation_passed": true,
@@ -12,11 +12,11 @@
   },
   "errors": [],
   "metrics": {
-    "expected_articles": 36,
-    "parsed_articles": 36,
-    "total_provisions": 444,
-    "clauses": 129,
-    "points": 279,
+    "expected_articles": 183,
+    "parsed_articles": 183,
+    "total_provisions": 991,
+    "clauses": 491,
+    "points": 317,
     "candidate_duplicate_nested_locations": 0
   },
   "findings": {

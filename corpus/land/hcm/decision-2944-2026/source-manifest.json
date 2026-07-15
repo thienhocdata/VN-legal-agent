@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "hcm-decision-2944-2026",
+    "title": "Công bố danh mục thủ tục hành chính mới ban hành lĩnh vực Tài chính đất đai thuộc phạm vi chức năng quản lý của Sở Tài chính",
+    "number": "2944/QĐ-UBND",
+    "authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh",
+    "issued_date": "2026-05-19",
+    "effective_from": "2026-05-19",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": "TP. Hồ Chí Minh",
+    "version": "original-current",
+    "document_type": "local_procedure_decision",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 3,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T06:42:15.809034+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+    "verification_level": "machine_assisted_official_source_review"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/2944-2026-qd-ubnd.pdf",
+      "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+      "page_count": 3
+    }
+  ],
+  "relationships": []
+}

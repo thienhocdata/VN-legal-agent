@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "civil-enforcement-consolidated-115-2025-vbhn-vpqh",
+    "title": "Văn bản hợp nhất Luật Thi hành án dân sự",
+    "number": "115/VBHN-VPQH",
+    "authority": "Văn phòng Quốc hội",
+    "issued_date": "2025-08-27",
+    "effective_from": "2026-01-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "consolidated-as-of-2025-08-27",
+    "document_type": "consolidated_law",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 183,
+    "article_selection": "first_complete_sequence",
+    "pdf_text_extraction_mode": "layout",
+    "extraction_method": "pypdf-layout-structured-v2",
+    "verified_at": "2026-07-15T06:38:41.930289+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-115-vbhn-vpqh-46054/58684.htm",
+    "verification_level": "machine_assisted_official_source_review"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/115-2025-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58684-1-20251295-1296115-vbhn-vpqh.pdf",
+      "page_count": 11
+    },
+    {
+      "path": "artifacts/115-2025-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58687-1-20251297-1298115-vbhn-vpqh.pdf",
+      "page_count": 95
+    }
+  ],
+  "relationships": []
+}

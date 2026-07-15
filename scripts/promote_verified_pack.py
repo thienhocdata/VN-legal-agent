@@ -121,16 +121,11 @@ def promote(directory: Path, *, reviewer: str, applicability_date: str) -> dict:
             "It is a machine-assisted corpus review, not an opinion on a specific legal matter."
         ),
     }
-    _write(directory / "activation-review.json", review)
-
     for governed_document in (pack["document"], manifest["document"]):
         governed_document["completeness_status"] = "full_text_verified"
         governed_document["verified_at"] = reviewed_at
         governed_document["verified_by"] = reviewer
         governed_document["verification_level"] = review["review_level"]
-
-    _write(directory / "source-pack.json", pack)
-    _write(directory / "source-manifest.json", manifest)
 
     catalog_path = ROOT / "corpus" / "land" / "manifest-catalog.json"
     catalog = _load(catalog_path)
@@ -139,13 +134,20 @@ def promote(directory: Path, *, reviewer: str, applicability_date: str) -> dict:
         None,
     )
     if catalog_match is None:
-        raise ValueError(f"Document is absent from manifest catalog: {document_id}")
+        catalog_match = manifest
+        catalog["documents"].append(catalog_match)
     catalog_match["document"].update({
         "completeness_status": "full_text_verified",
         "verified_at": reviewed_at,
         "verified_by": reviewer,
         "verification_level": review["review_level"],
     })
+
+    # All preflight and catalog checks are complete before governed files are
+    # mutated, avoiding a half-promoted pack when a catalog entry is new.
+    _write(directory / "activation-review.json", review)
+    _write(directory / "source-pack.json", pack)
+    _write(directory / "source-manifest.json", manifest)
     _write(catalog_path, catalog)
 
     report = build_report(directory / "source-pack.json")

@@ -34,6 +34,7 @@ def main() -> None:
     env_path = ROOT / ".env"
     update_env(env_path, {
         "LEGAL_AGENT_PROVIDER": "openai",
+        "LEGAL_AGENT_PROVIDER_ORDER": "openai,groq,gemini,cloudflare",
         "OPENAI_API_KEY": api_key,
         "LEGAL_AGENT_MODEL": model,
         "LEGAL_AGENT_AI_REASONING_EFFORT": "low",
@@ -41,7 +42,7 @@ def main() -> None:
         "LEGAL_AGENT_AI_TIMEOUT": "60",
         "LEGAL_AGENT_ENV": "development",
         "LEGAL_AGENT_AUTH_REQUIRED": "false",
-        "LEGAL_AGENT_ALLOW_DEMO_SOURCES": "true",
+        "LEGAL_AGENT_ALLOW_DEMO_SOURCES": "false",
     })
     print(f"Đã lưu cấu hình tại {env_path}")
     print("Hãy khởi động lại server để bật AI conversation.")

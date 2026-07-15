@@ -39,12 +39,78 @@ DEMO_RULES = [
 
 
 class KnowledgeRepository:
+    ISSUE_RULES = (
+        ("contract_validity", r"vo hieu|hieu luc hop dong|hop dong.*(?:duoc|khong)|giay tay|dat coc", "giao dịch dân sự điều kiện có hiệu lực hợp đồng đặt cọc vô hiệu"),
+        ("transfer_conditions", r"chuyen nhuong|mua ban|ban dat|nhan chuyen nhuong", "điều kiện thực hiện quyền chuyển nhượng quyền sử dụng đất"),
+        ("registration", r"sang ten|dang ky bien dong|nop ho so|thu tuc", "đăng ký biến động hồ sơ trình tự cơ quan tiếp nhận"),
+        ("mortgage", r"the chap|giai chap|ngan hang|bien phap bao dam", "thế chấp quyền sử dụng đất định đoạt tài sản bảo đảm"),
+        ("certificate", r"giay chung nhan|so do|so hong|cap doi|cap lai|dinh chinh", "đăng ký đất đai cấp giấy chứng nhận quyền sử dụng đất"),
+        ("parcel", r"tach thua|hop thua|loi di|ranh gioi|moc gioi", "tách thửa hợp thửa diện tích tối thiểu lối đi ranh giới"),
+        ("dispute", r"tranh chap|khoi kien|khieu nai|hoa giai", "tranh chấp đất đai hòa giải thẩm quyền giải quyết"),
+        ("inheritance", r"thua ke|di chuc|di san", "thừa kế quyền sử dụng đất di chúc di sản"),
+        ("planning", r"quy hoach|ke hoach su dung dat|lo gioi|chi gioi", "quy hoạch kế hoạch sử dụng đất xây dựng lộ giới"),
+        ("land_use", r"chuyen muc dich|muc dich su dung|dat o|dat nong nghiep", "chuyển mục đích sử dụng đất điều kiện nghĩa vụ"),
+        ("state_recovery", r"thu hoi|boi thuong|tai dinh cu|kiem dem", "nhà nước thu hồi đất bồi thường hỗ trợ tái định cư"),
+        ("finance", r"thue|le phi|tien su dung dat|tien thue dat|bao nhieu tien", "nghĩa vụ tài chính thuế lệ phí tiền sử dụng đất"),
+    )
+
     def __init__(self, db: Database, allow_demo: bool):
         self.db, self.allow_demo = db, allow_demo
         self._search_index: list[tuple[dict, set[str], str]] | None = None
         self._token_index: dict[str, list[int]] | None = None
+        self._loaded_revision: int | None = None
+
+    def invalidate(self) -> None:
+        """Drop in-memory retrieval state after a corpus activation."""
+
+        self._search_index = None
+        self._token_index = None
+        self._loaded_revision = None
+
+    def runtime_status(self) -> dict:
+        with self.db.connect() as con:
+            state = con.execute(
+                """SELECT revision,activated_at,activation_status,report_json
+                FROM corpus_runtime_state WHERE singleton=1"""
+            ).fetchone()
+            documents = con.execute(
+                """SELECT count(*) FROM legal_documents
+                WHERE completeness_status='full_text_verified'
+                AND runtime_activation_status='active'
+                AND legal_review_status!='stale'"""
+            ).fetchone()[0]
+            provisions = con.execute(
+                """SELECT count(*) FROM legal_provisions p
+                JOIN legal_documents d ON d.id=p.document_id
+                WHERE d.completeness_status='full_text_verified'
+                AND d.runtime_activation_status='active'
+                AND d.legal_review_status!='stale'"""
+            ).fetchone()[0]
+        report = {}
+        if state and state["report_json"]:
+            try:
+                report = json.loads(state["report_json"])
+            except json.JSONDecodeError:
+                report = {"report_error": "invalid_json"}
+        return {
+            "activation_status": state["activation_status"] if state else "not_activated",
+            "revision": int(state["revision"]) if state else 0,
+            "activated_at": state["activated_at"] if state else None,
+            "verified_documents": int(documents),
+            "verified_provisions": int(provisions),
+            "demo_fallback_enabled": self.allow_demo,
+            "last_activation": report,
+        }
+
+    def _refresh_if_needed(self) -> None:
+        revision = self.db.corpus_revision()
+        if self._loaded_revision != revision:
+            self._search_index = None
+            self._token_index = None
+            self._loaded_revision = revision
 
     def search(self, query: str, context: dict) -> tuple[list[dict], str | None]:
+        self._refresh_if_needed()
         ordered_terms = [term for term in self._tokens(query) if len(term) > 2]
         terms = set(ordered_terms)
         folded_query = self._fold(query)
@@ -55,15 +121,6 @@ class KnowledgeRepository:
                 for phrase in ("so sanh", "luat cu", "quy dinh cu", "truoc day", "lich su")
             )
         )
-        transfer_condition_intent = "chuyen nhuong" in folded_query and "du an" not in folded_query
-        notarization_intent = "cong chung" in folded_query
-        registration_intent = any(
-            phrase in folded_query for phrase in ("dang ky bien dong", "sang ten", "noi nop ho so")
-        )
-        mortgage_intent = any(
-            phrase in folded_query
-            for phrase in ("the chap", "ngan hang", "giai chap", "tai san bao dam")
-        )
         query_ngrams = {
             " ".join(ordered_terms[index:index + size]): size
             for size in (2, 3)
@@ -73,20 +130,41 @@ class KnowledgeRepository:
             with self.db.connect() as con:
                 rows = con.execute(
                     """SELECT p.id provision_id,p.location,p.text,p.keywords,p.heading,
+                    p.parent_id,p.level,
+                    parent.id parent_provision_id,parent.location parent_location,
+                    parent.heading parent_heading,parent.level parent_level,
+                    grandparent.id grandparent_provision_id,
+                    grandparent.location grandparent_location,
+                    grandparent.heading grandparent_heading,
                     COALESCE(p.effective_from,d.effective_from) applicable_from,
                     COALESCE(p.effective_to,d.effective_to) applicable_to,
                     p.effective_from provision_effective_from,
                     p.effective_to provision_effective_to,
                     p.legal_status provision_legal_status,
-                    d.* FROM legal_provisions p JOIN legal_documents d ON d.id=p.document_id
+                    d.id,d.title,d.number,d.authority,d.official_url,d.content_hash,
+                    d.effective_from,d.effective_to,d.legal_status,d.jurisdiction,d.locality,
+                    d.version,d.document_type,d.completeness_status,
+                    d.artifact_integrity_status,d.extraction_quality_status,
+                    d.legal_review_status,d.lifecycle_status,d.runtime_activation_status,
+                    d.review_fingerprint
+                    FROM legal_provisions p JOIN legal_documents d ON d.id=p.document_id
+                    LEFT JOIN legal_provisions parent ON parent.id=p.parent_id
+                    LEFT JOIN legal_provisions grandparent ON grandparent.id=parent.parent_id
                     WHERE d.completeness_status='full_text_verified'
-                    AND (p.level='article' OR p.level='provision' OR p.level IS NULL)"""
+                    AND d.runtime_activation_status='active'
+                    AND d.legal_review_status!='stale'
+                    AND (p.level IN ('article','clause','point','provision') OR p.level IS NULL)"""
                 ).fetchall()
             self._search_index = []
             self._token_index = {}
             for row in rows:
                 item = dict(row)
-                haystack = self._fold(item["text"] + " " + item["keywords"] + " " + item["title"])
+                haystack = self._fold(
+                    item["text"] + " " + item["keywords"] + " " + item["title"] + " "
+                    + str(item.get("heading") or "") + " "
+                    + str(item.get("parent_heading") or "") + " "
+                    + str(item.get("grandparent_heading") or "")
+                )
                 haystack_token_list = self._tokens(haystack)
                 haystack_tokens = set(haystack_token_list)
                 item_index = len(self._search_index)
@@ -107,42 +185,9 @@ class KnowledgeRepository:
             )
             heading_tokens = set(self._tokens(str(item.get("heading") or "")))
             score = 2 * len(exact_terms) + phrase_score + 3 * len(terms & heading_tokens)
+            score += {"point": 7, "clause": 5, "article": 2}.get(item.get("level"), 0)
             if item.get("locality") and item["locality"] == context.get("locality"):
                 score += 12
-            if transfer_condition_intent:
-                provision_id = str(item.get("provision_id") or "")
-                if provision_id == "land-law-consolidated-44-2026-vbhn-vpqh-art-45":
-                    score += 24
-                elif provision_id in {
-                    "law-45-2013-qh13-art-188",
-                    "land-law-consolidated-21-2018-vbhn-vpqh-art-188",
-                }:
-                    score += 24
-            if notarization_intent:
-                provision_id = str(item.get("provision_id") or "")
-                notarization_boosts = {
-                    "land-law-consolidated-44-2026-vbhn-vpqh-art-27": 48,
-                    "real-estate-business-consolidated-06-2025-vbhn-vpqh-art-44": 32,
-                    "notarization-consolidated-50-2026-vbhn-vpqh-art-42": 38,
-                    "notarization-consolidated-50-2026-vbhn-vpqh-art-6": 28,
-                }
-                score += notarization_boosts.get(provision_id, 0)
-            if registration_intent:
-                provision_id = str(item.get("provision_id") or "")
-                registration_boosts = {
-                    "decree-101-2024-nd-cp-art-30": 32,
-                    "decree-101-2024-nd-cp-art-37": 32,
-                    "hcm-decision-44-2026-art-4": 28,
-                }
-                score += registration_boosts.get(provision_id, 0)
-            if mortgage_intent:
-                provision_id = str(item.get("provision_id") or "")
-                mortgage_boosts = {
-                    "civil-code-91-2015-qh13-art-320": 48,
-                    "civil-code-91-2015-qh13-art-321": 56,
-                    "civil-code-91-2015-qh13-art-327": 30,
-                }
-                score += mortgage_boosts.get(provision_id, 0)
             if score:
                 ranked_rows.append((item, score))
 
@@ -155,6 +200,9 @@ class KnowledgeRepository:
                 if score:
                     ranked_rows.append((item, score))
 
+        # Generic words can match thousands of clauses. Only the best-scored
+        # candidates need expensive temporal/governance enrichment.
+        ranked_rows = sorted(ranked_rows, key=lambda row: row[1], reverse=True)[:240]
         hits = []
         relevant_date = context.get("relevant_date")
         for item, score in ranked_rows:
@@ -198,16 +246,30 @@ class KnowledgeRepository:
                 "title": item["title"], "location": item["location"],
                 "effective_from": applicable_from, "effective_to": applicable_to,
                 "legal_status": item["legal_status"], "document_type": item["document_type"],
+                "version": item["version"],
                 "jurisdiction": item["jurisdiction"], "locality": item["locality"],
                 # This is verbatim extracted provision text, not an AI summary.
                 # Keep `summary` temporarily for API compatibility while all
                 # decision prompts explicitly prefer `provision_text`.
                 "provision_text": item["text"], "summary": item["text"],
+                "provision_level": item.get("level") or "provision",
+                "parent_context": self._parent_context(item),
+                "parent_provision_id": item.get("parent_provision_id"),
+                "grandparent_provision_id": item.get("grandparent_provision_id"),
+                "article_id": self._article_id(item),
                 "authority": item["authority"],
                 "official_url": item["official_url"], "content_hash": item["content_hash"],
                 "applicability": applicability,
                 "evidence_role": "historical_reference" if historical_reference else "applicable_rule",
                 "governance_status": "full_text_verified",
+                "governance": {
+                    "artifact_integrity": item.get("artifact_integrity_status"),
+                    "extraction_quality": item.get("extraction_quality_status"),
+                    "legal_review": item.get("legal_review_status"),
+                    "lifecycle": item.get("lifecycle_status"),
+                    "runtime_activation": item.get("runtime_activation_status"),
+                    "review_fingerprint": item.get("review_fingerprint"),
+                },
                 "snapshot": f'{item["id"]}:{item["version"]}:{item["content_hash"][:12]}',
                 "score": score,
             })
@@ -218,13 +280,40 @@ class KnowledgeRepository:
                 key=lambda x: (applicability_rank.get(x["applicability"], 0), x["score"]),
                 reverse=True,
             )
+            if historical_intent:
+                current_rules = [
+                    item for item in ordered
+                    if item["applicability"] == "candidate"
+                    and item.get("evidence_role") != "historical_reference"
+                ]
+                historical_rules = [
+                    item for item in ordered
+                    if item["applicability"] == "candidate"
+                    and item.get("evidence_role") == "historical_reference"
+                ]
+                historical_rules.sort(
+                    key=lambda item: (
+                        str(item.get("version") or "").startswith("consolidated"),
+                        item.get("score", 0),
+                    ),
+                    reverse=True,
+                )
+                balanced = []
+                for index in range(max(len(current_rules), len(historical_rules))):
+                    if index < len(historical_rules):
+                        balanced.append(historical_rules[index])
+                    if index < len(current_rules):
+                        balanced.append(current_rules[index])
+                balanced_ids = {id(item) for item in balanced}
+                ordered = balanced + [item for item in ordered if id(item) not in balanced_ids]
             diversified, deferred = [], []
             per_document: dict[str, int] = {}
             for hit in ordered:
-                count = per_document.get(hit["source_id"], 0)
+                group_key = f'{hit["source_id"]}:{hit.get("article_id") or hit["provision_id"]}'
+                count = per_document.get(group_key, 0)
                 if count < 2:
                     diversified.append(hit)
-                    per_document[hit["source_id"]] = count + 1
+                    per_document[group_key] = count + 1
                 else:
                     deferred.append(hit)
             return diversified + deferred, None
@@ -244,6 +333,99 @@ class KnowledgeRepository:
                     "snapshot": rule["source_id"] + ":demo-v1",
                 })
         return demo_hits, "Chỉ là corpus demo phát triển; phải kiểm chứng lại bằng nguồn chính thức."
+
+    def search_by_issues(self, query: str, context: dict) -> tuple[list[dict], str | None]:
+        """Retrieve a small evidence set for every detected legal issue."""
+
+        folded = self._fold(query)
+        issues = [
+            (name, expansion)
+            for name, pattern, expansion in self.ISSUE_RULES
+            if re.search(pattern, folded)
+        ]
+        if not issues:
+            issues = [("general", query)]
+
+        combined: list[dict] = []
+        notices: list[str] = []
+        by_provision: dict[str, dict] = {}
+        for issue, expansion in issues[:6]:
+            issue_context = dict(context)
+            issue_context["relevant_date"] = self._event_date_for_issue(issue, context)
+            hits, notice = self.search(f"{query} {expansion}", issue_context)
+            if notice:
+                notices.append(notice)
+            selected = [item for item in hits if item.get("applicability") == "candidate"][:4]
+            if not selected:
+                selected = hits[:2]
+            for item in selected:
+                provision_id = str(item.get("provision_id"))
+                existing = by_provision.get(provision_id)
+                if existing:
+                    existing.setdefault("legal_issues", []).append(issue)
+                    continue
+                enriched = dict(item)
+                enriched["legal_issues"] = [issue]
+                enriched["applicable_event_date"] = issue_context.get("relevant_date")
+                by_provision[provision_id] = enriched
+                combined.append(enriched)
+
+        unique_notice = "; ".join(dict.fromkeys(notices)) or None
+        self._hydrate_parent_context(combined)
+        return combined, unique_notice
+
+    @staticmethod
+    def _event_date_for_issue(issue: str, context: dict) -> str | None:
+        timeline = context.get("event_timeline") or []
+        preferred = {
+            "contract_validity": {"deposit_contract", "transfer_contract", "notarization"},
+            "transfer_conditions": {"transfer_contract", "notarization"},
+            "registration": {"registration"},
+            "mortgage": {"mortgage"},
+            "inheritance": {"inheritance"},
+            "dispute": {"dispute"},
+            "state_recovery": {"state_recovery"},
+        }.get(issue, set())
+        matches = [item.get("date") for item in timeline if item.get("type") in preferred]
+        return matches[-1] if matches else context.get("relevant_date")
+
+    @staticmethod
+    def _article_id(item: dict) -> str | None:
+        if item.get("level") == "article":
+            return item.get("provision_id")
+        if item.get("parent_level") == "article":
+            return item.get("parent_provision_id")
+        return item.get("grandparent_provision_id")
+
+    @staticmethod
+    def _parent_context(item: dict) -> str:
+        return ""
+
+    def _hydrate_parent_context(self, hits: list[dict]) -> None:
+        parent_ids = {
+            value
+            for item in hits
+            for value in (
+                item.get("grandparent_provision_id"), item.get("parent_provision_id")
+            )
+            if value
+        }
+        if not parent_ids:
+            return
+        placeholders = ",".join("?" for _ in parent_ids)
+        with self.db.connect() as con:
+            rows = con.execute(
+                f"SELECT id,location,text FROM legal_provisions WHERE id IN ({placeholders})",
+                tuple(parent_ids),
+            ).fetchall()
+        parent_rows = {row["id"]: dict(row) for row in rows}
+        for item in hits:
+            context_rows = []
+            for key in ("grandparent_provision_id", "parent_provision_id"):
+                parent = parent_rows.get(item.get(key))
+                if parent:
+                    context_rows.append(f'{parent["location"]}: {parent["text"]}')
+            item["parent_context"] = "\n".join(context_rows)
 
     @staticmethod
     def _fold(value: str) -> str:
@@ -275,6 +457,8 @@ class KnowledgeRepository:
             row = con.execute(
                 """SELECT 1 FROM legal_documents WHERE locality=? AND legal_status='effective'
                 AND completeness_status='full_text_verified'
+                AND runtime_activation_status='active'
+                AND legal_review_status!='stale'
                 AND effective_from<=? AND (effective_to IS NULL OR effective_to>=?) LIMIT 1""",
                 (locality, relevant_date, relevant_date),
             ).fetchone()

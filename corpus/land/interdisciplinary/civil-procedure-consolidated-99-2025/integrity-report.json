@@ -1,8 +1,8 @@
 {
   "report_version": 1,
-  "checked_at": "2026-07-15T06:38:42.083147+00:00",
-  "document_id": "decree-123-2024-nd-cp",
-  "document_number": "123/2024/NĐ-CP",
+  "checked_at": "2026-07-15T06:38:41.896782+00:00",
+  "document_id": "civil-procedure-consolidated-99-2025-vbhn-vpqh",
+  "document_number": "99/VBHN-VPQH",
   "completeness_status": "full_text_verified",
   "checks": {
     "pack_validation_passed": true,
@@ -12,11 +12,11 @@
   },
   "errors": [],
   "metrics": {
-    "expected_articles": 36,
-    "parsed_articles": 36,
-    "total_provisions": 444,
-    "clauses": 129,
-    "points": 279,
+    "expected_articles": 517,
+    "parsed_articles": 517,
+    "total_provisions": 2533,
+    "clauses": 1335,
+    "points": 681,
     "candidate_duplicate_nested_locations": 0
   },
   "findings": {

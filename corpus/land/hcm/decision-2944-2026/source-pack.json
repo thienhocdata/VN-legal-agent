@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "document": {
+    "id": "hcm-decision-2944-2026",
+    "title": "Công bố danh mục thủ tục hành chính mới ban hành lĩnh vực Tài chính đất đai thuộc phạm vi chức năng quản lý của Sở Tài chính",
+    "number": "2944/QĐ-UBND",
+    "authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh",
+    "issued_date": "2026-05-19",
+    "effective_from": "2026-05-19",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": "TP. Hồ Chí Minh",
+    "version": "original-current",
+    "document_type": "local_procedure_decision",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 3,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T06:42:15.809034+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+    "content_hash": "8e5488593b56485eafabbfb77b420e6a3d51e77d2cb0578c57a8250c25cad673",
+    "source_format": "pdf",
+    "full_text_file": "full-text.txt",
+    "full_text_hash": "ce2e89f567d39d4e131b8f074b3d6788125baa8f0c6bc71d56e21a754c435d6e",
+    "source_artifacts": [
+      {
+        "path": "artifacts/2944-2026-qd-ubnd.pdf",
+        "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+        "sha256": "8b85716ccb9b5b4e3abddc1926dc941e181ebcbba6fd79eb63ad7c83a0e9dc5f",
+        "media_type": "application/pdf",
+        "page_count": 3
+      }
+    ],
+    "verification_level": "machine_assisted_official_source_review"
+  },
+  "provisions": [
+    {
+      "id": "hcm-decision-2944-2026-art-1",
+      "level": "article",
+      "ordinal": 1,
+      "number": "1",
+      "heading": "Công bố kèm theo Quyết định này danh mục 01 thủ tục hành chính mới",
+      "location": "Điều 1",
+      "text": "Điều 1. Công bố kèm theo Quyết định này danh mục 01 thủ tục hành chính mới\nban hành lĩnh vực Tài chính đất đai thuộc phạm vi chức năng quản lý của Sở Tài chính.\nDanh mục thủ tục hành chính được đăng tải trên Cổng Thông tin điện tử của Ủy\nban nhân dân Thành phố tại https://hochiminhcity.gov.vn và Cổng Dịch vụ công quốc\ngia tại https://dichvucong.gov.vn/p/home/dvc-trang-chu.html.",
+      "source_artifact_id": "hcm-decision-2944-2026-artifact-1",
+      "source_page_start": 2,
+      "source_page_end": 2,
+      "effective_from": "2026-05-19",
+      "legal_status": "effective",
+      "keywords": []
+    },
+    {
+      "id": "hcm-decision-2944-2026-art-2",
+      "level": "article",
+      "ordinal": 2,
+      "number": "2",
+      "heading": "Quyết định này có hiệu lực thi hành kể từ ngày ký.",
+      "location": "Điều 2",
+      "text": "Điều 2. Quyết định này có hiệu lực thi hành kể từ ngày ký.",
+      "source_artifact_id": "hcm-decision-2944-2026-artifact-1",
+      "source_page_start": 2,
+      "source_page_end": 2,
+      "effective_from": "2026-05-19",
+      "legal_status": "effective",
+      "keywords": []
+    },
+    {
+      "id": "hcm-decision-2944-2026-art-3",
+      "level": "article",
+      "ordinal": 3,
+      "number": "3",
+      "heading": "Chánh Văn phòng Ủy ban nhân dân Thành phố Hồ Chí Minh, Giám đốc",
+      "location": "Điều 3",
+      "text": "Điều 3. Chánh Văn phòng Ủy ban nhân dân Thành phố Hồ Chí Minh, Giám đốc\nSở Tài chính, Giám đốc Trung tâm Chuyển đổi số Thành phố, Chủ tịch Ủy ban nhân dân\ncấp xã và các tổ chức, cá nhân có liên quan chịu trách nhiệm thi hành Quyết định này./.\nKT. CHỦ TỊCH\nPHÓ CHỦ TỊCH\nNguyễn Mạnh Cường\n\n[[SOURCE hcm-decision-2944-2026-artifact-1 PAGE 3]]\nCÔNG BÁO TP.HCM/Số 199+200/Ngày 01-7-2026 54\nDANH MỤC THỦ TỤC HÀNH CHÍNH MỚI BAN HÀNH\nLĨNH VỰC TÀI CHÍNH ĐẤT ĐAI\nTHUỘC PHẠM VI CHỨC NĂNG QUẢN LÝ CỦA SỞ TÀI CHÍNH\n(Ban hành kèm theo Quyết định số 2944/QĐ-UBND ngày 19 tháng 5 năm 2026\ncủa Chủ tịch Ủy ban nhân dân Thành phố)\nTT\nTên\nthủ tục\nhành\nchính\nThời\ngian\ngiải\nquyết\nĐịa điểm\nthực hiện\nCơ\nquan\nthực\nhiện\nPhí,\nlệ phí\nCăn cứ\npháp lý\nThủ tục\ntính hoặc\ntính lại tiền\nsử dụng\nđất theo\nquy định\ntại các\nđiểm a, b,\nc và d\nkhoản 2\nĐiều 12\nNghị định\nsố 50/2026/\nNĐ-CP\nngày\n31/01/2026\ncủa\nChính phủ\nKhông\nquy\nđịnh\n- Trung tâm\nPhục vụ hành\nchính công\nThành phố:\n+ Khu vực I:\nSố 43\nNguyễn Văn Bá,\nphường Thủ\nĐức, Thành phố\nHồ Chí Minh.\n+ Khu vực II:\nTòa nhà\nTrung tâm hành\nchính, đường Lê\nLợi, phường\nBình Dương,\nThành phố\nHồ Chí Minh.\n+ Khu vực III:\nSố 4 Nguyễn Tất\nThành, phường\nBà Rịa,\nThành phố\nHồ Chí Minh.\n- Trung tâm\nPhục vụ hành\nchính công\ncấp xã.\n- Ủy\nban\nnhân\ndân\ncấp\nxã;\n- Cơ\nquan\nthuế.\nKhông - Điều 12 Nghị định\nsố 50/2026/NĐ-CP\nngày 31/01/2026\ncủa Chính phủ quy\nđịnh chi tiết một số\nđiều của Nghị quyết\nsố 254/2025/QH15\nngày 11 tháng 12\nnăm 2025 của\nQuốc hội quy định\nmột số cơ chế,\nchính sách tháo gỡ\nkhó khăn, vướng\nmắc trong tổ chức\nthi hành Luật Đất\nđai về tiền sử dụng\nđất, tiền thuê đất.\n- Quyết định số\n1037/QĐ-BTC\nngày 28 tháng 4\nnăm 2026 của Bộ\ntrưởng Bộ Tài chính\nvề việc công bố thủ\ntục hành chính mới\nban hành trong lĩnh\nvực tài chính đất\nđai thuộc phạm vi\nchức năng quản lý\ncủa Bộ Tài chính.",
+      "source_artifact_id": "hcm-decision-2944-2026-artifact-1",
+      "source_page_start": 2,
+      "source_page_end": 3,
+      "effective_from": "2026-05-19",
+      "legal_status": "effective",
+      "keywords": []
+    }
+  ],
+  "relationships": []
+}

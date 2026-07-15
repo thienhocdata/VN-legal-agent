@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import logging
 import re
 from datetime import UTC, datetime
@@ -22,20 +23,23 @@ def now() -> str:
 class LegalCaseService:
     def __init__(self, db: Database, knowledge: KnowledgeRepository | None = None, legal_ai: LegalAI | None = None):
         self.db = db
-        self.knowledge = knowledge or KnowledgeRepository(db, True)
+        self.knowledge = knowledge or KnowledgeRepository(db, False)
         self.legal_ai = legal_ai
         self.logger = logging.getLogger(__name__)
 
     def ai_status(self) -> dict:
         if not self.legal_ai:
             return {
-                "mode": "rule_fallback",
+                "mode": "unavailable",
                 "configured": False,
                 "provider": None,
                 "model": None,
                 "configuration_error": None,
             }
         return self.legal_ai.status()
+
+    def corpus_status(self) -> dict:
+        return self.knowledge.runtime_status()
 
     def audit(self, con, case_id: str, event: str, actor: str, payload: dict):
         con.execute("INSERT INTO audit_events(case_id,event_type,actor_id,payload,created_at) VALUES(?,?,?,?,?)", (case_id, event, actor, self.db.json(payload), now()))
@@ -263,123 +267,73 @@ class LegalCaseService:
                 self.logger.warning("Legal AI generation failed for %s: %s", case_id, exc)
                 with self.db.connect() as con:
                     self.audit(con, case_id, "ai.generation_failed", "legal-agent", {"error": str(exc), "code": exc.code})
-                if exc.code == "insufficient_quota":
+                if exc.code in {
+                    "rate_limit_exceeded", "insufficient_quota", "timeout",
+                    "network", "temporary_unavailable", "all_providers_unavailable",
+                }:
                     answer = (
-                        "AI hội thoại đã được kết nối, nhưng tài khoản API hiện không còn hạn mức sử dụng. "
-                        "Chủ hệ thống cần kích hoạt billing hoặc nạp credit trên OpenAI Platform rồi thử lại."
-                    )
-                elif exc.code == "rate_limit_exceeded":
-                    answer = "AI đang nhận quá nhiều yêu cầu trong thời gian ngắn. Bạn vui lòng thử lại sau một chút."
-                elif exc.code == "invalid_api_key":
-                    answer = (
-                        "Khóa API của AI không hợp lệ hoặc chưa được cấp quyền. "
-                        "Chủ hệ thống cần cấu hình lại khóa ở máy chủ rồi khởi động lại ứng dụng."
+                        "Hệ thống đang tạm quá tải nên chưa thể trả lời lúc này. "
+                        "Bạn vui lòng thử lại sau ít phút."
                     )
                 else:
-                    answer = "AI hội thoại đang tạm thời không phản hồi. Hệ thống đã ghi nhận lỗi để kiểm tra; bạn vui lòng thử lại sau."
+                    answer = (
+                        "Trợ lý đang tạm ngưng để kiểm tra hệ thống. "
+                        "Bạn vui lòng thử lại sau hoặc liên hệ người quản trị."
+                    )
                 return self._chat_reply(case_id, answer, [], [], "ai_unavailable")
 
-        general_answer = self._answer_general_question(message)
-        if general_answer:
-            return self._chat_reply(
-                case_id, general_answer, [],
-                ["Điều kiện tách thửa tại TP.HCM", "Tách thửa khác chuyển nhượng thế nào?", "Tôi muốn hỏi vấn đề khác"],
-                "conversation",
-            )
-
-        self.intake(case_id, actor_id, actor_role, message)
-
-        with self.db.connect() as con:
-            current = {key: self._latest(con, case_id, key) for key in ("locality", "relevant_date", "certificate_status", "dispute_status")}
-
-        questions = [
-            ("locality", "Thửa đất nằm tại tỉnh hoặc thành phố nào?"),
-            ("relevant_date", "Giao dịch hoặc sự kiện bạn cần xem xét diễn ra vào ngày nào? Bạn có thể trả lời như 14/07/2026."),
-            ("certificate_status", "Thửa đất đã có Giấy chứng nhận (sổ đỏ/sổ hồng) chưa?"),
-            ("dispute_status", "Hiện thửa đất có tranh chấp, khiếu nại hoặc đang bị xử lý tại cơ quan nào không?"),
-        ]
-        missing = next(((key, question) for key, question in questions if current[key] is None), None)
-        if missing:
-            known = self._known_summary(current)
-            answer = f"Mình đã ghi nhận{known}.\n\nĐể xác định đúng quy định áp dụng, **{missing[1]}**"
-            suggestions = self._suggestions(missing[0])
-            return self._chat_reply(case_id, answer, [], suggestions, "intake_in_progress")
-
-        locality, supported = normalize_locality(str(current["locality"]))
-        context = ContextRequest(relevant_date=str(current["relevant_date"]), locality=locality)
-        self.set_context(case_id, context)
-        research = self.research(case_id, ResearchRequest(query="điều kiện chuyển nhượng giấy chứng nhận tranh chấp nghĩa vụ tài chính đăng ký biến động thời hạn"))
-        results = self._current_artifact(research, "research_session").get("results", [])
-        candidate_results = [
-            item for item in results
-            if item.get("applicability") == "candidate"
-            and item.get("governance_status") == "full_text_verified"
-        ]
-        citations = [{
-            "title": item["title"], "location": item["location"],
-            "source_id": item["source_id"], "url": item.get("official_url"),
-            "version": item.get("snapshot"),
-        } for item in candidate_results]
-        if not candidate_results:
-            answer = (
-                "Mình đã ghi nhận đủ thông tin ban đầu, nhưng corpus toàn văn đã kiểm chứng "
-                "hiện chưa đủ để đưa ra kết luận pháp lý cho giao dịch này.\n\n"
-                "Trong lúc nguồn đang được hoàn thiện, bạn có thể chuẩn bị Giấy chứng nhận, "
-                "thông tin chủ sử dụng, loại đất, thời hạn sử dụng và tài liệu thể hiện tình trạng "
-                "tranh chấp/thế chấp. Mình sẽ không dùng dữ liệu demo hoặc trí nhớ mô hình để thay "
-                "cho căn cứ pháp luật chính thức."
-            )
-            return self._chat_reply(
-                case_id, answer, [],
-                ["Corpus đang thiếu nguồn nào?", "Tôi cần chuẩn bị dữ liệu gì?"],
-                "corpus_gap",
-            )
-
-        self.analyze(case_id)
-
-        if current["dispute_status"] is True:
-            conclusion = "Hồ sơ có dấu hiệu tranh chấp nên chưa phù hợp để kết luận có thể chuyển nhượng. Cần chuyên gia kiểm tra tình trạng và quyết định giải quyết có hiệu lực trước."
-        elif current["certificate_status"] is False:
-            conclusion = "Bạn cho biết thửa đất chưa có Giấy chứng nhận. Điều kiện chuyển nhượng thông thường chưa được chứng minh; cần kiểm tra trường hợp ngoại lệ và khả năng cấp Giấy chứng nhận trước."
-        else:
-            conclusion = "Thông tin ban đầu phù hợp để tiếp tục bước kiểm tra điều kiện và chuẩn bị đăng ký biến động, nhưng chưa đủ để bảo đảm giao dịch sẽ được chấp nhận."
-
-        local_note = (
-            "Tại TP.HCM, thủ tục đăng ký biến động do chuyển nhượng được công bố tại thủ tục số 25; thời hạn công bố thông thường không quá 8 ngày làm việc, chưa tính các khoảng thời gian và nghĩa vụ khác theo hồ sơ cụ thể."
-            if supported else
-            f"Địa phương **{locality}** chưa có source pack riêng. Mình chỉ áp dụng phần luật toàn quốc và không dùng thời hạn, nơi nộp hoặc biểu phí của TP.HCM."
+        return self._chat_reply(
+            case_id,
+            "Trợ lý AI hiện chưa được kết nối. Bạn vui lòng thử lại sau khi hệ thống được cấu hình.",
+            [],
+            [],
+            "ai_unavailable",
         )
-        answer = (
-            f"**Nhận định ban đầu**\n\n{conclusion}\n\n"
-            "**Các điểm cần kiểm tra**\n\n"
-            "- Giấy chứng nhận và đúng chủ thể có quyền chuyển nhượng.\n"
-            "- Tình trạng tranh chấp, kê biên hoặc biện pháp khẩn cấp tạm thời.\n"
-            "- Thời hạn sử dụng đất và nghĩa vụ tài chính còn ghi nợ.\n"
-            "- Điều kiện riêng theo loại đất, người nhận và tài sản gắn liền với đất.\n\n"
-            f"**Bước tiếp theo**\n\n{local_note}\n\n"
-            "Bạn có thể gửi thêm loại đất, thông tin trên Giấy chứng nhận và mục tiêu giao dịch để mình phân tích sâu hơn."
-        )
-        return self._chat_reply(case_id, answer, citations, ["Tôi cần chuẩn bị giấy tờ gì?", "Có rủi ro nào cần kiểm tra?", "Giải thích các điều kiện chuyển nhượng"], "review_required")
 
     def _ai_chat(self, case_id: str, message: str, tenant_id: str) -> dict:
         case = self.get_case(case_id, tenant_id)
         facts: dict[str, object] = {}
+        fact_records_by_key: dict[str, dict[str, object]] = {}
         for fact in case["facts"]:
-            facts[fact["key"]] = fact["value"]
+            # The first utterance is stored as case_purpose for workflow/audit
+            # compatibility. It is not a legal fact and must not bias later
+            # answers (for example, a conversation that started with "alo").
+            if fact["key"] != "case_purpose":
+                facts[fact["key"]] = fact["value"]
+                fact_records_by_key[fact["key"]] = {
+                    "key": fact["key"],
+                    "value": fact["value"],
+                    "provenance": fact["provenance"],
+                    "confirmation_status": (
+                        "confirmed"
+                        if fact["provenance"] in {
+                            Provenance.USER_CONFIRMED,
+                            Provenance.PROFESSIONAL_CONFIRMED,
+                        }
+                        else "unconfirmed"
+                    ),
+                    "source_message_id": fact.get("source_id"),
+                }
 
         context = {
             "locality": facts.get("locality"),
             "relevant_date": facts.get("relevant_date"),
+            "event_timeline": facts.get("event_timeline") or [],
         }
-        sources, source_notice = self.knowledge.search(message, context)
+        sources, source_notice = self.knowledge.search_by_issues(message, context)
         history = self.messages(case_id, tenant_id)
         result = self.legal_ai.generate(
             history=history,
             facts=facts,
+            fact_records=list(fact_records_by_key.values()),
             sources=sources,
             source_notice=source_notice,
             question=message,
         )
+        cited_indexes = {
+            int(value)
+            for value in re.findall(r"\[Nguồn\s+(\d+)\]", result.answer, flags=re.IGNORECASE)
+        }
         citations = [
             {
                 "title": item["title"],
@@ -388,11 +342,28 @@ class LegalCaseService:
                 "url": item.get("official_url"),
                 "version": item.get("snapshot"),
             }
-            for item in sources[:8]
+            for index, item in enumerate(sources, 1)
             if item.get("applicability") == "candidate"
             and item.get("governance_status") == "full_text_verified"
+            and (not result.decision_audit or index in cited_indexes)
         ]
         with self.db.connect() as con:
+            audit_summary: dict[str, object] | None = None
+            if result.internal_audit:
+                try:
+                    payload = json.loads(result.internal_audit)
+                    audit_summary = {
+                        "sha256": hashlib.sha256(
+                            result.internal_audit.encode("utf-8")
+                        ).hexdigest(),
+                        "issues": [
+                            {"issue": item.get("issue"), "status": item.get("status")}
+                            for item in payload.get("issues") or []
+                            if isinstance(item, dict)
+                        ],
+                    }
+                except (ValueError, TypeError):
+                    audit_summary = {"status": "unparseable"}
             self.audit(
                 con,
                 case_id,
@@ -401,9 +372,12 @@ class LegalCaseService:
                 {
                     "provider": result.provider,
                     "model": result.model,
-                    "source_ids": [item["source_id"] for item in sources[:8]],
+                    "generation_mode": result.generation_mode,
+                    "provider_called": result.provider_called,
+                    "provider_model": result.provider_model or result.model,
+                    "source_ids": [item["source_id"] for item in sources],
                     "decision_audit": result.decision_audit,
-                    "internal_audit": result.internal_audit,
+                    "internal_audit_summary": audit_summary,
                     "response_status": result.response_status,
                 },
             )
@@ -413,6 +387,7 @@ class LegalCaseService:
 
     def _extract_chat_context(self, case_id: str, message: str, actor_id: str, role: Role, source_id: str):
         lower = message.lower()
+        folded = self.knowledge._fold(message)
         provenance = Provenance.USER_PROVIDED if role == Role.CASE_PARTICIPANT else Provenance.STAFF_ENTERED
         facts: dict[str, object] = {}
         locality, supported = normalize_locality(message)
@@ -422,33 +397,78 @@ class LegalCaseService:
             locality_match = re.search(r"(?:tại|ở|thuộc)\s+([A-ZÀ-Ỹ][^,.!?]{1,40})", message)
             if locality_match and any(word in lower for word in ("tỉnh", "thành phố", "tp.")):
                 facts["locality"] = locality_match.group(1).strip()
-        date_match = re.search(r"\b(\d{1,2})[/-](\d{1,2})[/-](\d{4})\b", message)
-        iso_match = re.search(r"\b(\d{4})-(\d{2})-(\d{2})\b", message)
-        if date_match:
-            day, month, year = date_match.groups(); facts["relevant_date"] = f"{year}-{int(month):02d}-{int(day):02d}"
-        elif iso_match:
-            facts["relevant_date"] = iso_match.group(0)
+        events = self._extract_legal_events(message, source_id)
+        if events:
+            with self.db.connect() as con:
+                previous_events = self._latest(con, case_id, "event_timeline") or []
+            merged = {
+                (item["type"], item["date"], item.get("source_message_id")): item
+                for item in [*previous_events, *events]
+            }
+            facts["event_timeline"] = sorted(
+                merged.values(), key=lambda item: (item["date"], item["type"])
+            )
+        if len(events) == 1:
+            facts["relevant_date"] = events[0]["date"]
         elif "hôm nay" in lower:
             facts["relevant_date"] = datetime.now(UTC).date().isoformat()
-        elif re.search(r"\b(hiện nay|bây giờ|lúc này|ngay|đang)\b", lower):
+        elif re.search(r"\b(hiện nay|bây giờ|lúc này|ngay bây giờ|đang)\b", lower):
             # Present-tense questions are evaluated at the current date unless
             # the user supplies a different event date later.
             facts["relevant_date"] = datetime.now(UTC).date().isoformat()
-        if re.search(r"chưa (có )?(sổ|giấy chứng nhận)|không (có )?(sổ|giấy chứng nhận)", lower):
+        certificate_question = bool(re.search(
+            r"\bco\W+(?:so do|so hong|giay chung nhan)\W+(?:khong|ko|k)\b",
+            folded,
+        ))
+        if not certificate_question and re.search(
+            r"\b(?:chua|khong|ko|k)\W*(?:co\W*)?(?:so|giay chung nhan)", folded
+        ):
             facts["certificate_status"] = False
-        elif re.search(r"(đã |có |(?:đang )?đứng tên )(sổ đỏ|sổ hồng|giấy chứng nhận)", lower):
+        elif not certificate_question and re.search(
+            r"\b(?:da|co|dang\W+dung\W+ten)\W+(?:so do|so hong|giay chung nhan)", folded
+        ):
             facts["certificate_status"] = True
-        if re.search(r"không (có )?(tranh chấp|khiếu nại|khởi kiện)", lower):
+        dispute_negative = bool(re.search(
+            r"\b(?:khong|ko|k)\W*(?:co\W*)?(?:tranh chap|khieu nai|khoi kien)", folded
+        ))
+        dispute_question = not dispute_negative and bool(re.search(
+            r"\bco\W+(?:tranh chap|khieu nai|khoi kien)\W+(?:khong|ko|k)\b",
+            folded,
+        ))
+        if dispute_negative:
             facts["dispute_status"] = False
-        elif re.search(r"tranh chấp|khiếu nại|khởi kiện", lower):
-            facts["dispute_status"] = True
-        if re.search(r"không (bị )?kê biên", lower):
+            facts["dispute_report_status"] = "reported_absent"
+        elif not dispute_question and re.search(r"tranh chap|khieu nai|khoi kien", folded):
+            if re.search(r"da\W+(?:duoc\W+)?(?:giai quyet|rut don)|da\W+co\W+ban an", folded):
+                facts["dispute_status"] = False
+                facts["dispute_report_status"] = "resolved"
+            else:
+                facts["dispute_status"] = True
+            if re.search(r"ghi nhan\W+chinh thuc", folded):
+                facts["dispute_report_status"] = "officially_recorded"
+            elif re.search(r"thu ly|quyet dinh\W+thu ly", folded):
+                facts["dispute_report_status"] = "accepted"
+            elif re.search(r"co quan .*da\W+(?:tiep nhan|nhan)|da\W+duoc\W+tiep nhan", folded):
+                facts["dispute_report_status"] = "received"
+            elif re.search(r"da\W+(?:nop|gui)\W+(?:don|don kien|don khieu nai)", folded):
+                facts["dispute_report_status"] = "submitted"
+            elif facts.get("dispute_report_status") != "resolved":
+                facts["dispute_report_status"] = "alleged"
+        if re.search(r"\b(?:khong|ko|k)\W*(?:bi\W*)?ke bien", folded):
             facts["enforcement_status"] = False
-        if re.search(r"còn thời hạn sử dụng|còn hạn sử dụng", lower):
+        if re.search(r"con\W+(?:thoi\W+)?han\W+su\W+dung", folded):
             facts["land_term_status"] = True
-        if re.search(r"không (đang )?thế chấp|chưa thế chấp", lower):
+        mortgage_negative = bool(re.search(
+            r"\b(?:khong|ko|k|chua)\W*(?:dang\W+)?the chap", folded
+        ))
+        mortgage_question = not mortgage_negative and bool(re.search(
+            r"\bco\W+(?:dang\W+)?the chap\W+(?:khong|ko|k)\b", folded
+        ))
+        if mortgage_negative:
             facts["mortgage_status"] = False
-        elif re.search(r"(?:vẫn |hiện |vẫn còn )?đang thế chấp|còn thế chấp", lower):
+        elif not mortgage_question and re.search(
+            r"(?:van\W+|hien\W+|van\W+con\W+)?dang\W+the chap|con\W+the chap", folded
+        ):
             facts["mortgage_status"] = True
         if re.search(r"ngân hàng (?:vẫn )?chưa (?:có văn bản )?(?:đồng ý|chấp thuận)", lower):
             facts["mortgagee_consent_status"] = False
@@ -460,58 +480,72 @@ class LegalCaseService:
             self.add_fact(case_id, FactCreate(key=key, value=value, provenance=provenance, actor_id=actor_id, source_id=source_id, method="chat_context_extraction"))
 
     @staticmethod
+    def _extract_legal_events(message: str, source_message_id: str) -> list[dict[str, str]]:
+        """Extract dated legal events without collapsing a case into one date."""
+
+        date_matches: list[tuple[int, int, str]] = []
+        for match in re.finditer(r"\b(\d{1,2})[./-](\d{1,2})[./-](\d{4})\b", message):
+            day, month, year = match.groups()
+            try:
+                parsed = datetime(int(year), int(month), int(day), tzinfo=UTC).date().isoformat()
+            except ValueError:
+                continue
+            date_matches.append((match.start(), match.end(), parsed))
+        for match in re.finditer(r"\b(\d{4})-(\d{2})-(\d{2})\b", message):
+            year, month, day = match.groups()
+            try:
+                parsed = datetime(int(year), int(month), int(day), tzinfo=UTC).date().isoformat()
+            except ValueError:
+                continue
+            date_matches.append((match.start(), match.end(), parsed))
+
+        event_patterns = (
+            ("deposit_contract", r"đặt cọc|hợp đồng cọc|dat coc|hop dong coc"),
+            ("mortgage", r"thế chấp|giải chấp|ngân hàng|the chap|giai chap|ngan hang"),
+            ("notarization", r"công chứng|chứng thực|cong chung|chung thuc"),
+            ("transfer_contract", r"chuyển nhượng|mua bán|hợp đồng bán|chuyen nhuong|mua ban|hop dong ban"),
+            ("registration", r"sang tên|đăng ký biến động|sang ten|dang ky bien dong"),
+            ("inheritance", r"thừa kế|di chúc|thua ke|di chuc"),
+            ("dispute", r"tranh chấp|khởi kiện|khiếu nại|tranh chap|khoi kien|khieu nai"),
+            ("state_recovery", r"thu hồi|bồi thường|tái định cư|thu hoi|boi thuong|tai dinh cu"),
+        )
+        event_mentions = [
+            (match.start(), match.end(), event_type)
+            for event_type, pattern in event_patterns
+            for match in re.finditer(pattern, message.lower())
+        ]
+        events = []
+        for start, end, event_date in sorted(set(date_matches)):
+            event_type = "unspecified_legal_event"
+            if event_mentions:
+                date_center = (start + end) / 2
+                segment_start = max(
+                    message.rfind(marker, 0, start) for marker in (",", ";", ".", "!", "?")
+                ) + 1
+                preceding = [
+                    item for item in event_mentions
+                    if segment_start <= item[0] and item[1] <= start
+                ]
+                mention = max(preceding, key=lambda item: item[1]) if preceding else min(
+                    event_mentions,
+                    key=lambda item: abs(((item[0] + item[1]) / 2) - date_center),
+                )
+                if abs(((mention[0] + mention[1]) / 2) - date_center) <= 120:
+                    event_type = mention[2]
+            events.append({
+                "type": event_type,
+                "date": event_date,
+                "source_message_id": source_message_id,
+                "confirmation_status": "unconfirmed",
+            })
+        return events
+
+    @staticmethod
     def _current_artifact(case: dict, type_: str) -> dict:
         items = [a for a in case["artifacts"] if a["type"] == type_ and not a["stale"]]
         return items[-1]["data"] if items else {}
-
-    @staticmethod
-    def _known_summary(current: dict) -> str:
-        labels = []
-        if current.get("locality"): labels.append(f" địa phương là **{current['locality']}**")
-        if current.get("relevant_date"): labels.append(f" ngày liên quan **{current['relevant_date']}**")
-        return ",".join(labels) if labels else " tình huống ban đầu"
-
-    @staticmethod
-    def _suggestions(key: str) -> list[str]:
-        return {
-            "locality": ["TP.HCM", "Đồng Nai", "Tây Ninh"],
-            "relevant_date": ["Hôm nay", "Tôi chưa biết ngày chính xác"],
-            "certificate_status": ["Đã có sổ", "Chưa có sổ", "Tôi không chắc"],
-            "dispute_status": ["Không có tranh chấp", "Đang có tranh chấp", "Tôi không rõ"],
-        }.get(key, [])
 
     def _chat_reply(self, case_id: str, answer: str, citations: list, suggestions: list, status: str) -> dict:
         with self.db.connect() as con:
             self._message(con, case_id, "assistant", answer, "legal-agent", citations)
         return {"case_id": case_id, "status": status, "answer": answer, "citations": citations, "suggestions": suggestions}
-
-    @staticmethod
-    def _answer_general_question(message: str) -> str | None:
-        text = message.lower().strip()
-        if re.search(r"(tách thửa).*(là gì|nghĩa là|thế nào)", text):
-            return (
-                "**Tách thửa là gì?**\n\n"
-                "Tách thửa là việc chia một thửa đất thành hai hoặc nhiều thửa đất độc lập. Sau khi hoàn tất thủ tục đăng ký biến động, mỗi thửa mới có thông tin địa chính và Giấy chứng nhận riêng nếu đáp ứng đủ điều kiện.\n\n"
-                "Tách thửa không đồng nghĩa với chuyển nhượng. Bạn có thể tách thửa để chia tài sản, tặng cho, chuyển nhượng một phần hoặc phục vụ nhu cầu sử dụng khác.\n\n"
-                "Khả năng tách được hay không thường phụ thuộc vào diện tích và kích thước tối thiểu, loại đất, quy hoạch, lối đi, hạ tầng, tình trạng pháp lý và quy định của địa phương. Vì vậy muốn kiểm tra một thửa cụ thể, mình cần biết vị trí, diện tích, loại đất và mục đích tách."
-            )
-        if re.search(r"(có thể|có trả lời|biết trả lời).*(nội dung khác|câu hỏi khác|vấn đề khác)", text):
-            return (
-                "Có. Bạn có thể hỏi một câu hoàn toàn khác bất kỳ lúc nào — mình sẽ trả lời câu đó trước, không bắt bạn hoàn thành chuỗi câu hỏi đang dang dở.\n\n"
-                "Mình có thể giải thích khái niệm, phân tích một tình huống đất đai, kiểm tra điều kiện, chỉ ra rủi ro hoặc hướng dẫn bạn chuẩn bị thông tin."
-            )
-        definitions = {
-            "sổ đỏ là gì": "**Sổ đỏ** là cách gọi thông dụng của Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất. Tên gọi pháp lý trên Giấy chứng nhận có thể thay đổi theo từng thời kỳ; khi phân tích cần xem chính xác loại giấy, người đứng tên, thửa đất và nội dung ghi chú.",
-            "sổ hồng là gì": "**Sổ hồng** là cách gọi thông dụng của Giấy chứng nhận liên quan đến quyền sử dụng đất và quyền sở hữu nhà ở/tài sản gắn liền với đất. Để biết giá trị và phạm vi quyền, cần đọc nội dung cụ thể trên Giấy chứng nhận thay vì chỉ dựa vào màu bìa.",
-            "sang tên là gì": "**Sang tên** là cách gọi thông dụng của việc đăng ký biến động để ghi nhận người có quyền mới sau chuyển nhượng, tặng cho, thừa kế hoặc giao dịch phù hợp khác. Đây là bước đăng ký pháp lý, không chỉ là ký hợp đồng.",
-            "đăng ký biến động là gì": "**Đăng ký biến động đất đai** là thủ tục cập nhật thay đổi về người sử dụng đất, tài sản, diện tích, mục đích hoặc thông tin pháp lý khác vào hồ sơ địa chính và Giấy chứng nhận theo trường hợp cụ thể.",
-        }
-        for phrase, answer in definitions.items():
-            if phrase in text:
-                return answer
-        if text.endswith("?") or re.search(r"\b(là gì|vì sao|tại sao|giải thích|khác nhau)\b", text):
-            return (
-                "Mình có thể trả lời câu hỏi này độc lập với hồ sơ đang trao đổi. Tuy nhiên, nội dung bạn hỏi chưa đủ cụ thể để mình nhận diện chính xác vấn đề pháp lý. "
-                "Bạn hãy nêu rõ thuật ngữ hoặc tình huống muốn giải thích; mình sẽ trả lời trực tiếp trước rồi mới quay lại vấn đề cũ nếu bạn muốn."
-            )
-        return None

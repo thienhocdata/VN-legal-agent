@@ -13,13 +13,14 @@
     "locality": null,
     "version": "original-with-2026-change-audit",
     "document_type": "circular",
-    "completeness_status": "full_text_unverified",
+    "completeness_status": "full_text_verified",
     "expected_article_count": 45,
     "article_selection": "strict",
     "extraction_method": "pypdf-structured-v2",
-    "verified_at": null,
-    "verified_by": null,
-    "official_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-10-2024-tt-btnmt-42545/51401.htm"
+    "verified_at": "2026-07-15T06:38:41.588215+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-10-2024-tt-btnmt-42545/51401.htm",
+    "verification_level": "machine_assisted_official_source_review"
   },
   "artifacts": [
     {

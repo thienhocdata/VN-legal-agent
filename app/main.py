@@ -29,7 +29,17 @@ async def console(): return FileResponse(ROOT / "app" / "static" / "index.html")
 
 
 @app.get("/health")
-async def health(): return {"status": "ok", "product": "Minh Long Legal Agent", "legal_coverage": "demo_allowed" if settings.allow_demo_sources else "governed_only", "environment": settings.environment, "auth_required": settings.auth_required, "ai_chat": service.ai_status()}
+async def health():
+    corpus = service.corpus_status()
+    return {
+        "status": "ok",
+        "product": "Minh Long Legal Agent",
+        "legal_coverage": "demo_allowed" if corpus["demo_fallback_enabled"] else "governed_only",
+        "environment": settings.environment,
+        "auth_required": settings.auth_required,
+        "ai_chat": service.ai_status(),
+        "corpus": corpus,
+    }
 
 
 @app.get("/coverage")

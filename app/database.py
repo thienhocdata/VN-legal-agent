@@ -47,6 +47,12 @@ CREATE TABLE IF NOT EXISTS legal_documents (
   completeness_status TEXT NOT NULL DEFAULT 'partial',
   expected_article_count INTEGER, parsed_article_count INTEGER,
   extraction_method TEXT, verified_at TEXT, verified_by TEXT
+  ,artifact_integrity_status TEXT NOT NULL DEFAULT 'unverified'
+  ,extraction_quality_status TEXT NOT NULL DEFAULT 'unreviewed'
+  ,legal_review_status TEXT NOT NULL DEFAULT 'unreviewed'
+  ,lifecycle_status TEXT NOT NULL DEFAULT 'unreviewed'
+  ,runtime_activation_status TEXT NOT NULL DEFAULT 'inactive'
+  ,review_fingerprint TEXT
 );
 CREATE TABLE IF NOT EXISTS legal_provisions (
   id TEXT PRIMARY KEY, document_id TEXT NOT NULL REFERENCES legal_documents(id),
@@ -71,6 +77,13 @@ CREATE TABLE IF NOT EXISTS legal_document_relationships (
   target_provision_id TEXT, relation_type TEXT NOT NULL,
   effective_from TEXT, evidence_location TEXT, note TEXT
 );
+CREATE TABLE IF NOT EXISTS corpus_runtime_state (
+  singleton INTEGER PRIMARY KEY CHECK(singleton=1),
+  revision INTEGER NOT NULL DEFAULT 0,
+  activated_at TEXT,
+  activation_status TEXT NOT NULL DEFAULT 'not_activated',
+  report_json TEXT NOT NULL DEFAULT '{}'
+);
 CREATE TABLE IF NOT EXISTS messages (
   id TEXT PRIMARY KEY, case_id TEXT NOT NULL REFERENCES cases(id),
   role TEXT NOT NULL, content TEXT NOT NULL, citations TEXT NOT NULL DEFAULT '[]',
@@ -85,6 +98,8 @@ CREATE INDEX IF NOT EXISTS idx_artifacts_document ON legal_source_artifacts(docu
 CREATE INDEX IF NOT EXISTS idx_relationships_source ON legal_document_relationships(source_document_id);
 CREATE INDEX IF NOT EXISTS idx_relationships_target ON legal_document_relationships(target_document_id);
 CREATE INDEX IF NOT EXISTS idx_messages_case ON messages(case_id,created_at);
+INSERT OR IGNORE INTO corpus_runtime_state(singleton,revision,activation_status,report_json)
+VALUES(1,0,'not_activated','{}');
 """
 
 
@@ -99,6 +114,15 @@ DOCUMENT_COLUMNS_V2 = {
     "extraction_method": "TEXT",
     "verified_at": "TEXT",
     "verified_by": "TEXT",
+}
+
+DOCUMENT_GOVERNANCE_COLUMNS_V4 = {
+    "artifact_integrity_status": "TEXT NOT NULL DEFAULT 'unverified'",
+    "extraction_quality_status": "TEXT NOT NULL DEFAULT 'unreviewed'",
+    "legal_review_status": "TEXT NOT NULL DEFAULT 'unreviewed'",
+    "lifecycle_status": "TEXT NOT NULL DEFAULT 'unreviewed'",
+    "runtime_activation_status": "TEXT NOT NULL DEFAULT 'inactive'",
+    "review_fingerprint": "TEXT",
 }
 
 PROVISION_COLUMNS_V2 = {
@@ -125,6 +149,8 @@ class Database:
             con.executescript(SCHEMA)
             con.execute("INSERT OR IGNORE INTO schema_migrations(version,applied_at) VALUES(1,datetime('now'))")
             self._migrate_v2(con)
+            self._migrate_v3(con)
+            self._migrate_v4(con)
 
     @staticmethod
     def _migrate_v2(con: sqlite3.Connection) -> None:
@@ -137,6 +163,31 @@ class Database:
                 if name not in existing:
                     con.execute(f"ALTER TABLE {table} ADD COLUMN {name} {definition}")
         con.execute("INSERT OR IGNORE INTO schema_migrations(version,applied_at) VALUES(2,datetime('now'))")
+
+    @staticmethod
+    def _migrate_v3(con: sqlite3.Connection) -> None:
+        con.execute(
+            """CREATE TABLE IF NOT EXISTS corpus_runtime_state (
+            singleton INTEGER PRIMARY KEY CHECK(singleton=1),
+            revision INTEGER NOT NULL DEFAULT 0,
+            activated_at TEXT,
+            activation_status TEXT NOT NULL DEFAULT 'not_activated',
+            report_json TEXT NOT NULL DEFAULT '{}')"""
+        )
+        con.execute(
+            """INSERT OR IGNORE INTO corpus_runtime_state
+            (singleton,revision,activation_status,report_json)
+            VALUES(1,0,'not_activated','{}')"""
+        )
+        con.execute("INSERT OR IGNORE INTO schema_migrations(version,applied_at) VALUES(3,datetime('now'))")
+
+    @staticmethod
+    def _migrate_v4(con: sqlite3.Connection) -> None:
+        existing = {row[1] for row in con.execute("PRAGMA table_info(legal_documents)")}
+        for name, definition in DOCUMENT_GOVERNANCE_COLUMNS_V4.items():
+            if name not in existing:
+                con.execute(f"ALTER TABLE legal_documents ADD COLUMN {name} {definition}")
+        con.execute("INSERT OR IGNORE INTO schema_migrations(version,applied_at) VALUES(4,datetime('now'))")
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -152,6 +203,13 @@ class Database:
     @staticmethod
     def decode(row):
         return dict(row) if row else None
+
+    def corpus_revision(self) -> int:
+        with self.connect() as con:
+            row = con.execute(
+                "SELECT revision FROM corpus_runtime_state WHERE singleton=1"
+            ).fetchone()
+        return int(row["revision"]) if row else 0
 
     @staticmethod
     def json(value) -> str:

@@ -1,16 +1,15 @@
+
+import json
 from pathlib import Path
 from types import SimpleNamespace
 
 from app.config import Settings
 from app.decision_audit import (
-    AUDIT_HEADINGS,
-    compose_user_facing_answer,
-    evidence_backed_fallback,
+    compose_structured_user_answer,
     requires_decision_audit,
-    safe_inconclusive_answer,
-    validate_decision_answer,
+    validate_decision_json,
 )
-from app.legal_ai import LegalAI
+from app.legal_ai import LegalAI, ProviderRuntime
 from app.database import Database
 from app.knowledge import KnowledgeRepository
 
@@ -34,144 +33,87 @@ def verified_source() -> dict:
 def test_decision_request_is_distinguished_from_definition():
     assert requires_decision_audit("Tôi muốn sang tên đất tại TP.HCM")
     assert requires_decision_audit("Thửa đất này có tách được không?")
+    assert requires_decision_audit("dat nay, co sang ten dc ko???")
     assert not requires_decision_audit("Tách thửa là gì?")
 
 
-def test_safe_answer_always_exposes_all_six_gates_and_inconclusive_verdict():
-    answer = safe_inconclusive_answer(
-        facts={"locality": "TP. Hồ Chí Minh"},
-        sources=[],
-        source_notice="Chưa có nguồn toàn văn đã kiểm chứng.",
-    )
-    assert all(heading in answer for heading in AUDIT_HEADINGS)
-    assert "**CHƯA THỂ KẾT LUẬN**" in answer
-    valid, errors = validate_decision_answer(answer, [])
+def test_structured_audit_keeps_separate_verdicts_and_is_not_exposed_to_user():
+    source = verified_source()
+    payload = {
+        "issues": [
+            {
+                "issue": "Hiệu lực đặt cọc", "status": "partially_supported",
+                "finding": "Có căn cứ một phần.", "known_facts": ["Đã có ngày đặt cọc"],
+                "missing_facts": ["Nội dung hợp đồng"], "exceptions": [],
+                "effectiveness_check": "Đã đối chiếu ngày.",
+                "interdisciplinary_checks": ["Dân sự"],
+                "evidence": [{"source": 1, "location": "Điều 1", "supports": "điều kiện chung"}],
+            },
+            {
+                "issue": "Đăng ký sang tên", "status": "insufficient_basis",
+                "finding": "Chưa đủ hồ sơ để kết luận.", "known_facts": [],
+                "missing_facts": ["Tình trạng thế chấp"], "exceptions": ["Chưa kiểm tra ngoại lệ"],
+                "effectiveness_check": "Chưa có ngày đăng ký.",
+                "interdisciplinary_checks": ["Đăng ký đất đai chưa đủ"], "evidence": [],
+            },
+        ],
+        "overall_caution": "Chỉ là nhận định sơ bộ.",
+        "follow_up_question": "Đất hiện có đang thế chấp không?",
+    }
+    raw = json.dumps(payload, ensure_ascii=False)
+    valid, errors, parsed = validate_decision_json(raw, [source])
     assert valid, errors
+    answer = compose_structured_user_answer(audit=parsed, sources=[source], source_notice=None)
+    assert "Hiệu lực đặt cọc" in answer and "Đăng ký sang tên" in answer
+    assert "partially_supported" not in answer and '"issues"' not in answer
+    assert answer.count("Đất hiện có đang thế chấp không?") == 1
 
 
-def test_transfer_fallback_remains_useful_when_model_quota_is_unavailable():
-    base = {
-        "title": "Văn bản kiểm thử",
-        "effective_from": "2024-08-01",
-        "effective_to": None,
-        "legal_status": "effective",
-        "document_type": "law",
-        "locality": None,
-        "applicability": "candidate",
-        "governance_status": "full_text_verified",
-    }
-    sources = [
-        {**base, "source_id": "land-current", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-27", "location": "Điều 27"},
-        {**base, "source_id": "decree-101", "provision_id": "decree-101-2024-nd-cp-art-30", "location": "Điều 30"},
-        {**base, "source_id": "land-current", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-45", "location": "Điều 45"},
-        {**base, "source_id": "decree-101", "provision_id": "decree-101-2024-nd-cp-art-37", "location": "Điều 37"},
-        {**base, "source_id": "notary-law", "provision_id": "notarization-consolidated-50-2026-vbhn-vpqh-art-42", "location": "Điều 42"},
-    ]
-    answer = evidence_backed_fallback(
-        question="Tôi có được chuyển nhượng không, hợp đồng có cần công chứng?",
-        facts={
-            "locality": "TP. Hồ Chí Minh",
-            "relevant_date": "2026-07-15",
-            "certificate_status": True,
-            "dispute_status": False,
-            "enforcement_status": False,
-            "land_term_status": True,
-        },
-        sources=sources,
-        source_notice=None,
-    )
-    assert "Điều kiện thực hiện quyền" in answer
-    assert "Hình thức hợp đồng" in answer
-    assert "Thành phần hồ sơ đăng ký biến động" in answer
-    assert "**CHƯA THỂ KẾT LUẬN**" in answer
-    valid, errors = validate_decision_answer(answer, sources)
-    assert valid, errors
-
-
-def test_mortgage_fallback_is_natural_and_keeps_a_qualified_conclusion():
-    base = {
-        "title": "Văn bản kiểm thử",
-        "effective_from": "2024-08-01",
-        "effective_to": None,
-        "legal_status": "effective",
-        "document_type": "law",
-        "locality": None,
-        "applicability": "candidate",
-        "governance_status": "full_text_verified",
-    }
-    sources = [
-        {**base, "source_id": "land", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-27", "location": "Điều 27"},
-        {**base, "source_id": "decree", "provision_id": "decree-101-2024-nd-cp-art-30", "location": "Điều 30"},
-        {**base, "source_id": "land", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-45", "location": "Điều 45"},
-        {**base, "source_id": "civil", "provision_id": "civil-code-91-2015-qh13-art-320", "location": "Điều 320"},
-        {**base, "source_id": "civil", "provision_id": "civil-code-91-2015-qh13-art-321", "location": "Điều 321"},
-    ]
-    question = (
-        "Hợp đồng đã công chứng nhưng đất đang thế chấp và ngân hàng chưa đồng ý; "
-        "tôi có sang tên ngay được không?"
-    )
-    facts = {
-        "locality": "TP. Hồ Chí Minh",
-        "relevant_date": "2026-07-15",
-        "mortgage_status": True,
-        "mortgagee_consent_status": False,
-        "contract_notarized_status": True,
-    }
-    audit = evidence_backed_fallback(
-        question=question, facts=facts, sources=sources, source_notice=None,
-    )
-    answer = compose_user_facing_answer(
-        audit_answer=audit,
-        question=question,
-        facts=facts,
-        sources=sources,
-        source_notice=None,
-    )
-    assert all(heading not in answer for heading in AUDIT_HEADINGS)
-    assert "bạn chưa nên nộp hồ sơ sang tên ngay" in answer
-    assert "Mình chưa khẳng định rằng mọi trường hợp đều bắt buộc phải giải chấp trước" in answer
-    assert "Điều 321" in answer
-    assert "làm việc với ngân hàng" in answer
-
-
-def test_conclusive_verdict_is_rejected_without_direct_governed_evidence():
-    answer = "\n\n".join([
-        "**1. Dữ kiện**\n- Đủ.",
-        "**2. Ngoại lệ**\n- Không có.",
-        "**3. Hiệu lực**\n- Đang có hiệu lực.",
-        "**4. Văn bản liên ngành**\n- Đã kiểm tra.",
-        "**5. Kết luận**\n**ĐƯỢC**",
-        "**6. Bằng chứng trực tiếp**\n- Không nêu nguồn.",
-    ])
-    valid, errors = validate_decision_answer(answer, [])
-    assert not valid
-    assert "conclusive_verdict_without_direct_evidence" in errors
-
-
-def test_decision_without_verified_corpus_skips_model_and_returns_safe_contract():
+def test_decision_without_verified_corpus_calls_model_but_stays_inconclusive():
     settings = Settings(
         root=Path("."), database_path=":memory:", auth_required=False,
         environment="test", allow_demo_sources=True, ai_model="test-model",
     )
     ai = LegalAI(settings)
 
-    class MustNotRun:
-        @staticmethod
-        def create(**_):
-            raise AssertionError("Provider must not be called without governed evidence")
+    payload = {
+        "issues": [{
+            "issue": "Sang tên quyền sử dụng đất",
+            "status": "insufficient_basis",
+            "finding": "Corpus hiện chưa có bằng chứng trực tiếp đủ để kết luận.",
+            "known_facts": ["Địa phương do người dùng cung cấp: TP.HCM"],
+            "missing_facts": ["Ngày giao dịch"],
+            "exceptions": ["Chưa kiểm tra đủ ngoại lệ"],
+            "effectiveness_check": "Chưa xác định được ngày áp dụng.",
+            "interdisciplinary_checks": ["Chưa kiểm tra đủ"],
+            "evidence": [],
+        }],
+        "overall_caution": "Chưa dùng trí nhớ mô hình thay cho nguồn.",
+        "follow_up_question": "Giao dịch dự kiến diễn ra vào ngày nào?",
+    }
 
-    ai.client = SimpleNamespace(responses=MustNotRun())
+    class Responses:
+        called = 0
+        def create(self, **_):
+            self.called += 1
+            return SimpleNamespace(output_text=json.dumps(payload, ensure_ascii=False), status="completed")
+
+    responses = Responses()
+    ai.providers = [ProviderRuntime("openai", "test", "responses", SimpleNamespace(responses=responses))]
     result = ai.generate(
         history=[{"role": "user", "content": "Tôi muốn sang tên đất tại TP.HCM"}],
         facts={"locality": "TP. Hồ Chí Minh"},
         sources=[],
         source_notice="Thiếu corpus.",
     )
-    assert result.response_status == "corpus_gap"
+    assert result.response_status == "conversation"
     assert result.decision_audit is True
-    assert "**CHƯA THỂ KẾT LUẬN**" in result.internal_audit
-    assert all(heading not in result.answer for heading in AUDIT_HEADINGS)
-    assert "chưa thể đưa ra một kết luận chắc chắn" in result.answer
+    assert responses.called == 1
+    assert result.generation_mode == "model"
+    assert result.provider_called is True
+    assert result.provider_model == "test"
+    assert "insufficient_basis" in result.internal_audit
+    assert "Chưa đủ căn cứ để kết luận" in result.answer
 
 
 def test_decision_prompt_contains_contract_and_accepts_evidence_linked_output():
@@ -180,74 +122,42 @@ def test_decision_prompt_contains_contract_and_accepts_evidence_linked_output():
         environment="test", allow_demo_sources=False, ai_model="test-model",
     )
     ai = LegalAI(settings)
-    answer = "\n\n".join([
-        "**1. Dữ kiện**\n- Đã có dữ kiện cần thiết.",
-        "**2. Ngoại lệ**\n- Đã kiểm tra ngoại lệ trong phạm vi nguồn.",
-        "**3. Hiệu lực**\n- [Nguồn 1] áp dụng tại ngày sự kiện.",
-        "**4. Văn bản liên ngành**\n- Chưa phát sinh nhóm khác trong tình huống kiểm thử.",
-        "**5. Kết luận**\n**ĐƯỢC**",
-        "**6. Bằng chứng trực tiếp**\n- [Nguồn 1], Điều 1 khoản 1 hỗ trợ trực tiếp kết luận.",
-    ])
+    payload = {
+        "issues": [{
+            "issue": "Điều kiện giao dịch",
+            "status": "supported",
+            "finding": "Giao dịch có căn cứ để tiếp tục trong phạm vi dữ kiện đã kiểm tra.",
+            "known_facts": ["Địa phương và ngày đã có"],
+            "missing_facts": [], "exceptions": [],
+            "effectiveness_check": "Nguồn phù hợp ngày và địa phương.",
+            "interdisciplinary_checks": ["Đã kiểm tra nguồn được cung cấp"],
+            "evidence": [{"source": 1, "location": "Điều 1 khoản 1", "supports": "điều kiện trực tiếp"}],
+        }],
+        "overall_caution": "Kết luận chỉ trong phạm vi dữ kiện đã xác minh.",
+        "follow_up_question": "",
+    }
+    answer = json.dumps(payload, ensure_ascii=False)
 
     class FakeResponses:
         request = None
 
         def create(self, **kwargs):
             self.request = kwargs
-            return SimpleNamespace(output_text=answer)
+            return SimpleNamespace(output_text=answer, status="completed")
 
     responses = FakeResponses()
-    ai.client = SimpleNamespace(responses=responses)
+    ai.providers = [ProviderRuntime("openai", "test", "responses", SimpleNamespace(responses=responses))]
     result = ai.generate(
         history=[{"role": "user", "content": "Giao dịch này có được thực hiện không?"}],
         facts={"locality": "TP. Hồ Chí Minh", "relevant_date": "2026-07-15"},
         sources=[verified_source()],
         source_notice=None,
     )
-    assert result.internal_audit == answer
+    assert json.loads(result.internal_audit) == payload
     assert result.answer != answer
-    assert all(heading not in result.answer for heading in AUDIT_HEADINGS)
-    assert "Căn cứ đã kiểm tra" in result.answer
+    assert "Căn cứ trực tiếp" in result.answer
     assert result.decision_audit is True
-    assert "HỢP ĐỒNG OUTPUT CHO CÂU HỎI CẦN RA QUYẾT ĐỊNH" in responses.request["instructions"]
-
-
-def test_citation_validation_uses_original_source_indexes():
-    not_applicable = {**verified_source(), "applicability": "not_applicable"}
-    candidate_2 = {**verified_source(), "source_id": "candidate-2"}
-    candidate_3 = {**verified_source(), "source_id": "candidate-3"}
-    sources = [not_applicable, candidate_2, candidate_3]
-
-    def answer_for(index: int) -> str:
-        return "\n\n".join([
-            "**1. Dữ kiện**\n- Đủ.",
-            "**2. Ngoại lệ**\n- Đã kiểm tra.",
-            f"**3. Hiệu lực**\n- [Nguồn {index}] áp dụng.",
-            "**4. Văn bản liên ngành**\n- Đã kiểm tra.",
-            "**5. Kết luận**\n**ĐƯỢC**",
-            f"**6. Bằng chứng trực tiếp**\n- [Nguồn {index}], Điều 1.",
-        ])
-
-    valid, errors = validate_decision_answer(answer_for(3), sources)
-    assert valid, errors
-    valid, errors = validate_decision_answer(answer_for(1), sources)
-    assert not valid
-    assert "citation_not_governed_candidate" in errors
-
-
-def test_fallback_uses_relevant_date_instead_of_a_hardcoded_date():
-    source = {
-        **verified_source(),
-        "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-45",
-    }
-    answer = evidence_backed_fallback(
-        question="Tôi có được chuyển nhượng không?",
-        facts={"locality": "TP. Hồ Chí Minh", "relevant_date": "2025-01-02"},
-        sources=[source],
-        source_notice=None,
-    )
-    assert "phù hợp ngày 2025-01-02" in answer
-    assert "15/07/2026" not in answer
+    assert "HỢP ĐỒNG OUTPUT NỘI BỘ CHO CÂU HỎI CẦN RA QUYẾT ĐỊNH" in responses.request["instructions"]
 
 
 def test_current_question_replaces_old_case_purpose_in_internal_audit():
@@ -256,8 +166,20 @@ def test_current_question_replaces_old_case_purpose_in_internal_audit():
         environment="test", allow_demo_sources=False, ai_model="test-model",
     )
     ai = LegalAI(settings)
-    ai.client = SimpleNamespace()
     current = "Tôi muốn sang tên thửa đất đang thế chấp tại TP.HCM"
+    payload = {
+        "issues": [{
+            "issue": "Sang tên đất đang thế chấp", "status": "insufficient_basis",
+            "finding": current, "known_facts": ["TP.HCM"],
+            "missing_facts": ["Tình trạng chấp thuận của ngân hàng"],
+            "exceptions": ["Chưa kiểm tra"], "effectiveness_check": "Chưa có ngày",
+            "interdisciplinary_checks": ["Chưa đủ"], "evidence": [],
+        }], "overall_caution": "", "follow_up_question": "",
+    }
+    class Responses:
+        def create(self, **_):
+            return SimpleNamespace(output_text=json.dumps(payload, ensure_ascii=False), status="completed")
+    ai.providers = [ProviderRuntime("openai", "test", "responses", SimpleNamespace(responses=Responses()))]
     result = ai.generate(
         history=[
             {"role": "user", "content": "alo"},
@@ -269,8 +191,8 @@ def test_current_question_replaces_old_case_purpose_in_internal_audit():
         sources=[],
         source_notice="Thiếu corpus.",
     )
-    assert f"Yêu cầu hiện tại: {current}." in result.internal_audit
-    assert "Yêu cầu: alo" not in result.internal_audit
+    assert current in result.internal_audit
+    assert '"finding": "alo"' not in result.internal_audit
 
 
 def test_historical_rule_is_selected_by_event_date_not_only_current_status(tmp_path):
@@ -296,6 +218,10 @@ def test_historical_rule_is_selected_by_event_date_not_only_current_status(tmp_p
                 "old-law-art-1", "old-law", "Điều 1",
                 "Điều kiện chuyển nhượng quyền sử dụng đất", "chuyển nhượng", "effective",
             ),
+        )
+        con.execute(
+            """UPDATE legal_documents SET artifact_integrity_status='verified',
+            runtime_activation_status='active' WHERE id='old-law'"""
         )
 
     repository = KnowledgeRepository(database, allow_demo=False)
@@ -332,6 +258,10 @@ def test_expired_rule_can_be_used_only_as_historical_comparison_evidence(tmp_pat
                 "land-law-2013-art-188", "land-law-2013", "Điều 188",
                 "Điều kiện chuyển nhượng quyền sử dụng đất", "chuyển nhượng", "effective",
             ),
+        )
+        con.execute(
+            """UPDATE legal_documents SET artifact_integrity_status='verified',
+            runtime_activation_status='active' WHERE id='land-law-2013'"""
         )
 
     repository = KnowledgeRepository(database, allow_demo=False)
@@ -370,6 +300,10 @@ def test_unresolved_repealed_provision_cannot_support_a_conclusion(tmp_path):
                 "mixed-law-art-1", "mixed-law", "Điều 1",
                 "Điều kiện chuyển nhượng quyền sử dụng đất", "chuyển nhượng", "repealed",
             ),
+        )
+        con.execute(
+            """UPDATE legal_documents SET artifact_integrity_status='verified',
+            runtime_activation_status='active' WHERE id='mixed-law'"""
         )
 
     hits, _ = KnowledgeRepository(database, allow_demo=False).search(

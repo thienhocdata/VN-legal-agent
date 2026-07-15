@@ -99,14 +99,31 @@ def import_pack(pack_path: Path, database_path: str | Path) -> tuple[str, int]:
         full_text = _resolved(base, doc["full_text_file"]).read_text(encoding="utf-8")
     provisions = pack["provisions"]
     db = Database(database_path)
+    review_fingerprint = hashlib.sha256(json.dumps({
+        "full_text_hash": doc.get("full_text_hash"),
+        "effective_from": doc.get("effective_from"),
+        "effective_to": doc.get("effective_to"),
+        "legal_status": doc.get("legal_status"),
+        "version": doc.get("version"),
+        "relationships": pack.get("relationships") or [],
+    }, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+    requested_review_status = doc.get("legal_review_status", "machine_assisted")
+    legal_review_status = (
+        "stale"
+        if requested_review_status == "approved"
+        and doc.get("review_fingerprint") != review_fingerprint
+        else requested_review_status
+    )
     with db.connect() as con:
         con.execute(
             """INSERT INTO legal_documents
             (id,title,number,authority,official_url,content_hash,issued_date,effective_from,effective_to,
              legal_status,jurisdiction,locality,version,imported_at,document_type,source_format,full_text,
              full_text_hash,completeness_status,expected_article_count,parsed_article_count,
-             extraction_method,verified_at,verified_by)
-            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,datetime('now'),?,?,?,?,?,?,?,?,?,?)
+             extraction_method,verified_at,verified_by,artifact_integrity_status,
+             extraction_quality_status,legal_review_status,lifecycle_status,
+             runtime_activation_status,review_fingerprint)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,datetime('now'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             ON CONFLICT(id) DO UPDATE SET
               title=excluded.title, number=excluded.number, authority=excluded.authority,
               official_url=excluded.official_url, content_hash=excluded.content_hash,
@@ -120,7 +137,13 @@ def import_pack(pack_path: Path, database_path: str | Path) -> tuple[str, int]:
               expected_article_count=excluded.expected_article_count,
               parsed_article_count=excluded.parsed_article_count,
               extraction_method=excluded.extraction_method, verified_at=excluded.verified_at,
-              verified_by=excluded.verified_by""",
+              verified_by=excluded.verified_by,
+              artifact_integrity_status=excluded.artifact_integrity_status,
+              extraction_quality_status=excluded.extraction_quality_status,
+              legal_review_status=excluded.legal_review_status,
+              lifecycle_status=excluded.lifecycle_status,
+              runtime_activation_status=excluded.runtime_activation_status,
+              review_fingerprint=excluded.review_fingerprint""",
             (
                 doc["id"], doc["title"], doc["number"], doc["authority"], doc["official_url"],
                 doc["content_hash"], doc.get("issued_date"), doc["effective_from"], doc.get("effective_to"),
@@ -129,6 +152,10 @@ def import_pack(pack_path: Path, database_path: str | Path) -> tuple[str, int]:
                 doc.get("full_text_hash"), doc.get("completeness_status", "partial"),
                 doc.get("expected_article_count"), sum(1 for p in provisions if p.get("level") == "article"),
                 doc.get("extraction_method"), doc.get("verified_at"), doc.get("verified_by"),
+                "verified", doc.get("extraction_quality_status", "machine_reviewed"),
+                legal_review_status,
+                doc.get("lifecycle_status", "machine_reviewed"), "staged",
+                review_fingerprint,
             ),
         )
         con.execute("DELETE FROM legal_provisions WHERE document_id=?", (doc["id"],))

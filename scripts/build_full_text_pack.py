@@ -28,6 +28,14 @@ def normalized_page_text(value: str, *, collapse_horizontal_whitespace: bool = F
     value = value.replace("\x00", "").replace("\r\n", "\n").replace("\r", "\n")
     if collapse_horizontal_whitespace:
         value = "\n".join(re.sub(r"[ \t]{2,}", " ", line) for line in value.splitlines())
+    # Some official digitally signed PDFs encode one article heading with
+    # character-level spacing (for example ``Đ iều 5 9 .``). Normalize only
+    # anchored heading-shaped lines so ordinary body text remains untouched.
+    value = re.sub(
+        r"(?m)^[ \t]*Đ\s+iều\s+((?:\d\s*)+)\.",
+        lambda match: "Điều " + re.sub(r"\s+", "", match.group(1)) + ".",
+        value,
+    )
     return "\n".join(line.rstrip() for line in value.splitlines()).strip()
 
 

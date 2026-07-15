@@ -83,12 +83,13 @@
         "locality": null,
         "version": "original-with-2026-change-audit",
         "document_type": "circular",
-        "completeness_status": "full_text_unverified",
+        "completeness_status": "full_text_verified",
         "expected_article_count": 45,
         "article_selection": "strict",
         "extraction_method": "pypdf-structured-v2",
-        "verified_at": null,
-        "verified_by": null
+        "verified_at": "2026-07-15T06:38:41.588215+00:00",
+        "verified_by": "Codex machine-assisted official-source review",
+        "verification_level": "machine_assisted_official_source_review"
       },
       "relationships": [
         {
@@ -113,12 +114,13 @@
         "locality": null,
         "version": "effective-before-281-2026",
         "document_type": "decree",
-        "completeness_status": "full_text_unverified",
+        "completeness_status": "full_text_verified",
         "expected_article_count": 36,
         "article_selection": "strict",
         "extraction_method": "pypdf-structured-v2",
-        "verified_at": null,
-        "verified_by": null
+        "verified_at": "2026-07-15T06:38:42.033229+00:00",
+        "verified_by": "Codex machine-assisted official-source review",
+        "verification_level": "machine_assisted_official_source_review"
       },
       "relationships": [
         {
@@ -1461,6 +1463,155 @@
           "effective_from": "2024-08-01"
         }
       ]
+    },
+    {
+      "schema_version": 1,
+      "document": {
+        "id": "circular-19-2026-tt-bnnmt",
+        "title": "Quy định kỹ thuật thực hiện lồng ghép nội dung đo đạc lập bản đồ địa chính, đăng ký đất đai, lập hồ sơ địa chính và xây dựng cơ sở dữ liệu quốc gia về đất đai",
+        "number": "19/2026/TT-BNNMT",
+        "authority": "Bộ Nông nghiệp và Môi trường",
+        "issued_date": "2026-03-30",
+        "effective_from": "2026-03-30",
+        "effective_to": null,
+        "legal_status": "effective",
+        "jurisdiction": "Vietnam",
+        "locality": null,
+        "version": "original",
+        "document_type": "circular",
+        "completeness_status": "full_text_verified",
+        "expected_article_count": 13,
+        "article_selection": "strict",
+        "extraction_method": "pypdf-structured-v2",
+        "verified_at": "2026-07-15T06:38:41.651820+00:00",
+        "verified_by": "Codex machine-assisted official-source review",
+        "official_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-19-2026-tt-bnnmt-469254.htm",
+        "verification_level": "machine_assisted_official_source_review"
+      },
+      "artifacts": [
+        {
+          "path": "artifacts/19-2026-tt-bnnmt.pdf",
+          "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/15/469254-1776236204_v1_1776238178_signed.pdf",
+          "page_count": 15
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "schema_version": 1,
+      "document": {
+        "id": "civil-procedure-consolidated-99-2025-vbhn-vpqh",
+        "title": "Văn bản hợp nhất Bộ luật Tố tụng dân sự",
+        "number": "99/VBHN-VPQH",
+        "authority": "Văn phòng Quốc hội",
+        "issued_date": "2025-08-26",
+        "effective_from": "2025-07-01",
+        "effective_to": null,
+        "legal_status": "effective",
+        "jurisdiction": "Vietnam",
+        "locality": null,
+        "version": "consolidated-as-of-2025-08-26",
+        "document_type": "consolidated_code",
+        "completeness_status": "full_text_verified",
+        "expected_article_count": 517,
+        "article_selection": "first_complete_sequence",
+        "pdf_text_extraction_mode": "layout",
+        "extraction_method": "pypdf-layout-structured-v2",
+        "verified_at": "2026-07-15T06:38:41.734072+00:00",
+        "verified_by": "Codex machine-assisted official-source review",
+        "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-99-vbhn-vpqh-46013/58612.htm",
+        "verification_level": "machine_assisted_official_source_review"
+      },
+      "artifacts": [
+        {
+          "path": "artifacts/99-2025-vbhn-vpqh-part-1.pdf",
+          "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58606-1-20251263-126499-vbhn-vpqh.pdf",
+          "page_count": 89
+        },
+        {
+          "path": "artifacts/99-2025-vbhn-vpqh-part-2.pdf",
+          "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58609-1-20251265-126699-vbhn-vpqh.pdf",
+          "page_count": 95
+        },
+        {
+          "path": "artifacts/99-2025-vbhn-vpqh-part-3.pdf",
+          "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58612-1-20251267-126899-vbhn-vpqh.pdf",
+          "page_count": 70
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "schema_version": 1,
+      "document": {
+        "id": "civil-enforcement-consolidated-115-2025-vbhn-vpqh",
+        "title": "Văn bản hợp nhất Luật Thi hành án dân sự",
+        "number": "115/VBHN-VPQH",
+        "authority": "Văn phòng Quốc hội",
+        "issued_date": "2025-08-27",
+        "effective_from": "2026-01-01",
+        "effective_to": null,
+        "legal_status": "effective",
+        "jurisdiction": "Vietnam",
+        "locality": null,
+        "version": "consolidated-as-of-2025-08-27",
+        "document_type": "consolidated_law",
+        "completeness_status": "full_text_verified",
+        "expected_article_count": 183,
+        "article_selection": "first_complete_sequence",
+        "pdf_text_extraction_mode": "layout",
+        "extraction_method": "pypdf-layout-structured-v2",
+        "verified_at": "2026-07-15T06:38:41.930289+00:00",
+        "verified_by": "Codex machine-assisted official-source review",
+        "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-115-vbhn-vpqh-46054/58684.htm",
+        "verification_level": "machine_assisted_official_source_review"
+      },
+      "artifacts": [
+        {
+          "path": "artifacts/115-2025-vbhn-vpqh-part-1.pdf",
+          "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58684-1-20251295-1296115-vbhn-vpqh.pdf",
+          "page_count": 11
+        },
+        {
+          "path": "artifacts/115-2025-vbhn-vpqh-part-2.pdf",
+          "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58687-1-20251297-1298115-vbhn-vpqh.pdf",
+          "page_count": 95
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "schema_version": 1,
+      "document": {
+        "id": "hcm-decision-2944-2026",
+        "title": "Công bố danh mục thủ tục hành chính mới ban hành lĩnh vực Tài chính đất đai thuộc phạm vi chức năng quản lý của Sở Tài chính",
+        "number": "2944/QĐ-UBND",
+        "authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh",
+        "issued_date": "2026-05-19",
+        "effective_from": "2026-05-19",
+        "effective_to": null,
+        "legal_status": "effective",
+        "jurisdiction": "Vietnam",
+        "locality": "TP. Hồ Chí Minh",
+        "version": "original-current",
+        "document_type": "local_procedure_decision",
+        "completeness_status": "full_text_verified",
+        "expected_article_count": 3,
+        "article_selection": "strict",
+        "extraction_method": "pypdf-structured-v2",
+        "verified_at": "2026-07-15T06:42:15.809034+00:00",
+        "verified_by": "Codex machine-assisted official-source review",
+        "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+        "verification_level": "machine_assisted_official_source_review"
+      },
+      "artifacts": [
+        {
+          "path": "artifacts/2944-2026-qd-ubnd.pdf",
+          "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
+          "page_count": 3
+        }
+      ],
+      "relationships": []
     }
   ]
 }

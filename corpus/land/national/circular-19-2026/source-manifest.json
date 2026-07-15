@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "circular-19-2026-tt-bnnmt",
+    "title": "Quy định kỹ thuật thực hiện lồng ghép nội dung đo đạc lập bản đồ địa chính, đăng ký đất đai, lập hồ sơ địa chính và xây dựng cơ sở dữ liệu quốc gia về đất đai",
+    "number": "19/2026/TT-BNNMT",
+    "authority": "Bộ Nông nghiệp và Môi trường",
+    "issued_date": "2026-03-30",
+    "effective_from": "2026-03-30",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original",
+    "document_type": "circular",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 13,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T06:38:41.651820+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-19-2026-tt-bnnmt-469254.htm",
+    "verification_level": "machine_assisted_official_source_review"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/19-2026-tt-bnnmt.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/15/469254-1776236204_v1_1776238178_signed.pdf",
+      "page_count": 15
+    }
+  ],
+  "relationships": []
+}

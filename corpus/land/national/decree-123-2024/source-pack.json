@@ -13,12 +13,12 @@
     "locality": null,
     "version": "effective-before-281-2026",
     "document_type": "decree",
-    "completeness_status": "full_text_unverified",
+    "completeness_status": "full_text_verified",
     "expected_article_count": 36,
     "article_selection": "strict",
     "extraction_method": "pypdf-structured-v2",
-    "verified_at": null,
-    "verified_by": null,
+    "verified_at": "2026-07-15T06:38:42.033229+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
     "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-123-2024-nd-cp-42851/52004.htm",
     "content_hash": "e9ac14600c55c58579ef15c2e881e20e36bf5c2c6f46ec9765863621849fff3c",
     "source_format": "pdf",
@@ -32,7 +32,8 @@
         "media_type": "application/pdf",
         "page_count": 43
       }
-    ]
+    ],
+    "verification_level": "machine_assisted_official_source_review"
   },
   "provisions": [
     {

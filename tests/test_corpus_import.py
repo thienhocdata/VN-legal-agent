@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from app.database import Database
+from scripts.activate_corpus import activate_corpus, discover_verified_packs
 from scripts.import_source_pack import import_pack, validate
 
 
@@ -154,4 +155,80 @@ def test_database_migrates_existing_corpus_tables(tmp_path: Path):
     assert {"full_text", "full_text_hash", "completeness_status"} <= document_columns
     assert {"level", "ordinal", "source_page_start", "text_hash"} <= provision_columns
     assert con.execute("SELECT 1 FROM schema_migrations WHERE version=2").fetchone()
+    assert con.execute("SELECT 1 FROM schema_migrations WHERE version=3").fetchone()
+    assert con.execute("SELECT 1 FROM schema_migrations WHERE version=4").fetchone()
+    columns = {row[1] for row in con.execute("PRAGMA table_info(legal_documents)")}
+    assert {"artifact_integrity_status", "legal_review_status", "runtime_activation_status"} <= columns
     con.close()
+
+
+def test_real_verified_corpus_hashes_and_atomic_staging_pass(tmp_path: Path):
+    root = Path(__file__).resolve().parent.parent
+    corpus_root = root / "corpus" / "land"
+    packs = discover_verified_packs(corpus_root)
+    expected_documents = len(packs)
+    expected_provisions = sum(len(pack["provisions"]) for _, pack in packs)
+    assert expected_documents > 0
+    assert expected_provisions > 0
+
+    report = activate_corpus(
+        corpus_root=corpus_root,
+        active_database=tmp_path / "runtime.db",
+        report_path=tmp_path / "activation-report.json",
+        activate=False,
+        relevant_date="2026-07-15",
+    )
+
+    assert report["verification_status"] == "passed"
+    assert report["activation_status"] == "validated_only"
+    assert report["expected_documents"] == report["imported_documents"] == expected_documents
+    assert report["expected_provisions"] == report["imported_provisions"] == expected_provisions
+    assert report["runtime_search_passed"] is True
+    assert report["demo_fallback_used"] is False
+    assert not list(tmp_path.glob("*.staging-*.db"))
+
+
+def test_atomic_activation_keeps_active_database_when_a_later_pack_fails(tmp_path: Path):
+    corpus_root = tmp_path / "corpus"
+    first_dir = corpus_root / "first"
+    second_dir = corpus_root / "second"
+    first_dir.mkdir(parents=True)
+    second_dir.mkdir(parents=True)
+    first_path, first_pack = _complete_pack(first_dir)
+    first_path.rename(first_dir / "source-pack.json")
+
+    second_pack = json.loads(json.dumps(first_pack))
+    second_pack["document"]["id"] = "law-complete-second"
+    second_pack["document"]["number"] = "02/TEST"
+    # Duplicate provision IDs pass per-pack validation but fail during the
+    # second staging import, which exercises rollback after partial staging.
+    (second_dir / "official.pdf").write_bytes((first_dir / "official.pdf").read_bytes())
+    (second_dir / "full.txt").write_bytes((first_dir / "full.txt").read_bytes())
+    (second_dir / "source-pack.json").write_text(
+        json.dumps(second_pack, ensure_ascii=False), encoding="utf-8"
+    )
+
+    active = tmp_path / "active.db"
+    database = Database(active)
+    with database.connect() as con:
+        con.execute(
+            """INSERT INTO legal_documents
+            (id,title,number,authority,official_url,content_hash,effective_from,
+             legal_status,jurisdiction,version,imported_at,completeness_status)
+            VALUES('sentinel','Sentinel','S','T','https://example.gov.vn/s',?,
+             '2024-01-01','effective','Vietnam','v1',datetime('now'),'partial')""",
+            ("a" * 64,),
+        )
+
+    with pytest.raises(sqlite3.IntegrityError):
+        activate_corpus(
+            corpus_root=corpus_root,
+            active_database=active,
+            activate=True,
+            relevant_date="2026-07-15",
+        )
+
+    with sqlite3.connect(active) as con:
+        assert con.execute("SELECT count(*) FROM legal_documents WHERE id='sentinel'").fetchone()[0] == 1
+        assert con.execute("SELECT count(*) FROM legal_documents").fetchone()[0] == 1
+    assert not list(tmp_path.glob("*.staging-*.db"))

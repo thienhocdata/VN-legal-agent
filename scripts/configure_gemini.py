@@ -34,13 +34,14 @@ def main() -> None:
     env_path = ROOT / ".env"
     update_env(env_path, {
         "LEGAL_AGENT_PROVIDER": "gemini",
+        "LEGAL_AGENT_PROVIDER_ORDER": "gemini,groq,cloudflare,openai",
         "GEMINI_API_KEY": api_key,
         "GEMINI_MODEL": model,
         "LEGAL_AGENT_AI_MAX_OUTPUT_TOKENS": "1400",
         "LEGAL_AGENT_AI_TIMEOUT": "60",
         "LEGAL_AGENT_ENV": "development",
         "LEGAL_AGENT_AUTH_REQUIRED": "false",
-        "LEGAL_AGENT_ALLOW_DEMO_SOURCES": "true",
+        "LEGAL_AGENT_ALLOW_DEMO_SOURCES": "false",
     })
     print(f"Đã lưu cấu hình Gemini tại {env_path}")
     print("Hãy khởi động lại server để dùng Gemini conversation.")

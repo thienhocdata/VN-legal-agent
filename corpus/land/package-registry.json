@@ -12,7 +12,13 @@
       "status": "building",
       "topics": ["đăng ký lần đầu", "cấp lần đầu", "cấp đổi", "cấp lại do mất", "đính chính", "xác nhận thay đổi", "đăng ký biến động", "tài sản gắn liền với đất", "không có giấy tờ", "dữ liệu địa chính"],
       "mandatory_documents": ["law-45-2013-qh13", "land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "decree-226-2025-nd-cp", "decree-49-2026-nd-cp", "circular-10-2024-tt-btnmt", "circular-19-2026-tt-bnnmt", "hcm-decision-44-2026"],
-      "mandatory_source_families": ["historical_certificate_rules_and_version_maps", "current_certificate_and_cadastral_circulars", "hcm_certificate_procedure_publications", "hcm_certificate_internal_processes", "hcm_certificate_fees_forms_and_receiving_offices"]
+      "mandatory_source_families": [
+        {"id": "historical_certificate_rules_and_version_maps", "evidence_documents": ["law-45-2013-qh13", "land-law-consolidated-21-2018-vbhn-vpqh", "land-law-consolidated-44-2026-vbhn-vpqh"]},
+        {"id": "current_certificate_and_cadastral_circulars", "evidence_documents": ["circular-10-2024-tt-btnmt", "circular-19-2026-tt-bnnmt"]},
+        {"id": "hcm_certificate_procedure_publications", "evidence_documents": ["hcm-decision-44-2026"]},
+        "hcm_certificate_internal_processes",
+        "hcm_certificate_fees_forms_and_receiving_offices"
+      ]
     },
     {
       "id": "transactions",
@@ -43,10 +49,14 @@
       "id": "legal-status",
       "name": "Tình trạng pháp lý",
       "priority": "P0",
-      "status": "planned",
+      "status": "building",
       "topics": ["tranh chấp", "kê biên", "thế chấp", "hạn chế giao dịch", "thu hồi", "vi phạm đất đai", "biện pháp bảo đảm", "ngăn chặn", "điều kiện chuyển nhượng"],
       "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "civil-code-91-2015-qh13", "civil-procedure-consolidated-99-2025-vbhn-vpqh", "civil-enforcement-consolidated-115-2025-vbhn-vpqh", "notarization-consolidated-50-2026-vbhn-vpqh", "credit-institutions-consolidated-158-2025-vbhn-vpqh", "decree-99-2022-nd-cp", "decree-123-2024-nd-cp"],
-      "mandatory_source_families": ["land_information_access", "hcm_land_information_procedure", "official_due_diligence_sources"]
+      "mandatory_source_families": [
+        {"id": "land_information_access", "evidence_documents": ["decree-101-2024-nd-cp"]},
+        {"id": "hcm_land_information_procedure", "evidence_documents": ["hcm-decision-44-2026"]},
+        "official_due_diligence_sources"
+      ]
     },
     {
       "id": "planning",
@@ -91,7 +101,7 @@
       "status": "building",
       "topics": ["đăng ký lần đầu", "cấp giấy", "chuyển nhượng", "tặng cho", "thừa kế", "góp vốn", "cấp đổi", "cấp lại", "đính chính", "tách hợp thửa", "chuyển mục đích", "tài sản gắn liền", "xóa thế chấp", "dữ liệu đất đai", "nghĩa vụ tài chính"],
       "mandatory_documents": ["hcm-decision-44-2026", "hcm-decision-2944-2026", "hcm-procedure-publication-current", "hcm-internal-process-current"],
-      "mandatory_source_families": ["hcm_procedure_portal", "hcm_procedure_publication_decisions", "hcm_internal_process_decisions", "hcm_amendment_and_repeal_decisions", "hcm_public_service_operational_records"]
+      "mandatory_source_families": ["hcm_procedure_portal", {"id": "hcm_procedure_publication_decisions", "evidence_documents": ["hcm-decision-44-2026"]}, "hcm_internal_process_decisions", "hcm_amendment_and_repeal_decisions", "hcm_public_service_operational_records"]
     },
     {
       "id": "dispute-triage",

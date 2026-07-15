@@ -1,6 +1,8 @@
 import hashlib
+from pathlib import Path
 
 from app.auth import issue_api_key
+from app.database import Database
 from app.knowledge import KnowledgeRepository
 from app.models import Role
 from app.coverage import normalize_locality
@@ -36,6 +38,10 @@ def test_governed_source_resolves_temporal_applicability(client):
             "https://example.gov.vn/law", digest, "2025-01-01", "2025-02-01", None,
             "effective", "Vietnam", None, "1.0", "full_text_verified",
         ))
+        con.execute(
+            """UPDATE legal_documents SET artifact_integrity_status='verified',
+            runtime_activation_status='active' WHERE id='law-reviewed'"""
+        )
         con.execute("""INSERT INTO legal_provisions
         (id,document_id,location,text,keywords) VALUES(?,?,?,?,?)""", (
             "law-reviewed-art-1", "law-reviewed", "Article 1", "Điều kiện chuyển nhượng quyền sử dụng đất", '["chuyển nhượng"]'
@@ -82,3 +88,46 @@ def test_hcm_aliases_are_normalized_without_neighbor_leakage():
     assert normalize_locality("Sài Gòn") == ("TP. Hồ Chí Minh", True)
     assert normalize_locality("TPHCM") == ("TP. Hồ Chí Minh", True)
     assert normalize_locality("Đồng Nai") == ("Đồng Nai", False)
+
+
+def test_search_index_refreshes_when_corpus_revision_changes(tmp_path: Path):
+    database = Database(tmp_path / "revision.db")
+    repository = KnowledgeRepository(database, allow_demo=False)
+    hits, _ = repository.search(
+        "quyền chuyển nhượng",
+        {"relevant_date": "2026-07-15", "locality": "TP. Hồ Chí Minh"},
+    )
+    assert hits == []
+
+    with database.connect() as con:
+        con.execute(
+                """INSERT INTO legal_documents
+                (id,title,number,authority,official_url,content_hash,effective_from,
+                 legal_status,jurisdiction,version,imported_at,completeness_status,
+                 artifact_integrity_status,runtime_activation_status)
+                VALUES(?,?,?,?,?,?,?,?,?,?,datetime('now'),'full_text_verified','verified','active')""",
+            (
+                "revision-law", "Luật kiểm thử", "01/TEST", "Quốc hội",
+                "https://example.gov.vn/revision", "a" * 64, "2024-01-01",
+                "effective", "Vietnam", "v1",
+            ),
+        )
+        con.execute(
+            """INSERT INTO legal_provisions
+            (id,document_id,location,text,keywords,level,legal_status)
+            VALUES(?,?,?,?,?,'article','effective')""",
+            (
+                "revision-law-art-1", "revision-law", "Điều 1",
+                "Quyền chuyển nhượng quyền sử dụng đất", "[]",
+            ),
+        )
+        con.execute(
+            """UPDATE corpus_runtime_state
+            SET revision=revision+1,activation_status='active' WHERE singleton=1"""
+        )
+
+    refreshed, _ = repository.search(
+        "quyền chuyển nhượng",
+        {"relevant_date": "2026-07-15", "locality": "TP. Hồ Chí Minh"},
+    )
+    assert refreshed[0]["provision_id"] == "revision-law-art-1"

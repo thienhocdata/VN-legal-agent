@@ -1,8 +1,8 @@
 def test_health(client):
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json()["legal_coverage"] == "demo_allowed"
-    assert response.json()["ai_chat"]["mode"] == "rule_fallback"
+    assert response.json()["legal_coverage"] == "governed_only"
+    assert response.json()["ai_chat"]["mode"] == "unavailable"
 
 
 def test_end_to_end_case_workflow(client, case):
@@ -23,7 +23,7 @@ def test_end_to_end_case_workflow(client, case):
         "query": "điều kiện chuyển nhượng giấy chứng nhận tranh chấp"
     })
     assert result.status_code == 200
-    assert result.json()["status"] == "analysis_ready"
+    assert result.json()["status"] == "review_required"
 
     result = client.post(f"/api/v1/cases/{case_id}/analyze")
     assert result.status_code == 200
@@ -112,8 +112,8 @@ def test_chat_first_flow_creates_hidden_case_and_answers(client):
     assert response.status_code == 200
     data = response.json()
     assert data["case_id"].startswith("case_")
-    assert data["status"] == "corpus_gap"
-    assert "corpus toàn văn đã kiểm chứng" in data["answer"]
+    assert data["status"] == "ai_unavailable"
+    assert "chưa được kết nối" in data["answer"]
     assert data["citations"] == []
     messages = client.get(f"/api/v1/cases/{data['case_id']}/messages")
     assert [m["role"] for m in messages.json()] == ["user", "assistant"]
@@ -121,31 +121,27 @@ def test_chat_first_flow_creates_hidden_case_and_answers(client):
 
 def test_chat_asks_one_material_question_at_a_time(client):
     first = client.post("/api/v1/chat", json={"message": "Tôi muốn bán một thửa đất."}).json()
-    assert first["status"] == "intake_in_progress"
-    assert "tỉnh hoặc thành phố" in first["answer"]
+    assert first["status"] == "ai_unavailable"
+    assert "chưa được kết nối" in first["answer"]
     second = client.post("/api/v1/chat", json={"case_id": first["case_id"], "message": "TP.HCM"}).json()
-    assert "diễn ra vào ngày nào" in second["answer"]
+    assert second["status"] == "ai_unavailable"
 
 
 def test_chat_answers_interruption_instead_of_repeating_pending_question(client):
     first = client.post("/api/v1/chat", json={
         "message": "Tôi muốn kiểm tra điều kiện chuyển nhượng một thửa đất tại TP.HCM."
     }).json()
-    assert "diễn ra vào ngày nào" in first["answer"]
+    assert first["status"] == "ai_unavailable"
 
     definition = client.post("/api/v1/chat", json={
         "case_id": first["case_id"], "message": "Tách thửa là gì?"
     }).json()
-    assert definition["status"] == "conversation"
-    assert "Tách thửa" in definition["answer"]
-    assert "diễn ra vào ngày nào" not in definition["answer"]
+    assert definition["status"] == "ai_unavailable"
 
     topic_change = client.post("/api/v1/chat", json={
         "case_id": first["case_id"], "message": "Bạn có thể trả lời nội dung khác không?"
     }).json()
-    assert topic_change["status"] == "conversation"
-    assert "câu hoàn toàn khác" in topic_change["answer"]
-    assert "diễn ra vào ngày nào" not in topic_change["answer"]
+    assert topic_change["status"] == "ai_unavailable"
 
 
 def test_chat_ui_is_single_conversation_and_scrollable(client):
@@ -190,9 +186,48 @@ def test_configured_ai_handles_typo_as_conversation(client):
     assert data["status"] == "conversation"
     assert "tách thửa" in data["answer"]
     assert fake.captured["history"][-1]["content"] == "tahc thua o tphcm co dc ko?"
+    assert "case_purpose" not in fake.captured["facts"]
 
 
-def test_ai_quota_failure_is_explicit_instead_of_silent_fallback(client):
+def test_context_extraction_accepts_missing_accents_and_punctuation(client):
+    response = client.post("/api/v1/chat", json={
+        "message": "Dat nay ko, co tranh chap; ko!!! the chap; da, co so do."
+    }).json()
+    case_data = client.get(f"/api/v1/cases/{response['case_id']}").json()
+    latest = {fact["key"]: fact["value"] for fact in case_data["facts"]}
+    assert latest["dispute_status"] is False
+    assert latest["mortgage_status"] is False
+    assert latest["certificate_status"] is True
+
+
+def test_status_question_is_not_recorded_as_a_confirmed_case_fact(client):
+    response = client.post("/api/v1/chat", json={
+        "message": "Dat co tranh chap khong? Co dang the chap ko?"
+    }).json()
+    case_data = client.get(f"/api/v1/cases/{response['case_id']}").json()
+    keys = {fact["key"] for fact in case_data["facts"]}
+    assert "dispute_status" not in keys
+    assert "mortgage_status" not in keys
+
+
+def test_multiple_dated_events_keep_separate_timeline_entries(client):
+    response = client.post("/api/v1/chat", json={
+        "message": "Dat coc ngay 15/06/2024, cong chung ngay 20/08/2024 va sang ten 01/09/2024."
+    }).json()
+    case_data = client.get(f"/api/v1/cases/{response['case_id']}").json()
+    timeline = next(
+        fact["value"] for fact in reversed(case_data["facts"])
+        if fact["key"] == "event_timeline"
+    )
+    assert [(item["type"], item["date"]) for item in timeline] == [
+        ("deposit_contract", "2024-06-15"),
+        ("notarization", "2024-08-20"),
+        ("registration", "2024-09-01"),
+    ]
+    assert not any(fact["key"] == "relevant_date" for fact in case_data["facts"])
+
+
+def test_ai_quota_failure_returns_short_overload_message_without_fake_answer(client):
     import app.main as main
     from app.legal_ai import LegalAIError
 
@@ -211,4 +246,35 @@ def test_ai_quota_failure_is_explicit_instead_of_silent_fallback(client):
     response = client.post("/api/v1/chat", json={"message": "Tách thửa là gì?"})
     assert response.status_code == 200
     assert response.json()["status"] == "ai_unavailable"
-    assert "hạn mức" in response.json()["answer"]
+    assert "tạm quá tải" in response.json()["answer"]
+    assert "Tách thửa là" not in response.json()["answer"]
+
+
+def test_small_talk_uses_model_and_does_not_expose_legal_audit(client):
+    import app.main as main
+
+    class SmallTalkLegalAI:
+        available = True
+        called = 0
+
+        @staticmethod
+        def status():
+            return {"mode": "model", "configured": True, "model": "test-model", "configuration_error": None}
+
+        @staticmethod
+        def generate(**_):
+            from app.legal_ai import LegalAIResult
+            SmallTalkLegalAI.called += 1
+            return LegalAIResult(answer="Chào bạn, mình có thể hỗ trợ gì?", suggestions=[], model="test")
+
+    main.service = main.LegalCaseService(main.db, legal_ai=SmallTalkLegalAI())
+    response = client.post("/api/v1/chat", json={"message": "alo"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "conversation"
+    assert data["answer"].startswith("Chào bạn")
+    assert "Dữ kiện" not in data["answer"]
+    assert "CHƯA THỂ KẾT LUẬN" not in data["answer"]
+    assert data["citations"] == []
+    assert data["suggestions"] == []
+    assert SmallTalkLegalAI.called == 1

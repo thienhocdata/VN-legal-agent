@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "civil-procedure-consolidated-99-2025-vbhn-vpqh",
+    "title": "Văn bản hợp nhất Bộ luật Tố tụng dân sự",
+    "number": "99/VBHN-VPQH",
+    "authority": "Văn phòng Quốc hội",
+    "issued_date": "2025-08-26",
+    "effective_from": "2025-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "consolidated-as-of-2025-08-26",
+    "document_type": "consolidated_code",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 517,
+    "article_selection": "first_complete_sequence",
+    "pdf_text_extraction_mode": "layout",
+    "extraction_method": "pypdf-layout-structured-v2",
+    "verified_at": "2026-07-15T06:38:41.734072+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-99-vbhn-vpqh-46013/58612.htm",
+    "verification_level": "machine_assisted_official_source_review"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/99-2025-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58606-1-20251263-126499-vbhn-vpqh.pdf",
+      "page_count": 89
+    },
+    {
+      "path": "artifacts/99-2025-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58609-1-20251265-126699-vbhn-vpqh.pdf",
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/99-2025-vbhn-vpqh-part-3.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58612-1-20251267-126899-vbhn-vpqh.pdf",
+      "page_count": 70
+    }
+  ],
+  "relationships": []
+}
