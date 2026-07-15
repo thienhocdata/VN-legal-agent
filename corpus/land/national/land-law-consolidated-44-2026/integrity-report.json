@@ -1,9 +1,9 @@
 {
   "report_version": 1,
-  "checked_at": "2026-07-14T18:00:34.406466+00:00",
+  "checked_at": "2026-07-15T02:06:18.837500+00:00",
   "document_id": "land-law-consolidated-44-2026-vbhn-vpqh",
   "document_number": "44/VBHN-VPQH",
-  "completeness_status": "full_text_unverified",
+  "completeness_status": "full_text_verified",
   "checks": {
     "pack_validation_passed": true,
     "provision_ids_unique": true,
@@ -14,56 +14,16 @@
   "metrics": {
     "expected_articles": 260,
     "parsed_articles": 260,
-    "total_provisions": 2636,
-    "clauses": 1272,
-    "points": 1104,
-    "candidate_duplicate_nested_locations": 39
+    "total_provisions": 2602,
+    "clauses": 1247,
+    "points": 1095,
+    "candidate_duplicate_nested_locations": 0
   },
   "findings": {
     "duplicate_ids": [],
     "empty_provisions": [],
-    "candidate_duplicate_nested_location_ids": [
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-181-cl-1-pt-a-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-181-cl-1-pt-b-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-181-cl-1-pt-c-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-181-cl-1-pt-d-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-181-cl-1-pt-đ-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-243-cl-2-pt-a-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-243-cl-2-pt-b-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-243-cl-2-pt-c-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-245-cl-1-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-245-cl-2-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-245-cl-3-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-248-cl-2-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-248-cl-6-pt-a-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-248-cl-6-pt-b-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-248-cl-6-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-248-cl-6-occ-3",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-2-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-1-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-2-occ-3",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-3-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-1-occ-3",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-2-occ-4",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-1-occ-4",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-2-occ-5",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-3-occ-3",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-1-occ-5",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-2-occ-6",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-3-occ-4",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-1-occ-6",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-2-occ-7",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-3-occ-5",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-1-occ-7",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-2-occ-8",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-251-cl-1-occ-8",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-252-cl-2-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-252-cl-1-occ-2",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-252-cl-1-occ-3",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-252-cl-2-occ-3",
-      "land-law-consolidated-44-2026-vbhn-vpqh-art-252-cl-1-occ-4"
-    ]
+    "candidate_duplicate_nested_location_ids": []
   },
   "structural_checks_passed": true,
-  "activation_eligible": false
+  "activation_eligible": true
 }

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "circular-05-2025-tt-btp",
+    "title": "Quy định chi tiết một số điều và biện pháp thi hành Luật Công chứng",
+    "number": "05/2025/TT-BTP",
+    "authority": "Bộ Tư pháp",
+    "issued_date": "2025-05-15",
+    "effective_from": "2025-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-current",
+    "document_type": "circular",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 26,
+    "expected_article_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "article_selection": "first_complete_sequence",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T01:53:42.412410+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "verification_level": "machine_assisted_official_source_review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-05-2025-tt-btp-45015.htm",
+    "body_end_markers": [
+      "KT. BỘ TRƯỞNG"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/05-2025-tt-btp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/5/45015/56626-1-2025757-75805-2025-tt-btp.pdf",
+      "page_count": 86
+    },
+    {
+      "path": "artifacts/05-2025-tt-btp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/5/45015/56627-1-2025759-76005-2025-tt-btp.pdf",
+      "page_count": 20
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "implements",
+      "target_document_id": "notarization-consolidated-50-2026-vbhn-vpqh"
+    },
+    {
+      "relation_type": "implements",
+      "target_document_id": "decree-104-2025-nd-cp"
+    }
+  ]
+}

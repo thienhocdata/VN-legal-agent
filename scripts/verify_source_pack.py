@@ -32,7 +32,9 @@ def build_report(pack_path: Path) -> dict:
         if str(item.get("number", "")).isdigit()
     )
     expected_count = document.get("expected_article_count")
-    expected_sequence = list(range(1, expected_count + 1)) if expected_count else []
+    expected_sequence = document.get("expected_article_numbers") or (
+        list(range(1, expected_count + 1)) if expected_count else []
+    )
     empty_provisions = [item.get("id") for item in provisions if not str(item.get("text") or "").strip()]
     candidate_duplicates = [
         item["id"] for item in provisions

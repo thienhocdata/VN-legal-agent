@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "land-law-consolidated-21-2018-vbhn-vpqh",
+    "title": "Văn bản hợp nhất Luật Đất đai",
+    "number": "21/VBHN-VPQH",
+    "authority": "Văn phòng Quốc hội",
+    "issued_date": "2018-12-10",
+    "effective_from": "2019-01-01",
+    "effective_to": "2024-07-31",
+    "legal_status": "expired",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "consolidated-as-of-2018-12-10",
+    "document_type": "consolidated_law",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 212,
+    "article_selection": "first_complete_sequence",
+    "pdf_text_extraction_mode": "layout",
+    "extraction_method": "pypdf-layout-structured-v2",
+    "verified_at": "2026-07-15T02:17:05.807767+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-21-vbhn-vpqh-28558/26048.htm",
+    "body_end_markers": [
+      "VĂN PHÒNG QUỐC HỘI"
+    ],
+    "verification_level": "machine_assisted_official_source_review"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/21-2018-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRowxfYmPqFRHx0Qab3XkLOcBZr6zX3lNNSfSRAH_nTxBURCqWZcB4l8V6lkaI9Qjs6CKksD0hGjpXPdrhoO_HcA~~",
+      "page_count": 26
+    },
+    {
+      "path": "artifacts/21-2018-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRowxfYmPqFRHx0Qab3XkLOR1S6s8bMA7q8pFRBBV4N5IdV-Eb9DKNzZW8MSH_3Z4VQlcqoKwZY3wnNoMKWt1pWA~~",
+      "page_count": 94
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "consolidates",
+      "target_document_id": "law-45-2013-qh13"
+    },
+    {
+      "relation_type": "consolidates",
+      "target_document_id": "law-35-2018-qh14",
+      "effective_from": "2019-01-01"
+    },
+    {
+      "relation_type": "replaced_by",
+      "target_document_id": "land-law-consolidated-44-2026-vbhn-vpqh",
+      "effective_from": "2024-08-01"
+    }
+  ]
+}

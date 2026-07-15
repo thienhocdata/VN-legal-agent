@@ -1,13 +1,13 @@
 {
   "report_version": 1,
   "document_id": "decree-101-2024-nd-cp",
-  "checked_at": "2026-07-14T17:53:13.795239+00:00",
+  "checked_at": "2026-07-15T01:25:47.865338+00:00",
   "checked_by": "Codex",
   "sampling": "first_middle_last_across_artifact_set",
   "samples": {
-    "first": "tmp/pdfs/qa/decree-101-2024-nd-cp-first.png",
-    "middle": "tmp/pdfs/qa/decree-101-2024-nd-cp-middle.png",
-    "last": "tmp/pdfs/qa/decree-101-2024-nd-cp-last.png"
+    "first": "tmp/pdfs/qa-activation/decree-101-2024-nd-cp-first.png",
+    "middle": "tmp/pdfs/qa-activation/decree-101-2024-nd-cp-middle.png",
+    "last": "tmp/pdfs/qa-activation/decree-101-2024-nd-cp-last.png"
   },
   "checks": {
     "correct_document_identity": true,

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "hcm-decision-44-2026",
+    "title": "Ban hành quy định trình tự, thủ tục hành chính về đất đai trên địa bàn Thành phố Hồ Chí Minh",
+    "number": "44/2026/QĐ-UBND",
+    "authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh",
+    "issued_date": "2026-06-30",
+    "effective_from": "2026-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": "TP. Hồ Chí Minh",
+    "version": "original-current",
+    "document_type": "local_decision",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 7,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T01:53:43.196036+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "verification_level": "machine_assisted_official_source_review",
+    "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/44-2026-qd-ubnd/ngay/30-06-2026/49534",
+    "body_end_markers": [
+      "Nơi nhận:"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/44-2026-qd-ubnd-main.pdf",
+      "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/44-2026-qd-ubnd/ngay/30-06-2026/tai-ve/49534",
+      "page_count": 5
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "implements",
+      "target_document_id": "land-law-consolidated-44-2026-vbhn-vpqh"
+    },
+    {
+      "relation_type": "implements",
+      "target_document_id": "decree-49-2026-nd-cp"
+    }
+  ]
+}

@@ -51,17 +51,44 @@ def build_report(database_path: str | Path, registry_path: Path | None = None) -
                 "legal_status": document["legal_status"] if document else "unknown",
             })
         source_families = package.get("mandatory_source_families", [])
+        source_family_rows = []
+        pending_source_families = []
+        for family in source_families:
+            if isinstance(family, str):
+                family_id = family
+                evidence_ids: list[str] = []
+                family_satisfied = False
+            else:
+                family_id = family["id"]
+                evidence_ids = family.get("evidence_documents", [])
+                family_satisfied = bool(evidence_ids) and all(
+                    bool(
+                        documents.get(document_id)
+                        and documents[document_id]["completeness_status"] == "full_text_verified"
+                        and documents[document_id]["legal_status"]
+                        in {"effective", "expired", "superseded", "partially_effective"}
+                    )
+                    for document_id in evidence_ids
+                )
+            if not family_satisfied:
+                pending_source_families.append(family_id)
+            source_family_rows.append({
+                "id": family_id,
+                "satisfied": family_satisfied,
+                "evidence_documents": evidence_ids,
+            })
         packages.append({
             "id": package["id"],
             "name": package["name"],
             "priority": package["priority"],
             "declared_status": package["status"],
-            "ready": verified == len(required) and not source_families,
+            "ready": verified == len(required) and not pending_source_families,
             "acquired_documents": acquired,
             "verified_documents": verified,
             "required_documents": len(required),
             "document_coverage_percent": round(100 * verified / len(required), 1) if required else 0.0,
-            "pending_source_families": source_families,
+            "pending_source_families": pending_source_families,
+            "source_families": source_family_rows,
             "documents": document_rows,
         })
     return {

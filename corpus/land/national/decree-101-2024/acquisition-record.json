@@ -1,19 +1,26 @@
 {
   "record_version": 1,
   "document_id": "decree-101-2024-nd-cp",
-  "source_page_url": "https://vanban.chinhphu.vn/?docid=210791&pageid=27160",
-  "source_authority": "Chính phủ",
-  "acquired_at": "2026-07-14T17:44:10.520749+00:00",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-101-2024-nd-cp-42434/51166.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T01:24:14.368343+00:00",
   "verification_status": "artifact_visual_verified_text_unverified",
   "artifacts": [
     {
-      "path": "artifacts/101-2024-nd-cp.pdf",
-      "official_url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/7/101-nd.signed.pdf",
-      "sha256": "dc5764aa9ce1332e044be3b41b74eeb4f5b831af72deb740e8f9975dad96592e",
-      "bytes": 5546344,
-      "page_count": 137
+      "path": "artifacts/101-2024-nd-cp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42434/51166-1-2024913-914101-2024-nd-cp.pdf",
+      "sha256": "a10268f7f9b1e45b59a9613a5fadbfa10ca345c834d4a2c17b58d9f429946d5c",
+      "bytes": 1157108,
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/101-2024-nd-cp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42434/51169-1-2024915-916101-2024-nd-cp.pdf",
+      "sha256": "6bcf6fb9b61ac64f0e4a950e8c5b4975fe427a57c477f67bfe15629bd18adb6e",
+      "bytes": 978383,
+      "page_count": 58
     }
   ],
-  "visual_verified_at": "2026-07-14T17:53:13.795239+00:00",
+  "visual_verified_at": "2026-07-15T01:25:47.865338+00:00",
   "visual_verified_by": "Codex"
 }

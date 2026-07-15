@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-104-2025-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-104-2025-nd-cp-44892/56337.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T01:32:25.509752+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/104-2025-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/5/44892/56337-1-2025711-712104-2025-nd-cp.pdf",
+      "sha256": "e5296e40db9287a10b0e92dbaf7af0080cdd4a9da3ad5145f0adeae955845cf1",
+      "bytes": 675054,
+      "page_count": 52
+    }
+  ],
+  "visual_verified_at": "2026-07-15T01:33:00.116712+00:00",
+  "visual_verified_by": "Codex"
+}

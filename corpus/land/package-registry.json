@@ -18,10 +18,17 @@
       "id": "transactions",
       "name": "Giao dịch",
       "priority": "P0",
-      "status": "planned",
+      "status": "active",
       "topics": ["chuyển nhượng", "tặng cho", "thừa kế", "góp vốn", "đặt cọc", "hợp đồng vô hiệu", "công chứng", "tài sản chung", "người đại diện", "người chưa thành niên", "thế chấp"],
-      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "civil-code-91-2015-qh13", "notarization-consolidated-50-2026-vbhn-vpqh", "marriage-family-consolidated-121-2025-vbhn-vpqh", "real-estate-business-consolidated-06-2025-vbhn-vpqh", "housing-consolidated-79-2026-vbhn-vpqh", "credit-institutions-consolidated-158-2025-vbhn-vpqh", "decree-99-2022-nd-cp"],
-      "mandatory_source_families": ["hcm_transaction_change_registration", "civil_transaction_guidance", "inheritance_guidance", "notarization_guidance", "security_registration_guidance"]
+      "mandatory_documents": ["law-45-2013-qh13", "land-law-consolidated-21-2018-vbhn-vpqh", "land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "decree-226-2025-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "civil-code-91-2015-qh13", "notarization-consolidated-50-2026-vbhn-vpqh", "decree-104-2025-nd-cp", "circular-05-2025-tt-btp", "marriage-family-consolidated-121-2025-vbhn-vpqh", "real-estate-business-consolidated-06-2025-vbhn-vpqh", "housing-consolidated-79-2026-vbhn-vpqh", "credit-institutions-consolidated-158-2025-vbhn-vpqh", "decree-99-2022-nd-cp", "hcm-decision-44-2026"],
+      "mandatory_source_families": [
+        {"id": "hcm_transaction_change_registration", "evidence_documents": ["hcm-decision-44-2026", "decree-101-2024-nd-cp", "decree-49-2026-nd-cp"]},
+        {"id": "civil_transaction_guidance", "evidence_documents": ["civil-code-91-2015-qh13", "land-law-consolidated-44-2026-vbhn-vpqh"]},
+        {"id": "inheritance_guidance", "evidence_documents": ["civil-code-91-2015-qh13", "marriage-family-consolidated-121-2025-vbhn-vpqh"]},
+        {"id": "notarization_guidance", "evidence_documents": ["notarization-consolidated-50-2026-vbhn-vpqh", "decree-104-2025-nd-cp", "circular-05-2025-tt-btp"]},
+        {"id": "security_registration_guidance", "evidence_documents": ["civil-code-91-2015-qh13", "decree-99-2022-nd-cp", "credit-institutions-consolidated-158-2025-vbhn-vpqh"]},
+        {"id": "historical_land_law_versions", "evidence_documents": ["law-45-2013-qh13", "land-law-consolidated-21-2018-vbhn-vpqh", "land-law-consolidated-44-2026-vbhn-vpqh"]}
+      ]
     },
     {
       "id": "parcel",

@@ -1,0 +1,29 @@
+{
+  "report_version": 1,
+  "checked_at": "2026-07-15T01:53:41.628717+00:00",
+  "document_id": "decree-101-2024-nd-cp",
+  "document_number": "101/2024/NĐ-CP",
+  "completeness_status": "full_text_verified",
+  "checks": {
+    "pack_validation_passed": true,
+    "provision_ids_unique": true,
+    "all_provisions_nonempty": true,
+    "article_sequence_complete": true
+  },
+  "errors": [],
+  "metrics": {
+    "expected_articles": 68,
+    "parsed_articles": 68,
+    "total_provisions": 933,
+    "clauses": 326,
+    "points": 539,
+    "candidate_duplicate_nested_locations": 0
+  },
+  "findings": {
+    "duplicate_ids": [],
+    "empty_provisions": [],
+    "candidate_duplicate_nested_location_ids": []
+  },
+  "structural_checks_passed": true,
+  "activation_eligible": true
+}

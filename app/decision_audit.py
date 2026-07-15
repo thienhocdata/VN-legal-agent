@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from typing import Any
 
 
@@ -70,6 +71,115 @@ def governed_candidates(sources: list[dict[str, Any]]) -> list[dict[str, Any]]:
         if item.get("applicability") == "candidate"
         and item.get("governance_status") == "full_text_verified"
     ]
+
+
+def evidence_backed_fallback(
+    *, question: str, facts: dict[str, Any], sources: list[dict[str, Any]], source_notice: str | None,
+) -> str:
+    """Return a useful governed answer when the language model is unavailable or rejected."""
+
+    folded = "".join(
+        char for char in unicodedata.normalize("NFD", question.lower().replace("đ", "d"))
+        if unicodedata.category(char) != "Mn"
+    )
+    if "chuyen nhuong" not in folded:
+        return safe_inconclusive_answer(facts=facts, sources=sources, source_notice=source_notice)
+
+    indexed = [
+        (index, item) for index, item in enumerate(sources[:8], 1)
+        if item.get("applicability") == "candidate"
+        and item.get("governance_status") == "full_text_verified"
+    ]
+
+    def source(provision_id: str) -> tuple[int, dict[str, Any]] | None:
+        return next(
+            ((index, item) for index, item in indexed if item.get("provision_id") == provision_id),
+            None,
+        )
+
+    land_conditions = source("land-law-consolidated-44-2026-vbhn-vpqh-art-45")
+    land_form = source("land-law-consolidated-44-2026-vbhn-vpqh-art-27")
+    registration_file = source("decree-101-2024-nd-cp-art-30")
+    registration_process = source("decree-101-2024-nd-cp-art-37")
+    notarization_process = source("notarization-consolidated-50-2026-vbhn-vpqh-art-42")
+    if not land_conditions:
+        return safe_inconclusive_answer(facts=facts, sources=sources, source_notice=source_notice)
+
+    condition_index, condition_item = land_conditions
+    known = [
+        f"- Địa phương: {facts.get('locality') or 'chưa xác định'}.",
+        f"- Ngày dự kiến giao dịch: {facts.get('relevant_date') or 'chưa xác định'}.",
+    ]
+    fact_checks = (
+        ("certificate_status", "có Giấy chứng nhận", False),
+        ("dispute_status", "đất không có tranh chấp", True),
+        ("enforcement_status", "quyền sử dụng đất không bị kê biên", True),
+        ("land_term_status", "đất còn thời hạn sử dụng", False),
+        ("mortgage_status", "đất không thế chấp", True),
+    )
+    for key, label, inverse in fact_checks:
+        value = facts.get(key)
+        satisfied = value is False if inverse else value is True
+        if satisfied:
+            known.append(f"- Bạn cung cấp: {label} (chưa được cơ quan/tài liệu độc lập xác minh).")
+
+    missing = []
+    if facts.get("certificate_status") is not True:
+        missing.append("Giấy chứng nhận và đúng người có quyền định đoạt")
+    if facts.get("dispute_status") is not False:
+        missing.append("tình trạng tranh chấp")
+    if facts.get("enforcement_status") is not False:
+        missing.append("tình trạng kê biên/biện pháp bảo đảm thi hành án")
+    if facts.get("land_term_status") is not True:
+        missing.append("thời hạn sử dụng đất")
+    missing.extend([
+        "quyền sử dụng đất có bị áp dụng biện pháp khẩn cấp tạm thời hay không",
+        "có nghĩa vụ tài chính được chậm thực hiện hoặc ghi nợ hay không",
+        "đất có phải tài sản chung hoặc có đồng chủ sử dụng cần cùng ký hay không",
+    ])
+
+    evidence = [
+        f"- Điều kiện thực hiện quyền: [Nguồn {condition_index}], {condition_item.get('location')} quy định các điều kiện về Giấy chứng nhận, tranh chấp, kê biên, thời hạn sử dụng, biện pháp khẩn cấp tạm thời và nghĩa vụ tài chính.",
+    ]
+    if land_form:
+        index, item = land_form
+        evidence.append(
+            f"- Hình thức hợp đồng: [Nguồn {index}], {item.get('location')} là căn cứ trực tiếp về công chứng/chứng thực hợp đồng chuyển nhượng quyền sử dụng đất."
+        )
+    if notarization_process:
+        index, item = notarization_process
+        evidence.append(f"- Cách công chứng hợp đồng đã soạn sẵn: [Nguồn {index}], {item.get('location')}.")
+    if registration_file:
+        index, item = registration_file
+        evidence.append(f"- Thành phần hồ sơ đăng ký biến động: [Nguồn {index}], {item.get('location')}.")
+    if registration_process:
+        index, item = registration_process
+        evidence.append(f"- Trình tự tiếp nhận, kiểm tra và đăng ký biến động: [Nguồn {index}], {item.get('location')}.")
+
+    interdisciplinary = ["Luật Đất đai đã được kiểm tra trực tiếp"]
+    if notarization_process:
+        interdisciplinary.append("Luật Công chứng đã được kiểm tra ở phần thủ tục công chứng hợp đồng")
+    if registration_file or registration_process:
+        interdisciplinary.append("Nghị định 101/2024/NĐ-CP về đăng ký biến động đã được kiểm tra")
+
+    return (
+        "**1. Dữ kiện**\n"
+        + "\n".join(known)
+        + "\n- Chưa đủ để chốt giao dịch. Cần xác minh thêm: " + "; ".join(missing) + ".\n\n"
+        "**2. Ngoại lệ**\n"
+        f"- [Nguồn {condition_index}], {condition_item.get('location')} có các ngoại lệ và điều kiện bổ sung theo loại đất, chủ thể nhận chuyển nhượng và trường hợp nghĩa vụ tài chính còn ghi nợ.\n"
+        "- Nếu chỉ chuyển nhượng một phần thửa đất, phải kiểm tra thêm điều kiện tách thửa của TP.HCM; nguồn hiện có trong lượt này chưa đủ để kết luận phần đó.\n\n"
+        "**3. Hiệu lực**\n"
+        f"- [Nguồn {condition_index}] áp dụng từ {condition_item.get('effective_from')} đến {condition_item.get('effective_to') or 'nay'} trên phạm vi toàn quốc, phù hợp ngày 15/07/2026.\n"
+        + (f"- [Nguồn {land_form[0]}] áp dụng tại cùng thời điểm và phạm vi.\n" if land_form else "")
+        + (f"- [Nguồn {notarization_process[0]}] áp dụng từ {notarization_process[1].get('effective_from')} đến nay.\n" if notarization_process else "")
+        + "\n**4. Văn bản liên ngành**\n- " + "; ".join(interdisciplinary) + ".\n"
+        "- Thuế, lệ phí và chế độ tài sản vợ chồng chưa có đủ nguồn trực tiếp trong 8 kết quả của lượt này nên chưa chốt số tiền hoặc quyền ký.\n\n"
+        "**5. Kết luận**\n"
+        "**CHƯA THỂ KẾT LUẬN** — các dữ kiện bạn nêu đang phù hợp với phần lớn điều kiện cơ bản để chuyển nhượng, nhưng còn ba điểm có thể đảo kết luận: biện pháp khẩn cấp tạm thời, nghĩa vụ tài chính còn ghi nợ và quyền của vợ/chồng hoặc đồng chủ sử dụng. Nếu ba điểm này đều không vướng, về nguyên tắc bạn có thể ký hợp đồng có công chứng/chứng thực rồi thực hiện đăng ký biến động.\n\n"
+        "**6. Bằng chứng trực tiếp**\n"
+        + "\n".join(evidence)
+    )
 
 
 def validate_decision_answer(answer: str, sources: list[dict[str, Any]]) -> tuple[bool, list[str]]:

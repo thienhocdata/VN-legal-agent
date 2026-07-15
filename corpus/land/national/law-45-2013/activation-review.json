@@ -1,0 +1,33 @@
+{
+  "review_version": 1,
+  "document_id": "law-45-2013-qh13",
+  "reviewed_at": "2026-07-15T02:16:56.468480+00:00",
+  "reviewed_by": "Codex machine-assisted official-source review",
+  "review_level": "machine_assisted_official_source_review",
+  "applicability_date": "2018-12-31",
+  "official_source_page": "https://vbpl.moj.gov.vn/botainguyen/Pages/vbpq-thuoctinh.aspx?ItemID=32833",
+  "legal_status_reviewed": "expired",
+  "relationships_reviewed": [
+    {
+      "relation_type": "references",
+      "target_document_id": "law-35-2018-qh14",
+      "effective_from": "2019-01-01",
+      "note": "Historical queries from 2019 require the amendment source or a verified consolidated version"
+    },
+    {
+      "relation_type": "replaced_by",
+      "target_document_id": "land-law-consolidated-44-2026-vbhn-vpqh",
+      "effective_from": "2024-08-01"
+    }
+  ],
+  "checks": {
+    "amendments_and_interdisciplinary_relations_checked": true,
+    "article_structure_and_gaps_reviewed": true,
+    "artifact_hashes_match": true,
+    "direct_evidence_ready": true,
+    "effectivity_checked": true,
+    "source_identity_confirmed": true,
+    "visual_sampling_passed": true
+  },
+  "note": "Activation verifies official-source identity, immutable artifact hashes, visual samples, complete article structure, applicability metadata and declared amendment relationships. It is a machine-assisted corpus review, not an opinion on a specific legal matter."
+}

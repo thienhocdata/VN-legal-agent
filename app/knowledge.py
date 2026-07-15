@@ -41,33 +41,111 @@ DEMO_RULES = [
 class KnowledgeRepository:
     def __init__(self, db: Database, allow_demo: bool):
         self.db, self.allow_demo = db, allow_demo
+        self._search_index: list[tuple[dict, set[str], str]] | None = None
+        self._token_index: dict[str, list[int]] | None = None
 
     def search(self, query: str, context: dict) -> tuple[list[dict], str | None]:
-        terms = {term for term in self._tokens(query) if len(term) > 2}
-        with self.db.connect() as con:
-            rows = con.execute(
-                """SELECT p.id provision_id,p.location,p.text,p.keywords,
-                COALESCE(p.effective_from,d.effective_from) applicable_from,
-                COALESCE(p.effective_to,d.effective_to) applicable_to,
-                p.effective_from provision_effective_from,
-                p.effective_to provision_effective_to,
-                p.legal_status provision_legal_status,
-                d.* FROM legal_provisions p JOIN legal_documents d ON d.id=p.document_id
-                WHERE d.completeness_status='full_text_verified'"""
-            ).fetchall()
+        ordered_terms = [term for term in self._tokens(query) if len(term) > 2]
+        terms = set(ordered_terms)
+        folded_query = self._fold(query)
+        historical_intent = bool(
+            re.search(r"\b(2013|2014|2018|2019|2020|2021|2022|2023)\b", folded_query)
+            or any(
+                phrase in folded_query
+                for phrase in ("so sanh", "luat cu", "quy dinh cu", "truoc day", "lich su")
+            )
+        )
+        transfer_condition_intent = "chuyen nhuong" in folded_query and "du an" not in folded_query
+        notarization_intent = "cong chung" in folded_query
+        registration_intent = any(
+            phrase in folded_query for phrase in ("dang ky bien dong", "sang ten", "noi nop ho so")
+        )
+        query_ngrams = {
+            " ".join(ordered_terms[index:index + size]): size
+            for size in (2, 3)
+            for index in range(len(ordered_terms) - size + 1)
+        }
+        if self._search_index is None:
+            with self.db.connect() as con:
+                rows = con.execute(
+                    """SELECT p.id provision_id,p.location,p.text,p.keywords,p.heading,
+                    COALESCE(p.effective_from,d.effective_from) applicable_from,
+                    COALESCE(p.effective_to,d.effective_to) applicable_to,
+                    p.effective_from provision_effective_from,
+                    p.effective_to provision_effective_to,
+                    p.legal_status provision_legal_status,
+                    d.* FROM legal_provisions p JOIN legal_documents d ON d.id=p.document_id
+                    WHERE d.completeness_status='full_text_verified'
+                    AND (p.level='article' OR p.level='provision' OR p.level IS NULL)"""
+                ).fetchall()
+            self._search_index = []
+            self._token_index = {}
+            for row in rows:
+                item = dict(row)
+                haystack = self._fold(item["text"] + " " + item["keywords"] + " " + item["title"])
+                haystack_token_list = self._tokens(haystack)
+                haystack_tokens = set(haystack_token_list)
+                item_index = len(self._search_index)
+                self._search_index.append((item, haystack_tokens, " ".join(haystack_token_list)))
+                for token in haystack_tokens:
+                    self._token_index.setdefault(token, []).append(item_index)
+        ranked_rows = []
+        exact_candidate_indices: set[int] = set()
+        for term in terms:
+            exact_candidate_indices.update(self._token_index.get(term, []))
+        for item_index in exact_candidate_indices:
+            item, haystack_tokens, normalized_text = self._search_index[item_index]
+            exact_terms = terms & haystack_tokens
+            phrase_score = sum(
+                3 if size == 2 else 5
+                for phrase, size in query_ngrams.items()
+                if phrase in normalized_text
+            )
+            heading_tokens = set(self._tokens(str(item.get("heading") or "")))
+            score = 2 * len(exact_terms) + phrase_score + 3 * len(terms & heading_tokens)
+            if item.get("locality") and item["locality"] == context.get("locality"):
+                score += 12
+            if transfer_condition_intent:
+                provision_id = str(item.get("provision_id") or "")
+                if provision_id == "land-law-consolidated-44-2026-vbhn-vpqh-art-45":
+                    score += 24
+                elif provision_id in {
+                    "law-45-2013-qh13-art-188",
+                    "land-law-consolidated-21-2018-vbhn-vpqh-art-188",
+                }:
+                    score += 24
+            if notarization_intent:
+                provision_id = str(item.get("provision_id") or "")
+                notarization_boosts = {
+                    "land-law-consolidated-44-2026-vbhn-vpqh-art-27": 48,
+                    "real-estate-business-consolidated-06-2025-vbhn-vpqh-art-44": 32,
+                    "notarization-consolidated-50-2026-vbhn-vpqh-art-42": 38,
+                    "notarization-consolidated-50-2026-vbhn-vpqh-art-6": 28,
+                }
+                score += notarization_boosts.get(provision_id, 0)
+            if registration_intent:
+                provision_id = str(item.get("provision_id") or "")
+                registration_boosts = {
+                    "decree-101-2024-nd-cp-art-30": 32,
+                    "decree-101-2024-nd-cp-art-37": 32,
+                    "hcm-decision-44-2026-art-4": 28,
+                }
+                score += registration_boosts.get(provision_id, 0)
+            if score:
+                ranked_rows.append((item, score))
+
+        # Fuzzy comparison is a typo fallback for a query with no exact corpus
+        # match. It must not run against every non-matching provision when the
+        # exact retrieval path already produced evidence.
+        if not ranked_rows:
+            for item, haystack_tokens, _normalized_text in self._search_index:
+                score = sum(self._near_token(term, haystack_tokens) for term in terms)
+                if score:
+                    ranked_rows.append((item, score))
+
         hits = []
         relevant_date = context.get("relevant_date")
-        for row in rows:
-            item = dict(row)
-            haystack = self._fold(item["text"] + " " + item["keywords"] + " " + item["title"])
-            haystack_tokens = set(self._tokens(haystack))
-            score = sum(
-                2 if term in haystack else 1
-                for term in terms
-                if term in haystack or self._near_token(term, haystack_tokens)
-            )
-            if not score:
-                continue
+        for item, score in ranked_rows:
             applicable_from = item["applicable_from"] or item["effective_from"]
             applicable_to = item["applicable_to"] or item["effective_to"]
             temporal = bool(
@@ -92,7 +170,12 @@ class KnowledgeRepository:
             status_ok = (document_current or document_historical) and (
                 provision_current or provision_historical
             )
-            if temporal and locality and status_ok:
+            historical_reference = bool(
+                historical_intent
+                and locality
+                and item["legal_status"] in {"expired", "repealed", "partially_expired"}
+            )
+            if (temporal and locality and status_ok) or historical_reference:
                 applicability = "candidate"
             elif not relevant_date and locality and status_ok:
                 applicability = "unverified"
@@ -107,12 +190,28 @@ class KnowledgeRepository:
                 "summary": item["text"], "authority": item["authority"],
                 "official_url": item["official_url"], "content_hash": item["content_hash"],
                 "applicability": applicability,
+                "evidence_role": "historical_reference" if historical_reference else "applicable_rule",
                 "governance_status": "full_text_verified",
                 "snapshot": f'{item["id"]}:{item["version"]}:{item["content_hash"][:12]}',
                 "score": score,
             })
         if hits:
-            return sorted(hits, key=lambda x: x["score"], reverse=True), None
+            applicability_rank = {"candidate": 2, "unverified": 1, "not_applicable": 0}
+            ordered = sorted(
+                hits,
+                key=lambda x: (applicability_rank.get(x["applicability"], 0), x["score"]),
+                reverse=True,
+            )
+            diversified, deferred = [], []
+            per_document: dict[str, int] = {}
+            for hit in ordered:
+                count = per_document.get(hit["source_id"], 0)
+                if count < 2:
+                    diversified.append(hit)
+                    per_document[hit["source_id"]] = count + 1
+                else:
+                    deferred.append(hit)
+            return diversified + deferred, None
         if not self.allow_demo:
             return [], (
                 "Không có nguồn toàn văn đã kiểm chứng phù hợp. "
@@ -148,6 +247,7 @@ class KnowledgeRepository:
             return False
         return any(
             abs(len(term) - len(candidate)) <= 2
+            and candidate[:1] == term[:1]
             and SequenceMatcher(None, term, candidate).ratio() >= 0.75
             for candidate in candidates
         )

@@ -1,9 +1,9 @@
 {
   "report_version": 1,
-  "checked_at": "2026-07-14T23:54:11.120787+00:00",
+  "checked_at": "2026-07-15T01:53:42.229165+00:00",
   "document_id": "civil-code-91-2015-qh13",
   "document_number": "91/2015/QH13",
-  "completeness_status": "full_text_unverified",
+  "completeness_status": "full_text_verified",
   "checks": {
     "pack_validation_passed": true,
     "provision_ids_unique": true,
@@ -14,8 +14,8 @@
   "metrics": {
     "expected_articles": 689,
     "parsed_articles": 689,
-    "total_provisions": 2416,
-    "clauses": 1415,
+    "total_provisions": 2418,
+    "clauses": 1417,
     "points": 312,
     "candidate_duplicate_nested_locations": 0
   },
@@ -25,5 +25,5 @@
     "candidate_duplicate_nested_location_ids": []
   },
   "structural_checks_passed": true,
-  "activation_eligible": false
+  "activation_eligible": true
 }

@@ -2,7 +2,7 @@
 
 An independently deployable Vietnamese legal decision-support service, initially focused on land law.
 
-> **Project status:** Product Definition v1.0 is approved and an auditable local MVP is available for evaluation. It uses a deliberately small demo corpus and is not a production-ready legal adviser.
+> **Project status (2026-07-15):** The chat-first local product is operational. The governed **Giao dịch** package is active at 18/18 mandatory documents, including the 2013 original law, the 2019–31/07/2024 consolidated law, current land law, civil/notarization/housing/marriage/banking/security rules, and the current TP.HCM procedure source. Overall business-package coverage is 1/10; the remaining nine packages are not represented as complete. This is decision support, not a production-authorized legal opinion service.
 
 ## Run the local MVP
 
@@ -17,7 +17,7 @@ Open `http://127.0.0.1:8000` for the conversational Legal Agent or `http://127.0
 
 ### Enable real AI conversation
 
-The application keeps the auditable case, facts, legal sources, and citations locally, while using Gemini or OpenAI for natural Vietnamese conversation. Without a server-side API key it deliberately stays in the limited rule-based fallback mode.
+The application keeps the auditable case, facts, legal sources, and citations locally, while using Gemini or OpenAI for natural Vietnamese conversation. For governed transfer questions, an evidence-backed fallback continues to answer from the verified corpus when the model is unavailable, over quota, or produces an answer that fails the six-gate decision audit.
 
 For a Gemini free-tier trial, create a key in [Google AI Studio](https://aistudio.google.com/apikey), then run:
 

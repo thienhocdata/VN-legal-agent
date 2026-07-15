@@ -10,6 +10,7 @@ from typing import Any
 from .config import Settings
 from .decision_audit import (
     DECISION_ANSWER_CONTRACT,
+    evidence_backed_fallback,
     governed_candidates,
     requires_decision_audit,
     safe_inconclusive_answer,
@@ -165,10 +166,28 @@ class LegalAI:
                 decision_audit=True,
             )
 
-        if self.provider == "gemini":
-            answer = self._generate_gemini(instructions, input_messages)
-        else:
-            answer = self._generate_openai(instructions, input_messages)
+        try:
+            if self.provider == "gemini":
+                answer = self._generate_gemini(instructions, input_messages)
+            else:
+                answer = self._generate_openai(instructions, input_messages)
+        except LegalAIError:
+            if not decision_mode:
+                raise
+            answer = evidence_backed_fallback(
+                question=latest_user_message,
+                facts=facts,
+                sources=sources,
+                source_notice=source_notice,
+            )
+            return LegalAIResult(
+                answer=answer,
+                suggestions=self._suggestions(answer),
+                model=self.model_name,
+                provider=self.provider,
+                response_status="evidence_fallback",
+                decision_audit=True,
+            )
 
         if not answer:
             raise LegalAIError("Model returned an empty answer")
@@ -176,7 +195,12 @@ class LegalAI:
         if decision_mode:
             valid, _errors = validate_decision_answer(answer, sources)
             if not valid:
-                answer = safe_inconclusive_answer(facts=facts, sources=sources, source_notice=source_notice)
+                answer = evidence_backed_fallback(
+                    question=latest_user_message,
+                    facts=facts,
+                    sources=sources,
+                    source_notice=source_notice,
+                )
                 response_status = "review_required"
         return LegalAIResult(
             answer=answer,

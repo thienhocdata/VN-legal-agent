@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-226-2025-nd-cp",
+    "title": "Sửa đổi, bổ sung một số điều của các Nghị định quy định chi tiết thi hành Luật Đất đai",
+    "number": "226/2025/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2025-08-15",
+    "effective_from": "2025-08-15",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-current",
+    "document_type": "decree",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 10,
+    "article_selection": "first_complete_sequence",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T01:53:41.845170+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "verification_level": "machine_assisted_official_source_review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-226-2025-nd-cp-45839.htm",
+    "body_end_markers": [
+      "TM. CHÍNH PHỦ"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/226-2025-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/45839/58217-1-20251089-1090226-2025-nd-cp.pdf",
+      "page_count": 44
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "amends",
+      "target_document_id": "decree-101-2024-nd-cp"
+    },
+    {
+      "relation_type": "amends",
+      "target_document_id": "decree-102-2024-nd-cp"
+    }
+  ]
+}

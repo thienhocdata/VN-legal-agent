@@ -4,6 +4,7 @@ from types import SimpleNamespace
 from app.config import Settings
 from app.decision_audit import (
     AUDIT_HEADINGS,
+    evidence_backed_fallback,
     requires_decision_audit,
     safe_inconclusive_answer,
     validate_decision_answer,
@@ -44,6 +45,45 @@ def test_safe_answer_always_exposes_all_six_gates_and_inconclusive_verdict():
     assert all(heading in answer for heading in AUDIT_HEADINGS)
     assert "**CHƯA THỂ KẾT LUẬN**" in answer
     valid, errors = validate_decision_answer(answer, [])
+    assert valid, errors
+
+
+def test_transfer_fallback_remains_useful_when_model_quota_is_unavailable():
+    base = {
+        "title": "Văn bản kiểm thử",
+        "effective_from": "2024-08-01",
+        "effective_to": None,
+        "legal_status": "effective",
+        "document_type": "law",
+        "locality": None,
+        "applicability": "candidate",
+        "governance_status": "full_text_verified",
+    }
+    sources = [
+        {**base, "source_id": "land-current", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-27", "location": "Điều 27"},
+        {**base, "source_id": "decree-101", "provision_id": "decree-101-2024-nd-cp-art-30", "location": "Điều 30"},
+        {**base, "source_id": "land-current", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-45", "location": "Điều 45"},
+        {**base, "source_id": "decree-101", "provision_id": "decree-101-2024-nd-cp-art-37", "location": "Điều 37"},
+        {**base, "source_id": "notary-law", "provision_id": "notarization-consolidated-50-2026-vbhn-vpqh-art-42", "location": "Điều 42"},
+    ]
+    answer = evidence_backed_fallback(
+        question="Tôi có được chuyển nhượng không, hợp đồng có cần công chứng?",
+        facts={
+            "locality": "TP. Hồ Chí Minh",
+            "relevant_date": "2026-07-15",
+            "certificate_status": True,
+            "dispute_status": False,
+            "enforcement_status": False,
+            "land_term_status": True,
+        },
+        sources=sources,
+        source_notice=None,
+    )
+    assert "Điều kiện thực hiện quyền" in answer
+    assert "Hình thức hợp đồng" in answer
+    assert "Thành phần hồ sơ đăng ký biến động" in answer
+    assert "**CHƯA THỂ KẾT LUẬN**" in answer
+    valid, errors = validate_decision_answer(answer, sources)
     assert valid, errors
 
 
@@ -154,6 +194,45 @@ def test_historical_rule_is_selected_by_event_date_not_only_current_status(tmp_p
     )
     assert historical[0]["applicability"] == "candidate"
     assert current[0]["applicability"] == "not_applicable"
+
+
+def test_expired_rule_can_be_used_only_as_historical_comparison_evidence(tmp_path):
+    database = Database(tmp_path / "historical-comparison.db")
+    with database.connect() as con:
+        con.execute(
+            """INSERT INTO legal_documents
+            (id,title,number,authority,official_url,content_hash,effective_from,effective_to,
+             legal_status,jurisdiction,version,imported_at,completeness_status,document_type)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (
+                "land-law-2013", "Luật Đất đai 2013", "45/2013/QH13", "Quốc hội",
+                "https://example.gov.vn/2013", "c" * 64, "2014-07-01", "2024-07-31",
+                "expired", "Vietnam", "consolidated", "2026-07-15T00:00:00Z",
+                "full_text_verified", "law",
+            ),
+        )
+        con.execute(
+            """INSERT INTO legal_provisions
+            (id,document_id,location,text,keywords,legal_status)
+            VALUES(?,?,?,?,?,?)""",
+            (
+                "land-law-2013-art-188", "land-law-2013", "Điều 188",
+                "Điều kiện chuyển nhượng quyền sử dụng đất", "chuyển nhượng", "effective",
+            ),
+        )
+
+    repository = KnowledgeRepository(database, allow_demo=False)
+    comparison, _ = repository.search(
+        "So sánh điều kiện chuyển nhượng theo Luật Đất đai 2013 và luật hiện hành",
+        {"relevant_date": "2026-07-15", "locality": "TP. Hồ Chí Minh"},
+    )
+    ordinary, _ = repository.search(
+        "Điều kiện chuyển nhượng hiện nay",
+        {"relevant_date": "2026-07-15", "locality": "TP. Hồ Chí Minh"},
+    )
+    assert comparison[0]["applicability"] == "candidate"
+    assert comparison[0]["evidence_role"] == "historical_reference"
+    assert ordinary[0]["applicability"] == "not_applicable"
 
 
 def test_unresolved_repealed_provision_cannot_support_a_conclusion(tmp_path):

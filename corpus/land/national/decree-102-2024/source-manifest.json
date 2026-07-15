@@ -13,13 +13,17 @@
     "locality": null,
     "version": "original-with-amendment-graph",
     "document_type": "decree",
-    "completeness_status": "full_text_unverified",
+    "completeness_status": "full_text_verified",
     "expected_article_count": 113,
     "article_selection": "first_complete_sequence",
     "extraction_method": "pypdf-structured-v2",
-    "verified_at": null,
-    "verified_by": null,
-    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-102-2024-nd-cp-42485.htm"
+    "verified_at": "2026-07-15T01:53:41.699559+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "verification_level": "machine_assisted_official_source_review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-102-2024-nd-cp-42485.htm",
+    "body_end_markers": [
+      "TM. CHÍNH PHỦ"
+    ]
   },
   "artifacts": [
     {

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-101-2024-nd-cp",
+    "title": "Quy định về điều tra cơ bản đất đai; đăng ký, cấp Giấy chứng nhận và Hệ thống thông tin đất đai",
+    "number": "101/2024/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2024-07-29",
+    "effective_from": "2024-08-01",
+    "effective_to": null,
+    "legal_status": "partially_effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-with-amendment-graph",
+    "document_type": "decree",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 68,
+    "article_selection": "first_complete_sequence",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T01:53:41.557624+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "verification_level": "machine_assisted_official_source_review",
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-101-2024-nd-cp-42434/51166.htm",
+    "body_end_markers": [
+      "TM. CHÍNH PHỦ"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/101-2024-nd-cp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42434/51166-1-2024913-914101-2024-nd-cp.pdf",
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/101-2024-nd-cp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/7/42434/51169-1-2024915-916101-2024-nd-cp.pdf",
+      "page_count": 58
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "references",
+      "target_document_id": "decree-226-2025-nd-cp",
+      "note": "Amended by target"
+    },
+    {
+      "relation_type": "references",
+      "target_document_id": "decree-49-2026-nd-cp",
+      "note": "2026 implementation relationship must be considered where applicable"
+    }
+  ]
+}

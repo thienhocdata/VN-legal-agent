@@ -13,12 +13,12 @@
     "locality": null,
     "version": "original-current",
     "document_type": "code",
-    "completeness_status": "full_text_unverified",
+    "completeness_status": "full_text_verified",
     "expected_article_count": 689,
     "article_selection": "strict",
     "extraction_method": "pypdf-structured-v2",
-    "verified_at": null,
-    "verified_by": null,
+    "verified_at": "2026-07-15T01:53:42.095340+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
     "official_url": "https://congbao.chinhphu.vn/van-ban/luat-so-91-2015-qh13-18397.htm",
     "content_hash": "104156e34d31edadf8a68ae3483e5585861bb409916e41a87edaa1ae1e0a7b3c",
     "source_format": "pdf",
@@ -39,7 +39,8 @@
         "media_type": "application/pdf",
         "page_count": 78
       }
-    ]
+    ],
+    "verification_level": "machine_assisted_official_source_review"
   },
   "provisions": [
     {
@@ -11366,7 +11367,20 @@
       "ordinal": 4,
       "number": "4",
       "location": "Điều 218 khoản 4",
-      "text": "4. Tr ường h ợp m ột trong các ch ủ s ở h ữu chung đối v ới b ất động s ản t ừ b ỏ\nphần quyền sở hữu của mình hoặc khi người này chết mà không có ng ười thừa kế\nthì ph ần quyền s ở hữu đó thu ộc v ề Nhà n ước, tr ừ tr ường h ợp s ở h ữu chung c ủa\ncộng đồng thì thuộc sở hữu chung của các chủ sở hữu chung còn lại.\n 5. Trường hợp một trong các ch ủ sở hữu chung đối với động sản từ bỏ phần\nquyền s ở h ữu của mình ho ặc khi ng ười này ch ết mà không có ng ười th ừa kế thì\nphần quyền sở hữu đó thuộc sở hữu chung của các chủ sở hữu còn lại.",
+      "text": "4. Tr ường h ợp m ột trong các ch ủ s ở h ữu chung đối v ới b ất động s ản t ừ b ỏ\nphần quyền sở hữu của mình hoặc khi người này chết mà không có ng ười thừa kế\nthì ph ần quyền s ở hữu đó thu ộc v ề Nhà n ước, tr ừ tr ường h ợp s ở h ữu chung c ủa\ncộng đồng thì thuộc sở hữu chung của các chủ sở hữu chung còn lại.",
+      "source_artifact_id": "civil-code-91-2015-qh13-artifact-1",
+      "source_page_start": 58,
+      "source_page_end": 58,
+      "keywords": []
+    },
+    {
+      "id": "civil-code-91-2015-qh13-art-218-cl-5",
+      "parent_id": "civil-code-91-2015-qh13-art-218",
+      "level": "clause",
+      "ordinal": 5,
+      "number": "5",
+      "location": "Điều 218 khoản 5",
+      "text": "5. Trường hợp một trong các ch ủ sở hữu chung đối với động sản từ bỏ phần\nquyền s ở h ữu của mình ho ặc khi ng ười này ch ết mà không có ng ười th ừa kế thì\nphần quyền sở hữu đó thuộc sở hữu chung của các chủ sở hữu còn lại.",
       "source_artifact_id": "civil-code-91-2015-qh13-artifact-1",
       "source_page_start": 58,
       "source_page_end": 58,
@@ -20743,7 +20757,20 @@
       "ordinal": 1,
       "number": "1",
       "location": "Điều 428 khoản 1",
-      "text": "1. Một bên có quyền đơn phương chấm dứt thực hiện hợp đồng và không phải\nbồi th ường thiệt h ại khi bên kia vi ph ạm nghiêm tr ọng ngh ĩa v ụ trong h ợp đồng\nhoặc các bên có thỏa thuận hoặc pháp luật có quy định.\n 2. Bên đơn phương chấm dứt thực hiện hợp đồng phải thông báo ngay cho bên\nkia biết về việc chấm dứt hợp đồng, nếu không thông báo mà gây thi ệt hại thì phải\nbồi thường.",
+      "text": "1. Một bên có quyền đơn phương chấm dứt thực hiện hợp đồng và không phải\nbồi th ường thiệt h ại khi bên kia vi ph ạm nghiêm tr ọng ngh ĩa v ụ trong h ợp đồng\nhoặc các bên có thỏa thuận hoặc pháp luật có quy định.",
+      "source_artifact_id": "civil-code-91-2015-qh13-artifact-2",
+      "source_page_start": 15,
+      "source_page_end": 15,
+      "keywords": []
+    },
+    {
+      "id": "civil-code-91-2015-qh13-art-428-cl-2",
+      "parent_id": "civil-code-91-2015-qh13-art-428",
+      "level": "clause",
+      "ordinal": 2,
+      "number": "2",
+      "location": "Điều 428 khoản 2",
+      "text": "2. Bên đơn phương chấm dứt thực hiện hợp đồng phải thông báo ngay cho bên\nkia biết về việc chấm dứt hợp đồng, nếu không thông báo mà gây thi ệt hại thì phải\nbồi thường.",
       "source_artifact_id": "civil-code-91-2015-qh13-artifact-2",
       "source_page_start": 15,
       "source_page_end": 15,

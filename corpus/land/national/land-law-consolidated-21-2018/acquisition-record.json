@@ -1,0 +1,26 @@
+{
+  "record_version": 1,
+  "document_id": "land-law-consolidated-21-2018-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-21-vbhn-vpqh-28558/26048.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T02:13:19.790418+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/21-2018-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRowxfYmPqFRHx0Qab3XkLOcBZr6zX3lNNSfSRAH_nTxBURCqWZcB4l8V6lkaI9Qjs6CKksD0hGjpXPdrhoO_HcA~~",
+      "sha256": "47f05caca946565c573af81eb37adcf2d355ec8aef192bc10d55a04caee56975",
+      "bytes": 533171,
+      "page_count": 26
+    },
+    {
+      "path": "artifacts/21-2018-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRowxfYmPqFRHx0Qab3XkLOR1S6s8bMA7q8pFRBBV4N5IdV-Eb9DKNzZW8MSH_3Z4VQlcqoKwZY3wnNoMKWt1pWA~~",
+      "sha256": "a7e93dbd01344b09b7eeaab4fc416eca40896b3fb1a0312ec605cca7ef1a0b7a",
+      "bytes": 1131823,
+      "page_count": 94
+    }
+  ],
+  "visual_verified_at": "2026-07-15T02:15:23.157250+00:00",
+  "visual_verified_by": "Codex machine-assisted visual review"
+}

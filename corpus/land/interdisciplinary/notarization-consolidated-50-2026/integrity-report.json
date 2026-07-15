@@ -1,9 +1,9 @@
 {
   "report_version": 1,
-  "checked_at": "2026-07-14T23:54:16.673107+00:00",
+  "checked_at": "2026-07-15T01:53:42.312025+00:00",
   "document_id": "notarization-consolidated-50-2026-vbhn-vpqh",
   "document_number": "50/VBHN-VPQH",
-  "completeness_status": "full_text_unverified",
+  "completeness_status": "full_text_verified",
   "checks": {
     "pack_validation_passed": true,
     "provision_ids_unique": true,
@@ -25,5 +25,5 @@
     "candidate_duplicate_nested_location_ids": []
   },
   "structural_checks_passed": true,
-  "activation_eligible": false
+  "activation_eligible": true
 }

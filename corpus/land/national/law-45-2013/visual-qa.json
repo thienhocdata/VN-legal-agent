@@ -1,7 +1,20 @@
 {
-  "checked_at": "2026-07-14",
-  "method": "Poppler render and human visual inspection",
-  "sample_pages": [1, 60, 118],
-  "result": "passed",
-  "findings": "Trang đầu đúng Luật 45/2013/QH13; trang giữa rõ, không cắt chữ; trang cuối là thông tin xuất bản Công báo. Bố cục và dấu tiếng Việt hiển thị đầy đủ."
+  "report_version": 1,
+  "document_id": "law-45-2013-qh13",
+  "checked_at": "2026-07-15T02:11:25.496645+00:00",
+  "checked_by": "Codex",
+  "sampling": "first_middle_last_across_artifact_set",
+  "samples": {
+    "first": "tmp/pdfs/qa-activation/law-45-2013-qh13-first.png",
+    "middle": "tmp/pdfs/qa-activation/law-45-2013-qh13-middle.png",
+    "last": "tmp/pdfs/qa-activation/law-45-2013-qh13-last.png"
+  },
+  "checks": {
+    "correct_document_identity": true,
+    "pages_readable": true,
+    "page_order_plausible": true,
+    "no_portal_error_page": true
+  },
+  "visual_checks_passed": true,
+  "note": "Visual acceptance covers artifact identity and readability only; legal status and extracted text remain separately governed."
 }

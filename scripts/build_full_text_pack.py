@@ -9,9 +9,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
-ARTICLE_RE = re.compile(r"(?m)^[ \t]*Điều\s+(\d+)\.\s*([^\n]*)")
-CLAUSE_RE = re.compile(r"(?m)^(\d+)\.\s+(?=\S)")
-POINT_RE = re.compile(r"(?m)^([a-zđ])\)\s+(?=\S)", re.IGNORECASE)
+# Some digitally signed local PDFs OCR the dot after an article number as "ẳ".
+# Accept that known glyph substitution while keeping the heading anchored to a line.
+ARTICLE_RE = re.compile(r"(?m)^[ \t]*Điều\s+(\d+)[.ẳ]\s*([^\n]*)")
+CLAUSE_RE = re.compile(r"(?m)^[ \t]*(\d+)\.\s+(?=\S)")
+POINT_RE = re.compile(r"(?m)^[ \t]*([a-zđ])\)\s+(?=\S)", re.IGNORECASE)
 
 
 def file_hash(path: Path) -> str:
@@ -22,34 +24,43 @@ def file_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
-def normalized_page_text(value: str) -> str:
+def normalized_page_text(value: str, *, collapse_horizontal_whitespace: bool = False) -> str:
     value = value.replace("\x00", "").replace("\r\n", "\n").replace("\r", "\n")
+    if collapse_horizontal_whitespace:
+        value = "\n".join(re.sub(r"[ \t]{2,}", " ", line) for line in value.splitlines())
     return "\n".join(line.rstrip() for line in value.splitlines()).strip()
 
 
-def select_article_matches(matches: list[re.Match[str]], expected_count: int, policy: str) -> list[re.Match[str]]:
+def select_article_matches(
+    matches: list[re.Match[str]],
+    expected_count: int,
+    policy: str,
+    expected_numbers: list[int] | None = None,
+) -> list[re.Match[str]]:
     numbers = [int(match.group(1)) for match in matches]
-    expected = list(range(1, expected_count + 1))
+    expected = expected_numbers or list(range(1, expected_count + 1))
+    if len(expected) != expected_count or len(set(expected)) != len(expected):
+        raise ValueError("expected_article_numbers must contain expected_article_count unique values")
     if numbers == expected:
         return matches
     if policy not in {"first_complete_sequence", "last_complete_sequence"}:
         raise ValueError(f"Expected {expected_count} unique articles, found {len(set(numbers))}/{len(numbers)}")
     candidates = []
     for start, number in enumerate(numbers):
-        if number != 1:
+        if number != expected[0]:
             continue
         candidate = [matches[start]]
-        wanted = 2
+        wanted_index = 1
         for index in range(start + 1, len(matches)):
-            if numbers[index] == wanted:
+            if wanted_index < len(expected) and numbers[index] == expected[wanted_index]:
                 candidate.append(matches[index])
-                wanted += 1
-                if wanted > expected_count:
+                wanted_index += 1
+                if wanted_index == len(expected):
                     candidates.append(candidate)
                     break
     if not candidates:
         raise ValueError(
-            f"No complete top-level article sequence 1..{expected_count}; "
+            f"No complete expected top-level article sequence ({expected_count} articles); "
             f"found {len(set(numbers))}/{len(numbers)} unique/total headings"
         )
     shortest_span = min(item[-1].start() - item[0].start() for item in candidates)
@@ -79,6 +90,11 @@ def nested_provisions(
         clause_number = match.group(1)
         clause_occurrences[clause_number] += 1
         clause_occurrence = clause_occurrences[clause_number]
+        # A top-level clause number is unique inside an article. Repeated
+        # matches come from footnotes, amendment notes or embedded forms; the
+        # complete article text still preserves them for audit.
+        if clause_occurrence > 1:
+            continue
         end = clause_matches[clause_index + 1].start() if clause_index + 1 < len(clause_matches) else len(article_text)
         clause_text = article_text[match.start():end].strip()
         global_start = article_start + match.start()
@@ -86,11 +102,7 @@ def nested_provisions(
         start_page = source_position(page_spans, global_start)
         end_page = source_position(page_spans, global_end)
         clause_id = f"{document_id}-art-{article_number}-cl-{clause_number}"
-        if clause_occurrence > 1:
-            clause_id += f"-occ-{clause_occurrence}"
         location = f"Điều {article_number} khoản {clause_number}"
-        if clause_occurrence > 1:
-            location += f" (ứng viên xuất hiện {clause_occurrence})"
         provisions.append({
             "id": clause_id,
             "parent_id": f"{document_id}-art-{article_number}",
@@ -110,6 +122,9 @@ def nested_provisions(
             point_number = point_match.group(1).lower()
             point_occurrences[point_number] += 1
             point_occurrence = point_occurrences[point_number]
+            # Point labels are likewise unique within one clause.
+            if point_occurrence > 1:
+                continue
             point_end = point_matches[point_index + 1].start() if point_index + 1 < len(point_matches) else len(clause_text)
             point_text = clause_text[point_match.start():point_end].strip()
             point_global_start = global_start + point_match.start()
@@ -117,11 +132,7 @@ def nested_provisions(
             point_start_page = source_position(page_spans, point_global_start)
             point_end_page = source_position(page_spans, point_global_end)
             point_id = f"{clause_id}-pt-{point_number}"
-            if point_occurrence > 1:
-                point_id += f"-occ-{point_occurrence}"
             point_location = f"Điều {article_number} khoản {clause_number} điểm {point_number}"
-            if point_occurrence > 1:
-                point_location += f" (ứng viên xuất hiện {point_occurrence})"
             provisions.append({
                 "id": point_id,
                 "parent_id": clause_id,
@@ -146,6 +157,9 @@ def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     document = manifest["document"]
     document_id = document["id"]
+    extraction_mode = document.get("pdf_text_extraction_mode", "plain")
+    if extraction_mode not in {"plain", "layout"}:
+        raise ValueError("pdf_text_extraction_mode must be plain or layout")
     full_text_parts: list[str] = []
     page_spans: list[dict[str, Any]] = []
     artifacts = []
@@ -166,7 +180,15 @@ def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
         })
         for page_number, page in enumerate(reader.pages, 1):
             marker = f"\n\n[[SOURCE {artifact_id} PAGE {page_number}]]\n"
-            text = normalized_page_text(page.extract_text() or "")
+            extracted = (
+                page.extract_text(extraction_mode="layout")
+                if extraction_mode == "layout"
+                else page.extract_text()
+            )
+            text = normalized_page_text(
+                extracted or "",
+                collapse_horizontal_whitespace=extraction_mode == "layout",
+            )
             block = marker + text
             start = current_offset + len(marker)
             end = current_offset + len(block)
@@ -186,13 +208,22 @@ def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
         all_article_matches,
         expected_count,
         document.get("article_selection", "strict"),
+        document.get("expected_article_numbers"),
     )
     trailing_match = next(
         (match for match in all_article_matches if match.start() > article_matches[-1].start()),
         None,
     )
+    # Official Gazette PDFs commonly append signatures, forms and annexes after
+    # the final operative article. Keep those pages in full-text.txt, but do not
+    # attach their numbered form fields to the final article as legal clauses.
+    body_end = trailing_match.start() if trailing_match else len(full_text)
+    for marker in document.get("body_end_markers", []):
+        marker_offset = full_text.find(marker, article_matches[-1].end())
+        if marker_offset >= 0:
+            body_end = min(body_end, marker_offset)
     numbers = [int(match.group(1)) for match in article_matches]
-    expected_numbers = set(range(1, expected_count + 1))
+    expected_numbers = set(document.get("expected_article_numbers") or range(1, expected_count + 1))
     if set(numbers) != expected_numbers:
         missing = sorted(expected_numbers - set(numbers))
         extra = sorted(set(numbers) - expected_numbers)
@@ -202,9 +233,7 @@ def build(manifest_path: Path) -> tuple[Path, dict[str, int]]:
     provisions: list[dict[str, Any]] = []
     for index, match in enumerate(article_matches):
         article_number = int(match.group(1))
-        end = article_matches[index + 1].start() if index + 1 < len(article_matches) else (
-            trailing_match.start() if trailing_match else len(full_text)
-        )
+        end = article_matches[index + 1].start() if index + 1 < len(article_matches) else body_end
         article_text = full_text[match.start():end].strip()
         start_page = source_position(page_spans, match.start())
         end_page = source_position(page_spans, max(match.start(), end - 1))

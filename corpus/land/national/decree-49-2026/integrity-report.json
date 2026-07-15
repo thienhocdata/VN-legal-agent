@@ -1,9 +1,9 @@
 {
   "report_version": 1,
-  "checked_at": "2026-07-14T18:00:35.319801+00:00",
+  "checked_at": "2026-07-15T01:53:42.045482+00:00",
   "document_id": "decree-49-2026-nd-cp",
   "document_number": "49/2026/NĐ-CP",
-  "completeness_status": "full_text_unverified",
+  "completeness_status": "full_text_verified",
   "checks": {
     "pack_validation_passed": true,
     "provision_ids_unique": true,
@@ -14,44 +14,16 @@
   "metrics": {
     "expected_articles": 22,
     "parsed_articles": 22,
-    "total_provisions": 252,
-    "clauses": 109,
-    "points": 121,
-    "candidate_duplicate_nested_locations": 27
+    "total_provisions": 200,
+    "clauses": 82,
+    "points": 96,
+    "candidate_duplicate_nested_locations": 0
   },
   "findings": {
     "duplicate_ids": [],
     "empty_provisions": [],
-    "candidate_duplicate_nested_location_ids": [
-      "decree-49-2026-nd-cp-art-10-cl-1-pt-a-occ-2",
-      "decree-49-2026-nd-cp-art-10-cl-1-pt-b-occ-2",
-      "decree-49-2026-nd-cp-art-12-cl-4-pt-a-occ-2",
-      "decree-49-2026-nd-cp-art-12-cl-4-pt-b-occ-2",
-      "decree-49-2026-nd-cp-art-12-cl-4-pt-c-occ-2",
-      "decree-49-2026-nd-cp-art-12-cl-1-occ-2",
-      "decree-49-2026-nd-cp-art-12-cl-2-occ-2",
-      "decree-49-2026-nd-cp-art-12-cl-3-occ-2",
-      "decree-49-2026-nd-cp-art-13-cl-1-occ-2",
-      "decree-49-2026-nd-cp-art-13-cl-2-occ-2",
-      "decree-49-2026-nd-cp-art-13-cl-3-occ-2",
-      "decree-49-2026-nd-cp-art-13-cl-1-occ-3",
-      "decree-49-2026-nd-cp-art-13-cl-2-occ-3",
-      "decree-49-2026-nd-cp-art-13-cl-1-occ-4",
-      "decree-49-2026-nd-cp-art-13-cl-2-occ-4",
-      "decree-49-2026-nd-cp-art-13-cl-3-occ-3",
-      "decree-49-2026-nd-cp-art-22-cl-1-occ-2",
-      "decree-49-2026-nd-cp-art-22-cl-2-occ-2",
-      "decree-49-2026-nd-cp-art-22-cl-3-occ-2",
-      "decree-49-2026-nd-cp-art-22-cl-1-occ-3",
-      "decree-49-2026-nd-cp-art-22-cl-2-occ-3",
-      "decree-49-2026-nd-cp-art-22-cl-1-occ-4",
-      "decree-49-2026-nd-cp-art-22-cl-2-occ-4",
-      "decree-49-2026-nd-cp-art-22-cl-3-occ-3",
-      "decree-49-2026-nd-cp-art-22-cl-1-occ-5",
-      "decree-49-2026-nd-cp-art-22-cl-2-occ-5",
-      "decree-49-2026-nd-cp-art-22-cl-3-occ-4"
-    ]
+    "candidate_duplicate_nested_location_ids": []
   },
   "structural_checks_passed": true,
-  "activation_eligible": false
+  "activation_eligible": true
 }

@@ -430,12 +430,18 @@ class LegalCaseService:
             facts["relevant_date"] = datetime.now(UTC).date().isoformat()
         if re.search(r"chưa (có )?(sổ|giấy chứng nhận)|không (có )?(sổ|giấy chứng nhận)", lower):
             facts["certificate_status"] = False
-        elif re.search(r"(đã |có )(sổ đỏ|sổ hồng|giấy chứng nhận)", lower):
+        elif re.search(r"(đã |có |(?:đang )?đứng tên )(sổ đỏ|sổ hồng|giấy chứng nhận)", lower):
             facts["certificate_status"] = True
         if re.search(r"không (có )?(tranh chấp|khiếu nại|khởi kiện)", lower):
             facts["dispute_status"] = False
         elif re.search(r"tranh chấp|khiếu nại|khởi kiện", lower):
             facts["dispute_status"] = True
+        if re.search(r"không (bị )?kê biên", lower):
+            facts["enforcement_status"] = False
+        if re.search(r"còn thời hạn sử dụng|còn hạn sử dụng", lower):
+            facts["land_term_status"] = True
+        if re.search(r"không (đang )?thế chấp|chưa thế chấp", lower):
+            facts["mortgage_status"] = False
         for key, value in facts.items():
             self.add_fact(case_id, FactCreate(key=key, value=value, provenance=provenance, actor_id=actor_id, source_id=source_id, method="chat_context_extraction"))
 

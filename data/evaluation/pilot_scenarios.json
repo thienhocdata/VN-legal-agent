@@ -1,38 +1,55 @@
 [
   {
     "id": "HCM-TRANSFER-CURRENT",
-    "query": "điều kiện chuyển nhượng giấy chứng nhận tranh chấp đăng ký biến động",
-    "relevant_date": "2026-07-14",
+    "query": "Điều kiện chuyển nhượng quyền sử dụng đất của cá nhân tại TP.HCM",
+    "relevant_date": "2026-07-15",
     "locality": "TP. Hồ Chí Minh",
-    "expected_candidate_sources": ["law-31-2024-qh15", "hcm-decision-3279-2025"]
+    "expected_top_provisions": ["land-law-consolidated-44-2026-vbhn-vpqh-art-45"]
   },
   {
-    "id": "HCM-EFFECTIVE-DATE",
-    "query": "hiệu lực Luật Đất đai 31/2024/QH15 01 tháng 8 năm 2024",
-    "relevant_date": "2024-08-01",
+    "id": "HCM-NOTARIZATION-CURRENT",
+    "query": "Hợp đồng chuyển nhượng quyền sử dụng đất có phải công chứng không?",
+    "relevant_date": "2026-07-15",
     "locality": "TPHCM",
-    "expected_candidate_sources": ["law-43-2024-qh15"]
+    "expected_top_sources": ["land-law-consolidated-44-2026-vbhn-vpqh", "real-estate-business-consolidated-06-2025-vbhn-vpqh"]
   },
   {
-    "id": "HCM-FINANCIAL-OBLIGATION",
-    "query": "nghĩa vụ tài chính ghi nợ trước khi chuyển nhượng",
-    "relevant_date": "2026-07-14",
+    "id": "HCM-MORTGAGE-SECURITY",
+    "query": "Đất đang thế chấp ngân hàng có chuyển nhượng được không, đăng ký biện pháp bảo đảm thế nào?",
+    "relevant_date": "2026-07-15",
     "locality": "Hồ Chí Minh",
-    "expected_candidate_sources": ["law-31-2024-qh15"]
+    "expected_top_sources": ["decree-99-2022-nd-cp", "credit-institutions-consolidated-158-2025-vbhn-vpqh"]
   },
   {
-    "id": "NEIGHBOR-NO-HCM-LEAKAGE",
-    "query": "đăng ký biến động chuyển nhượng chi nhánh văn phòng đăng ký đất đai",
-    "relevant_date": "2026-07-14",
-    "locality": "Đồng Nai",
-    "forbidden_candidate_sources": ["hcm-decision-3279-2025", "hcm-decision-1351-2025"]
+    "id": "HCM-CHANGE-REGISTRATION",
+    "query": "Thủ tục đăng ký biến động sau chuyển nhượng tại TP. Hồ Chí Minh, nơi nộp hồ sơ",
+    "relevant_date": "2026-07-15",
+    "locality": "TP. Hồ Chí Minh",
+    "expected_top_sources": ["decree-101-2024-nd-cp", "hcm-decision-44-2026"]
   },
   {
     "id": "PRE-EFFECTIVE-GUARD",
-    "query": "điều kiện chuyển nhượng giấy chứng nhận",
+    "query": "Điều kiện chuyển nhượng quyền sử dụng đất",
     "relevant_date": "2024-07-31",
     "locality": "TP. Hồ Chí Minh",
-    "forbidden_candidate_sources": ["law-31-2024-qh15", "law-43-2024-qh15"]
+    "expected_top_provisions": ["land-law-consolidated-21-2018-vbhn-vpqh-art-188"],
+    "forbidden_candidate_sources": ["land-law-consolidated-44-2026-vbhn-vpqh"]
+  },
+  {
+    "id": "HISTORICAL-COMPARISON",
+    "query": "So sánh điều kiện chuyển nhượng theo Luật Đất đai 2013 và Luật Đất đai hiện hành",
+    "relevant_date": "2026-07-15",
+    "locality": "TP. Hồ Chí Minh",
+    "expected_top_provisions": [
+      "land-law-consolidated-21-2018-vbhn-vpqh-art-188",
+      "land-law-consolidated-44-2026-vbhn-vpqh-art-45"
+    ]
+  },
+  {
+    "id": "NEIGHBOR-NO-HCM-LEAKAGE",
+    "query": "Đăng ký biến động chuyển nhượng tại Đồng Nai",
+    "relevant_date": "2026-07-15",
+    "locality": "Đồng Nai",
+    "forbidden_candidate_sources": ["hcm-decision-44-2026"]
   }
 ]
-

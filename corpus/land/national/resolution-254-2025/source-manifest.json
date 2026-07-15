@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "resolution-254-2025-qh15",
+    "title": "Quy định một số cơ chế, chính sách tháo gỡ khó khăn, vướng mắc trong tổ chức thi hành Luật Đất đai",
+    "number": "254/2025/QH15",
+    "authority": "Quốc hội",
+    "issued_date": "2025-12-11",
+    "effective_from": "2026-01-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-current",
+    "document_type": "resolution",
+    "completeness_status": "full_text_verified",
+    "expected_article_count": 13,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": "2026-07-15T01:53:41.928014+00:00",
+    "verified_by": "Codex machine-assisted official-source review",
+    "verification_level": "machine_assisted_official_source_review",
+    "official_url": "https://vbpl.moj.gov.vn/TW/Pages/vbpq-thuoctinh.aspx?ItemID=186273"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/254-2025-qh15.pdf",
+      "official_url": "https://vbpl.moj.gov.vn/FileData/TW/Lists/vbpq/Attachments/186273/VanBanGoc_s_254_2025_qh15_151225082614_1512085955.pdf",
+      "page_count": 15
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "references",
+      "target_document_id": "land-law-consolidated-44-2026-vbhn-vpqh",
+      "note": "Special mechanisms prevail on the same issue while the resolution is effective"
+    },
+    {
+      "relation_type": "references",
+      "target_document_id": "decree-49-2026-nd-cp",
+      "note": "Implemented by target"
+    }
+  ]
+}

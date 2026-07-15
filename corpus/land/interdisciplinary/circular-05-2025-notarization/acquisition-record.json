@@ -1,0 +1,26 @@
+{
+  "record_version": 1,
+  "document_id": "circular-05-2025-tt-btp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-05-2025-tt-btp-45015.htm",
+  "source_authority": "Bộ Tư pháp / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T01:32:26.792178+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/05-2025-tt-btp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/5/45015/56626-1-2025757-75805-2025-tt-btp.pdf",
+      "sha256": "be4d49a64eb72ec378d0154d707e39519c43d1c5e8fee8dd0fe261715857b214",
+      "bytes": 1300197,
+      "page_count": 86
+    },
+    {
+      "path": "artifacts/05-2025-tt-btp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/5/45015/56627-1-2025759-76005-2025-tt-btp.pdf",
+      "sha256": "cf83bbd7952563775ec92eb723d5bc85de2553b15e19a5feb8dbb01bad492495",
+      "bytes": 548820,
+      "page_count": 20
+    }
+  ],
+  "visual_verified_at": "2026-07-15T01:33:00.116712+00:00",
+  "visual_verified_by": "Codex"
+}

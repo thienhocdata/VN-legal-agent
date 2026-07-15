@@ -67,18 +67,29 @@ def acquire_source(source: dict, *, force: bool = False) -> dict:
             "page_count": page_count,
         })
 
+    previous_signature = [
+        (item.get("path"), item.get("sha256"))
+        for item in previous.get("artifacts", [])
+    ]
+    current_signature = [(item["path"], item["sha256"]) for item in records]
+    artifacts_unchanged = bool(previous_signature) and previous_signature == current_signature
     record = {
         "record_version": 1,
         "document_id": source["id"],
         "source_page_url": source["source_page_url"],
         "source_authority": source["source_authority"],
         "acquired_at": datetime.now(UTC).isoformat(),
-        "verification_status": previous.get("verification_status", "artifact_downloaded_unverified"),
+        "verification_status": (
+            previous.get("verification_status", "artifact_downloaded_unverified")
+            if artifacts_unchanged
+            else "artifact_downloaded_unverified"
+        ),
         "artifacts": records,
     }
-    for key in ("visual_verified_at", "visual_verified_by"):
-        if previous.get(key):
-            record[key] = previous[key]
+    if artifacts_unchanged:
+        for key in ("visual_verified_at", "visual_verified_by"):
+            if previous.get(key):
+                record[key] = previous[key]
     record_path.write_text(
         json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

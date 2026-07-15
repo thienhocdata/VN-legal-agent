@@ -1,6 +1,6 @@
 # Pilot Readiness Report
 
-**Assessment date:** 2026-07-14  
+**Assessment date:** 2026-07-15
 **Decision:** Not yet authorized for real-case legal reliance
 
 ## Implemented controls
@@ -15,26 +15,26 @@
 
 ## Automated evidence
 
-The current suite contains 14 passing tests covering the end-to-end workflow, unresolved-context research blocking, provenance transitions, role restrictions, tenant isolation, stale artifacts, authentication, identity spoof prevention, temporal applicability, locality normalization, neighboring-locality leakage prevention, governed-source fail-closed behavior, automatic chat-case creation, and one-question-at-a-time clarification.
+The current suite contains 49 passing tests covering the end-to-end workflow, six-gate decision output, official-source promotion controls, temporal and locality applicability, historical comparison, neighboring-locality isolation, authentication, provenance, and evidence-backed behavior when the language-model quota is unavailable.
 
 Command:
 
 ```text
 python -m pytest -q
-.............. [100%]
+................................................. [100%]
 ```
 
-The governed-source evaluation contains five scenario families and currently passes 5/5: current TP.HCM transfer, amended effective date, financial-obligation condition, neighboring-locality isolation, and pre-effective-date rejection.
+The governed-source evaluation contains seven scenario families and passes 7/7: current TP.HCM transfer, notarization, mortgage/security registration, TP.HCM change registration, pre-effective-date protection, 2013/current-law comparison, and neighboring-locality isolation.
 
 A pilot-mode HTTP smoke test also passed with authentication required, demo sources disabled, a tenant-scoped case created, TP.HCM context resolved, and five governed research results returned. The chat-first HTTP smoke test passed with the conversation page rendered, a hidden case created, a complete answer returned, and seven citations attached.
 
 ## Legal-source audit finding
 
-The earlier prototype contains official PDFs for Law 31/2024/QH15 and provision-level parsed text, but its operational metadata has blank effective dates, `unknown` legal status, absent content hashes, incomplete amendment relationships, and incomplete procedure sources. It is therefore not imported automatically.
+The active **Giao dịch** package now contains 18/18 mandatory full-text-verified document packs, 1,939 official PDF pages, 2,450 articles, and 17,356 article/clause/point records. It includes the original Law 45/2013/QH13, consolidated 21/VBHN-VPQH for the 2019–31/07/2024 interval, consolidated current land law, implementing decrees and resolution, Civil Code, notarization, marriage/family, real-estate business, housing, credit-institution, security-registration, and TP.HCM procedure sources.
 
-Four governed source packs are now included: Law 31/2024/QH15 Article 45, Law 43/2024/QH15 effective-date control, TP.HCM Decision 3279/QĐ-UBND procedure 25, and TP.HCM Decision 1351/QĐ-UBND partial-change control. Their official source files and SHA-256 values are preserved in the repository.
+Promotion requires official-source identity, artifact hash matching, first/middle/last-page visual review, complete article sequence, no duplicate nested provision candidates, explicit effectivity/lifecycle metadata, and machine-assisted reviewer attestation. This is source governance evidence, not qualified-lawyer sign-off.
 
-Official government records identify Law 31/2024/QH15 and Law 43/2024/QH15, while Law 43/2024/QH15 records an effective date of 2024-08-01. These findings have been converted into governed source packs; professional sign-off remains required before real-case reliance.
+Overall package readiness is **1/10**, not 10/10. Certificate is 7/9 verified mandatory documents; the other packages remain incomplete and fail closed rather than borrowing unsupported procedure, finance, planning, dispute, or locality details.
 
 ## Remaining release blockers
 

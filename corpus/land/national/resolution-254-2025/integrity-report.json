@@ -1,0 +1,29 @@
+{
+  "report_version": 1,
+  "checked_at": "2026-07-15T01:53:41.979901+00:00",
+  "document_id": "resolution-254-2025-qh15",
+  "document_number": "254/2025/QH15",
+  "completeness_status": "full_text_verified",
+  "checks": {
+    "pack_validation_passed": true,
+    "provision_ids_unique": true,
+    "all_provisions_nonempty": true,
+    "article_sequence_complete": true
+  },
+  "errors": [],
+  "metrics": {
+    "expected_articles": 13,
+    "parsed_articles": 13,
+    "total_provisions": 97,
+    "clauses": 36,
+    "points": 48,
+    "candidate_duplicate_nested_locations": 0
+  },
+  "findings": {
+    "duplicate_ids": [],
+    "empty_provisions": [],
+    "candidate_duplicate_nested_location_ids": []
+  },
+  "structural_checks_passed": true,
+  "activation_eligible": true
+}

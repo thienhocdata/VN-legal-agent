@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "law-45-2013-qh13",
+  "source_page_url": "https://vbpl.moj.gov.vn/botainguyen/Pages/vbpq-thuoctinh.aspx?ItemID=32833",
+  "source_authority": "Quốc hội / Cơ sở dữ liệu quốc gia về văn bản pháp luật",
+  "acquired_at": "2026-07-15T02:10:04.508504+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/45-2013-qh13.pdf",
+      "official_url": "https://vbpl.moj.gov.vn/FileData/TW/Lists/vbpq/Attachments/32833/VanBanGoc_45.2013.QH13.pdf",
+      "sha256": "e60dfb3e9da515b0c7dda4691a7200dbac83856ec96a8a13e242fb3388ec4d41",
+      "bytes": 1188483,
+      "page_count": 118
+    }
+  ],
+  "visual_verified_at": "2026-07-15T02:11:25.496645+00:00",
+  "visual_verified_by": "Codex"
+}
