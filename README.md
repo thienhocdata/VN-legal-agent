@@ -17,7 +17,7 @@ Open `http://127.0.0.1:8000` for the conversational Legal Agent or `http://127.0
 
 ### Enable real AI conversation
 
-The application keeps the auditable case, facts, legal sources, and citations locally, while using Gemini or OpenAI for natural Vietnamese conversation. For governed transfer questions, an evidence-backed fallback continues to answer from the verified corpus when the model is unavailable, over quota, or produces an answer that fails the six-gate decision audit.
+The application keeps the auditable case, facts, legal sources, and citations locally, while using Gemini or OpenAI for natural Vietnamese conversation. The six-gate decision audit remains an internal artifact; users receive a natural answer that states what is supported, what remains unresolved, and the safest next step. For governed transfer questions, an evidence-backed fallback continues to answer from the verified corpus when the model is unavailable, over quota, or produces an answer that fails the audit.
 
 For a Gemini free-tier trial, create a key in [Google AI Studio](https://aistudio.google.com/apikey), then run:
 

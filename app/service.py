@@ -378,6 +378,7 @@ class LegalCaseService:
             facts=facts,
             sources=sources,
             source_notice=source_notice,
+            question=message,
         )
         citations = [
             {
@@ -402,6 +403,7 @@ class LegalCaseService:
                     "model": result.model,
                     "source_ids": [item["source_id"] for item in sources[:8]],
                     "decision_audit": result.decision_audit,
+                    "internal_audit": result.internal_audit,
                     "response_status": result.response_status,
                 },
             )
@@ -428,6 +430,10 @@ class LegalCaseService:
             facts["relevant_date"] = iso_match.group(0)
         elif "hôm nay" in lower:
             facts["relevant_date"] = datetime.now(UTC).date().isoformat()
+        elif re.search(r"\b(hiện nay|bây giờ|lúc này|ngay|đang)\b", lower):
+            # Present-tense questions are evaluated at the current date unless
+            # the user supplies a different event date later.
+            facts["relevant_date"] = datetime.now(UTC).date().isoformat()
         if re.search(r"chưa (có )?(sổ|giấy chứng nhận)|không (có )?(sổ|giấy chứng nhận)", lower):
             facts["certificate_status"] = False
         elif re.search(r"(đã |có |(?:đang )?đứng tên )(sổ đỏ|sổ hồng|giấy chứng nhận)", lower):
@@ -442,6 +448,14 @@ class LegalCaseService:
             facts["land_term_status"] = True
         if re.search(r"không (đang )?thế chấp|chưa thế chấp", lower):
             facts["mortgage_status"] = False
+        elif re.search(r"(?:vẫn |hiện |vẫn còn )?đang thế chấp|còn thế chấp", lower):
+            facts["mortgage_status"] = True
+        if re.search(r"ngân hàng (?:vẫn )?chưa (?:có văn bản )?(?:đồng ý|chấp thuận)", lower):
+            facts["mortgagee_consent_status"] = False
+        elif re.search(r"ngân hàng (?:đã )?(?:có văn bản )?(?:đồng ý|chấp thuận)", lower):
+            facts["mortgagee_consent_status"] = True
+        if re.search(r"hợp đồng (?:chuyển nhượng )?(?:đã )?được công chứng", lower):
+            facts["contract_notarized_status"] = True
         for key, value in facts.items():
             self.add_fact(case_id, FactCreate(key=key, value=value, provenance=provenance, actor_id=actor_id, source_id=source_id, method="chat_context_extraction"))
 

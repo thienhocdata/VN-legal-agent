@@ -102,11 +102,16 @@ def evidence_backed_fallback(
     registration_file = source("decree-101-2024-nd-cp-art-30")
     registration_process = source("decree-101-2024-nd-cp-art-37")
     notarization_process = source("notarization-consolidated-50-2026-vbhn-vpqh-art-42")
+    mortgage_duties = source("civil-code-91-2015-qh13-art-320")
+    mortgage_rights = source("civil-code-91-2015-qh13-art-321")
     if not land_conditions:
         return safe_inconclusive_answer(facts=facts, sources=sources, source_notice=source_notice)
 
     condition_index, condition_item = land_conditions
+    question_text = question.strip()
+    question_ending = "" if question_text.endswith((".", "?", "!")) else "."
     known = [
+        f"- Yêu cầu hiện tại: {question_text}{question_ending}",
         f"- Địa phương: {facts.get('locality') or 'chưa xác định'}.",
         f"- Ngày dự kiến giao dịch: {facts.get('relevant_date') or 'chưa xác định'}.",
     ]
@@ -122,6 +127,12 @@ def evidence_backed_fallback(
         satisfied = value is False if inverse else value is True
         if satisfied:
             known.append(f"- Bạn cung cấp: {label} (chưa được cơ quan/tài liệu độc lập xác minh).")
+    if facts.get("mortgage_status") is True:
+        known.append("- Bạn cung cấp: quyền sử dụng đất vẫn đang thế chấp tại ngân hàng.")
+    if facts.get("mortgagee_consent_status") is False:
+        known.append("- Bạn cung cấp: ngân hàng chưa có văn bản đồng ý cho chuyển nhượng.")
+    if facts.get("contract_notarized_status") is True:
+        known.append("- Bạn cung cấp: hợp đồng chuyển nhượng đã được công chứng.")
 
     missing = []
     if facts.get("certificate_status") is not True:
@@ -155,12 +166,41 @@ def evidence_backed_fallback(
     if registration_process:
         index, item = registration_process
         evidence.append(f"- Trình tự tiếp nhận, kiểm tra và đăng ký biến động: [Nguồn {index}], {item.get('location')}.")
+    if mortgage_duties:
+        index, item = mortgage_duties
+        evidence.append(
+            f"- Nghĩa vụ của bên thế chấp khi định đoạt tài sản: [Nguồn {index}], {item.get('location')}."
+        )
+    if mortgage_rights:
+        index, item = mortgage_rights
+        evidence.append(
+            f"- Trường hợp được bán tài sản đang thế chấp: [Nguồn {index}], {item.get('location')}."
+        )
 
     interdisciplinary = ["Luật Đất đai đã được kiểm tra trực tiếp"]
     if notarization_process:
         interdisciplinary.append("Luật Công chứng đã được kiểm tra ở phần thủ tục công chứng hợp đồng")
     if registration_file or registration_process:
         interdisciplinary.append("Nghị định 101/2024/NĐ-CP về đăng ký biến động đã được kiểm tra")
+    if mortgage_duties or mortgage_rights:
+        interdisciplinary.append("Bộ luật Dân sự đã được kiểm tra ở phần quyền và nghĩa vụ của bên thế chấp")
+
+    relevant_date = facts.get("relevant_date") or "ngày liên quan chưa xác định"
+    if facts.get("mortgage_status") is True and facts.get("mortgagee_consent_status") is False:
+        conclusion = (
+            "**CHƯA THỂ KẾT LUẬN** — dữ kiện và nguồn hiện có chưa hỗ trợ việc nộp hồ sơ "
+            "sang tên ngay. Tài sản vẫn đang thế chấp và bên nhận thế chấp chưa đồng ý; cần "
+            "kiểm tra thêm hợp đồng thế chấp, trạng thái đăng ký biện pháp bảo đảm và liệu có "
+            "quy định đặc thù nào cho phép chuyển nhượng mà không cần sự đồng ý hay không."
+        )
+    else:
+        conclusion = (
+            "**CHƯA THỂ KẾT LUẬN** — các dữ kiện bạn nêu đang phù hợp với phần lớn điều kiện "
+            "cơ bản để chuyển nhượng, nhưng còn ba điểm có thể đảo kết luận: biện pháp khẩn cấp "
+            "tạm thời, nghĩa vụ tài chính còn ghi nợ và quyền của vợ/chồng hoặc đồng chủ sử dụng. "
+            "Nếu ba điểm này đều không vướng, về nguyên tắc bạn có thể ký hợp đồng có công "
+            "chứng/chứng thực rồi thực hiện đăng ký biến động."
+        )
 
     return (
         "**1. Dữ kiện**\n"
@@ -170,13 +210,13 @@ def evidence_backed_fallback(
         f"- [Nguồn {condition_index}], {condition_item.get('location')} có các ngoại lệ và điều kiện bổ sung theo loại đất, chủ thể nhận chuyển nhượng và trường hợp nghĩa vụ tài chính còn ghi nợ.\n"
         "- Nếu chỉ chuyển nhượng một phần thửa đất, phải kiểm tra thêm điều kiện tách thửa của TP.HCM; nguồn hiện có trong lượt này chưa đủ để kết luận phần đó.\n\n"
         "**3. Hiệu lực**\n"
-        f"- [Nguồn {condition_index}] áp dụng từ {condition_item.get('effective_from')} đến {condition_item.get('effective_to') or 'nay'} trên phạm vi toàn quốc, phù hợp ngày 15/07/2026.\n"
+        f"- [Nguồn {condition_index}] áp dụng từ {condition_item.get('effective_from')} đến {condition_item.get('effective_to') or 'nay'} trên phạm vi toàn quốc, phù hợp ngày {relevant_date}.\n"
         + (f"- [Nguồn {land_form[0]}] áp dụng tại cùng thời điểm và phạm vi.\n" if land_form else "")
         + (f"- [Nguồn {notarization_process[0]}] áp dụng từ {notarization_process[1].get('effective_from')} đến nay.\n" if notarization_process else "")
         + "\n**4. Văn bản liên ngành**\n- " + "; ".join(interdisciplinary) + ".\n"
         "- Thuế, lệ phí và chế độ tài sản vợ chồng chưa có đủ nguồn trực tiếp trong 8 kết quả của lượt này nên chưa chốt số tiền hoặc quyền ký.\n\n"
         "**5. Kết luận**\n"
-        "**CHƯA THỂ KẾT LUẬN** — các dữ kiện bạn nêu đang phù hợp với phần lớn điều kiện cơ bản để chuyển nhượng, nhưng còn ba điểm có thể đảo kết luận: biện pháp khẩn cấp tạm thời, nghĩa vụ tài chính còn ghi nợ và quyền của vợ/chồng hoặc đồng chủ sử dụng. Nếu ba điểm này đều không vướng, về nguyên tắc bạn có thể ký hợp đồng có công chứng/chứng thực rồi thực hiện đăng ký biến động.\n\n"
+        f"{conclusion}\n\n"
         "**6. Bằng chứng trực tiếp**\n"
         + "\n".join(evidence)
     )
@@ -197,6 +237,20 @@ def validate_decision_answer(answer: str, sources: list[dict[str, Any]]) -> tupl
         answer,
         flags=re.IGNORECASE,
     )
+    cited = {
+        int(value) for value in re.findall(r"\[Nguồn\s+(\d+)\]", answer, flags=re.IGNORECASE)
+    }
+    for index in cited:
+        if index < 1 or index > len(sources):
+            errors.append("invalid_source_index")
+            continue
+        source = sources[index - 1]
+        if (
+            source.get("applicability") != "candidate"
+            or source.get("governance_status") != "full_text_verified"
+        ):
+            errors.append("citation_not_governed_candidate")
+
     if len(verdict_matches) != 1:
         errors.append("invalid_verdict_count")
     else:
@@ -205,22 +259,25 @@ def validate_decision_answer(answer: str, sources: list[dict[str, Any]]) -> tupl
             errors.append("invalid_verdict")
         if verdict != "CHƯA THỂ KẾT LUẬN":
             candidates = governed_candidates(sources)
-            cited = {
-                int(value) for value in re.findall(r"\[Nguồn\s+(\d+)\]", answer, flags=re.IGNORECASE)
-            }
-            if not candidates or not cited or any(index < 1 or index > len(candidates) for index in cited):
+            governed_cited = [
+                index for index in cited
+                if 1 <= index <= len(sources)
+                and sources[index - 1].get("applicability") == "candidate"
+                and sources[index - 1].get("governance_status") == "full_text_verified"
+            ]
+            if not candidates or not governed_cited:
                 errors.append("conclusive_verdict_without_direct_evidence")
-    return not errors, errors
+    return not errors, list(dict.fromkeys(errors))
 
 
 def safe_inconclusive_answer(
     *, facts: dict[str, Any], sources: list[dict[str, Any]], source_notice: str | None,
+    question: str | None = None,
 ) -> str:
     """Produce a complete six-part answer when the model/source gate cannot safely conclude."""
 
     candidates = governed_candidates(sources)
     fact_labels = {
-        "case_purpose": "Yêu cầu",
         "locality": "Địa phương",
         "relevant_date": "Ngày liên quan",
         "certificate_status": "Giấy chứng nhận",
@@ -231,6 +288,10 @@ def safe_inconclusive_answer(
         "dispute_status": {True: "đang có", False: "không có theo thông tin người dùng"},
     }
     known_rows = []
+    if question and question.strip():
+        question_text = question.strip()
+        ending = "" if question_text.endswith((".", "?", "!")) else "."
+        known_rows.append(f"- Yêu cầu hiện tại: {question_text}{ending}")
     for key, value in facts.items():
         if key not in fact_labels:
             continue
@@ -281,3 +342,136 @@ def safe_inconclusive_answer(
         "**6. Bằng chứng trực tiếp**\n"
         f"{evidence_text}"
     )
+
+
+def _section(answer: str, number: int) -> str:
+    """Extract one internal audit section without exposing its heading."""
+
+    heading = AUDIT_HEADINGS[number - 1]
+    start = answer.find(heading)
+    if start < 0:
+        return ""
+    start += len(heading)
+    end = answer.find(AUDIT_HEADINGS[number], start) if number < len(AUDIT_HEADINGS) else len(answer)
+    return answer[start:end].strip()
+
+
+def _source_by_provision(
+    sources: list[dict[str, Any]], provision_id: str,
+) -> tuple[int, dict[str, Any]] | None:
+    return next(
+        (
+            (index, item)
+            for index, item in enumerate(sources[:8], 1)
+            if item.get("provision_id") == provision_id
+            and item.get("applicability") == "candidate"
+            and item.get("governance_status") == "full_text_verified"
+        ),
+        None,
+    )
+
+
+def compose_user_facing_answer(
+    *, audit_answer: str, question: str, facts: dict[str, Any],
+    sources: list[dict[str, Any]], source_notice: str | None,
+) -> str:
+    """Turn the validated six-gate audit into a natural, still constrained answer."""
+
+    mortgage_duties = _source_by_provision(sources, "civil-code-91-2015-qh13-art-320")
+    mortgage_rights = _source_by_provision(sources, "civil-code-91-2015-qh13-art-321")
+    land_form = _source_by_provision(sources, "land-law-consolidated-44-2026-vbhn-vpqh-art-27")
+    registration = _source_by_provision(sources, "decree-101-2024-nd-cp-art-30")
+    if (
+        facts.get("mortgage_status") is True
+        and facts.get("mortgagee_consent_status") is False
+        and (mortgage_duties or mortgage_rights)
+    ):
+        rule_parts = []
+        if mortgage_duties:
+            index, item = mortgage_duties
+            rule_parts.append(
+                f"[Nguồn {index}], {item.get('location')} quy định bên thế chấp không được bán "
+                "tài sản thế chấp, trừ các trường hợp luật cho phép"
+            )
+        if mortgage_rights:
+            index, item = mortgage_rights
+            rule_parts.append(
+                f"[Nguồn {index}], {item.get('location')} cho phép bán tài sản không phải hàng "
+                "hóa luân chuyển khi bên nhận thế chấp đồng ý hoặc luật có quy định khác"
+            )
+        form_note = ""
+        if land_form:
+            index, item = land_form
+            form_note = (
+                f" Việc hợp đồng đã được công chứng đáp ứng một phần yêu cầu về hình thức "
+                f"([Nguồn {index}], {item.get('location')}), nhưng không tự làm chấm dứt thế chấp."
+            )
+        registration_note = ""
+        if registration:
+            index, item = registration
+            registration_note = (
+                f" Thành phần hồ sơ đăng ký biến động còn phải được đối chiếu theo "
+                f"[Nguồn {index}], {item.get('location')}."
+            )
+        return (
+            "Với dữ kiện bạn nêu, **bạn chưa nên nộp hồ sơ sang tên ngay**. "
+            + "; trong khi ".join(rule_parts)
+            + ". Ngân hàng chưa có văn bản đồng ý nên hồ sơ hiện chưa chứng minh được ngoại lệ này."
+            + form_note
+            + registration_note
+            + "\n\nMình chưa khẳng định rằng mọi trường hợp đều bắt buộc phải giải chấp trước, vì còn phải "
+            "kiểm tra hợp đồng thế chấp, trạng thái đăng ký biện pháp bảo đảm và khả năng áp dụng "
+            "một cơ chế khác được ngân hàng chấp thuận. Nhưng với tình trạng hiện tại, chưa có đủ "
+            "căn cứ để coi việc sang tên ngay là an toàn hoặc chắc chắn được tiếp nhận."
+            + "\n\nTrước mắt, bạn nên làm việc với ngân hàng để xác định một trong các phương án: văn bản "
+            "đồng ý chuyển nhượng, giải chấp, thay thế tài sản bảo đảm hoặc thỏa thuận ba bên. Sau "
+            "đó mới đối chiếu hồ sơ đăng ký biến động tương ứng. Bạn có hợp đồng thế chấp và thông "
+            "tin đăng ký thế chấp hiện tại để mình kiểm tra tiếp không?"
+        )
+
+    verdict_match = re.search(
+        r"\*\*(ĐƯỢC|KHÔNG ĐƯỢC|CHƯA THỂ KẾT LUẬN)\*\*",
+        audit_answer,
+        flags=re.IGNORECASE,
+    )
+    verdict = verdict_match.group(1).upper() if verdict_match else "CHƯA THỂ KẾT LUẬN"
+    conclusion = _section(audit_answer, 5)
+    conclusion = re.sub(
+        r"^\*\*(?:ĐƯỢC|KHÔNG ĐƯỢC|CHƯA THỂ KẾT LUẬN)\*\*\s*[—:-]?\s*",
+        "",
+        conclusion,
+        flags=re.IGNORECASE,
+    ).strip()
+    if "cổng dữ kiện" in conclusion.lower():
+        conclusion = (
+            "Một số dữ kiện, ngoại lệ và căn cứ trực tiếp có thể làm thay đổi kết quả vẫn chưa "
+            "được xác minh."
+        )
+    if verdict == "ĐƯỢC":
+        direct = "Với dữ kiện và nguồn đã kiểm tra trong lượt này, hướng xử lý này có căn cứ để thực hiện."
+    elif verdict == "KHÔNG ĐƯỢC":
+        direct = "Với dữ kiện và nguồn đã kiểm tra trong lượt này, hướng xử lý này chưa đáp ứng điều kiện pháp lý."
+    else:
+        direct = "Với thông tin hiện có, mình chưa thể đưa ra một kết luận chắc chắn."
+    if conclusion:
+        direct += f" {conclusion}"
+
+    evidence = _section(audit_answer, 6)
+    facts_and_gaps = "\n".join(
+        part for part in (_section(audit_answer, 1), _section(audit_answer, 2), _section(audit_answer, 4))
+        if part
+    )
+    parts = [direct]
+    if evidence and governed_candidates(sources):
+        parts.append("**Căn cứ đã kiểm tra**\n\n" + evidence)
+    if facts_and_gaps:
+        parts.append("**Trước khi quyết định, bạn cần làm rõ thêm**\n\n" + facts_and_gaps)
+    if not governed_candidates(sources):
+        parts.append(
+            "Corpus đã kiểm chứng hiện chưa có đủ nguồn trực tiếp cho tình huống này. Mình vẫn có "
+            "thể giúp bạn xác định tài liệu cần chuẩn bị, nhưng sẽ không tự điền quy định còn thiếu "
+            "bằng trí nhớ mô hình."
+        )
+    elif source_notice:
+        parts.append(f"Lưu ý về phạm vi nguồn: {source_notice}")
+    return "\n\n".join(parts)

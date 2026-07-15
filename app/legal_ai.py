@@ -10,6 +10,7 @@ from typing import Any
 from .config import Settings
 from .decision_audit import (
     DECISION_ANSWER_CONTRACT,
+    compose_user_facing_answer,
     evidence_backed_fallback,
     governed_candidates,
     requires_decision_audit,
@@ -74,6 +75,7 @@ class LegalAIResult:
     provider: str = "openai"
     response_status: str = "conversation"
     decision_audit: bool = False
+    internal_audit: str | None = None
 
 
 class LegalAI:
@@ -133,14 +135,21 @@ class LegalAI:
         facts: dict[str, Any],
         sources: list[dict],
         source_notice: str | None,
+        question: str | None = None,
     ) -> LegalAIResult:
         if not self.client:
             raise LegalAIError("Language model is not configured")
 
-        latest_user_message = next(
-            (str(row.get("content", "")) for row in reversed(history) if row.get("role") == "user"),
+        latest_user_message = (question or "").strip() or next(
+            (
+                str(row.get("content", "")).strip()
+                for row in reversed(history)
+                if row.get("role") == "user" and str(row.get("content", "")).strip()
+            ),
             "",
         )
+        if not latest_user_message:
+            raise LegalAIError("Missing latest user question")
         decision_mode = requires_decision_audit(latest_user_message)
         instructions = self._instructions(facts, sources, source_notice, decision_mode=decision_mode)
         input_messages = [
@@ -156,7 +165,19 @@ class LegalAI:
             raise LegalAIError("Conversation has no messages")
 
         if decision_mode and not governed_candidates(sources):
-            answer = safe_inconclusive_answer(facts=facts, sources=sources, source_notice=source_notice)
+            internal_audit = safe_inconclusive_answer(
+                question=latest_user_message,
+                facts=facts,
+                sources=sources,
+                source_notice=source_notice,
+            )
+            answer = compose_user_facing_answer(
+                audit_answer=internal_audit,
+                question=latest_user_message,
+                facts=facts,
+                sources=sources,
+                source_notice=source_notice,
+            )
             return LegalAIResult(
                 answer=answer,
                 suggestions=self._suggestions(answer),
@@ -164,6 +185,7 @@ class LegalAI:
                 provider=self.provider,
                 response_status="corpus_gap",
                 decision_audit=True,
+                internal_audit=internal_audit,
             )
 
         try:
@@ -174,7 +196,14 @@ class LegalAI:
         except LegalAIError:
             if not decision_mode:
                 raise
-            answer = evidence_backed_fallback(
+            internal_audit = evidence_backed_fallback(
+                question=latest_user_message,
+                facts=facts,
+                sources=sources,
+                source_notice=source_notice,
+            )
+            answer = compose_user_facing_answer(
+                audit_answer=internal_audit,
                 question=latest_user_message,
                 facts=facts,
                 sources=sources,
@@ -187,21 +216,32 @@ class LegalAI:
                 provider=self.provider,
                 response_status="evidence_fallback",
                 decision_audit=True,
+                internal_audit=internal_audit,
             )
 
         if not answer:
             raise LegalAIError("Model returned an empty answer")
         response_status = "conversation"
+        internal_audit = None
         if decision_mode:
             valid, _errors = validate_decision_answer(answer, sources)
             if not valid:
-                answer = evidence_backed_fallback(
+                internal_audit = evidence_backed_fallback(
                     question=latest_user_message,
                     facts=facts,
                     sources=sources,
                     source_notice=source_notice,
                 )
                 response_status = "review_required"
+            else:
+                internal_audit = answer
+            answer = compose_user_facing_answer(
+                audit_answer=internal_audit,
+                question=latest_user_message,
+                facts=facts,
+                sources=sources,
+                source_notice=source_notice,
+            )
         return LegalAIResult(
             answer=answer,
             suggestions=self._suggestions(answer),
@@ -209,6 +249,7 @@ class LegalAI:
             provider=self.provider,
             response_status=response_status,
             decision_audit=decision_mode,
+            internal_audit=internal_audit,
         )
 
     def _generate_openai(self, instructions: str, input_messages: list[dict]) -> str:
@@ -296,7 +337,8 @@ class LegalAI:
                 f"Loại văn bản: {item.get('document_type') or 'Chưa phân loại'}\n"
                 f"Địa phương: {item.get('locality') or 'Toàn quốc'}\n"
                 f"Mức áp dụng: {item.get('applicability')}\n"
-                f"Nội dung: {str(item.get('summary') or '')[:2200]}"
+                f"Toàn văn điều khoản trích xuất: "
+                f"{str(item.get('provision_text') or item.get('summary') or '')[:2200]}"
             )
         source_block = "\n\n".join(source_rows) or "Không có nguồn phù hợp được truy xuất cho lượt này."
         notice = source_notice or "Không có cảnh báo nguồn bổ sung."

@@ -60,6 +60,10 @@ class KnowledgeRepository:
         registration_intent = any(
             phrase in folded_query for phrase in ("dang ky bien dong", "sang ten", "noi nop ho so")
         )
+        mortgage_intent = any(
+            phrase in folded_query
+            for phrase in ("the chap", "ngan hang", "giai chap", "tai san bao dam")
+        )
         query_ngrams = {
             " ".join(ordered_terms[index:index + size]): size
             for size in (2, 3)
@@ -131,6 +135,14 @@ class KnowledgeRepository:
                     "hcm-decision-44-2026-art-4": 28,
                 }
                 score += registration_boosts.get(provision_id, 0)
+            if mortgage_intent:
+                provision_id = str(item.get("provision_id") or "")
+                mortgage_boosts = {
+                    "civil-code-91-2015-qh13-art-320": 48,
+                    "civil-code-91-2015-qh13-art-321": 56,
+                    "civil-code-91-2015-qh13-art-327": 30,
+                }
+                score += mortgage_boosts.get(provision_id, 0)
             if score:
                 ranked_rows.append((item, score))
 
@@ -187,7 +199,11 @@ class KnowledgeRepository:
                 "effective_from": applicable_from, "effective_to": applicable_to,
                 "legal_status": item["legal_status"], "document_type": item["document_type"],
                 "jurisdiction": item["jurisdiction"], "locality": item["locality"],
-                "summary": item["text"], "authority": item["authority"],
+                # This is verbatim extracted provision text, not an AI summary.
+                # Keep `summary` temporarily for API compatibility while all
+                # decision prompts explicitly prefer `provision_text`.
+                "provision_text": item["text"], "summary": item["text"],
+                "authority": item["authority"],
                 "official_url": item["official_url"], "content_hash": item["content_hash"],
                 "applicability": applicability,
                 "evidence_role": "historical_reference" if historical_reference else "applicable_rule",

@@ -15,13 +15,13 @@
 
 ## Automated evidence
 
-The current suite contains 49 passing tests covering the end-to-end workflow, six-gate decision output, official-source promotion controls, temporal and locality applicability, historical comparison, neighboring-locality isolation, authentication, provenance, and evidence-backed behavior when the language-model quota is unavailable.
+The current suite contains 53 passing tests covering the end-to-end workflow, internal six-gate decision audit, natural user-facing answer composition, original-index citation validation, event-date-aware fallback, official-source promotion controls, temporal and locality applicability, historical comparison, neighboring-locality isolation, authentication, provenance, and evidence-backed behavior when the language-model quota is unavailable.
 
 Command:
 
 ```text
 python -m pytest -q
-................................................. [100%]
+..................................................... [100%]
 ```
 
 The governed-source evaluation contains seven scenario families and passes 7/7: current TP.HCM transfer, notarization, mortgage/security registration, TP.HCM change registration, pre-effective-date protection, 2013/current-law comparison, and neighboring-locality isolation.

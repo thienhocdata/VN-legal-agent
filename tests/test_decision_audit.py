@@ -4,6 +4,7 @@ from types import SimpleNamespace
 from app.config import Settings
 from app.decision_audit import (
     AUDIT_HEADINGS,
+    compose_user_facing_answer,
     evidence_backed_fallback,
     requires_decision_audit,
     safe_inconclusive_answer,
@@ -87,6 +88,52 @@ def test_transfer_fallback_remains_useful_when_model_quota_is_unavailable():
     assert valid, errors
 
 
+def test_mortgage_fallback_is_natural_and_keeps_a_qualified_conclusion():
+    base = {
+        "title": "Văn bản kiểm thử",
+        "effective_from": "2024-08-01",
+        "effective_to": None,
+        "legal_status": "effective",
+        "document_type": "law",
+        "locality": None,
+        "applicability": "candidate",
+        "governance_status": "full_text_verified",
+    }
+    sources = [
+        {**base, "source_id": "land", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-27", "location": "Điều 27"},
+        {**base, "source_id": "decree", "provision_id": "decree-101-2024-nd-cp-art-30", "location": "Điều 30"},
+        {**base, "source_id": "land", "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-45", "location": "Điều 45"},
+        {**base, "source_id": "civil", "provision_id": "civil-code-91-2015-qh13-art-320", "location": "Điều 320"},
+        {**base, "source_id": "civil", "provision_id": "civil-code-91-2015-qh13-art-321", "location": "Điều 321"},
+    ]
+    question = (
+        "Hợp đồng đã công chứng nhưng đất đang thế chấp và ngân hàng chưa đồng ý; "
+        "tôi có sang tên ngay được không?"
+    )
+    facts = {
+        "locality": "TP. Hồ Chí Minh",
+        "relevant_date": "2026-07-15",
+        "mortgage_status": True,
+        "mortgagee_consent_status": False,
+        "contract_notarized_status": True,
+    }
+    audit = evidence_backed_fallback(
+        question=question, facts=facts, sources=sources, source_notice=None,
+    )
+    answer = compose_user_facing_answer(
+        audit_answer=audit,
+        question=question,
+        facts=facts,
+        sources=sources,
+        source_notice=None,
+    )
+    assert all(heading not in answer for heading in AUDIT_HEADINGS)
+    assert "bạn chưa nên nộp hồ sơ sang tên ngay" in answer
+    assert "Mình chưa khẳng định rằng mọi trường hợp đều bắt buộc phải giải chấp trước" in answer
+    assert "Điều 321" in answer
+    assert "làm việc với ngân hàng" in answer
+
+
 def test_conclusive_verdict_is_rejected_without_direct_governed_evidence():
     answer = "\n\n".join([
         "**1. Dữ kiện**\n- Đủ.",
@@ -122,7 +169,9 @@ def test_decision_without_verified_corpus_skips_model_and_returns_safe_contract(
     )
     assert result.response_status == "corpus_gap"
     assert result.decision_audit is True
-    assert "**CHƯA THỂ KẾT LUẬN**" in result.answer
+    assert "**CHƯA THỂ KẾT LUẬN**" in result.internal_audit
+    assert all(heading not in result.answer for heading in AUDIT_HEADINGS)
+    assert "chưa thể đưa ra một kết luận chắc chắn" in result.answer
 
 
 def test_decision_prompt_contains_contract_and_accepts_evidence_linked_output():
@@ -155,9 +204,73 @@ def test_decision_prompt_contains_contract_and_accepts_evidence_linked_output():
         sources=[verified_source()],
         source_notice=None,
     )
-    assert result.answer == answer
+    assert result.internal_audit == answer
+    assert result.answer != answer
+    assert all(heading not in result.answer for heading in AUDIT_HEADINGS)
+    assert "Căn cứ đã kiểm tra" in result.answer
     assert result.decision_audit is True
     assert "HỢP ĐỒNG OUTPUT CHO CÂU HỎI CẦN RA QUYẾT ĐỊNH" in responses.request["instructions"]
+
+
+def test_citation_validation_uses_original_source_indexes():
+    not_applicable = {**verified_source(), "applicability": "not_applicable"}
+    candidate_2 = {**verified_source(), "source_id": "candidate-2"}
+    candidate_3 = {**verified_source(), "source_id": "candidate-3"}
+    sources = [not_applicable, candidate_2, candidate_3]
+
+    def answer_for(index: int) -> str:
+        return "\n\n".join([
+            "**1. Dữ kiện**\n- Đủ.",
+            "**2. Ngoại lệ**\n- Đã kiểm tra.",
+            f"**3. Hiệu lực**\n- [Nguồn {index}] áp dụng.",
+            "**4. Văn bản liên ngành**\n- Đã kiểm tra.",
+            "**5. Kết luận**\n**ĐƯỢC**",
+            f"**6. Bằng chứng trực tiếp**\n- [Nguồn {index}], Điều 1.",
+        ])
+
+    valid, errors = validate_decision_answer(answer_for(3), sources)
+    assert valid, errors
+    valid, errors = validate_decision_answer(answer_for(1), sources)
+    assert not valid
+    assert "citation_not_governed_candidate" in errors
+
+
+def test_fallback_uses_relevant_date_instead_of_a_hardcoded_date():
+    source = {
+        **verified_source(),
+        "provision_id": "land-law-consolidated-44-2026-vbhn-vpqh-art-45",
+    }
+    answer = evidence_backed_fallback(
+        question="Tôi có được chuyển nhượng không?",
+        facts={"locality": "TP. Hồ Chí Minh", "relevant_date": "2025-01-02"},
+        sources=[source],
+        source_notice=None,
+    )
+    assert "phù hợp ngày 2025-01-02" in answer
+    assert "15/07/2026" not in answer
+
+
+def test_current_question_replaces_old_case_purpose_in_internal_audit():
+    settings = Settings(
+        root=Path("."), database_path=":memory:", auth_required=False,
+        environment="test", allow_demo_sources=False, ai_model="test-model",
+    )
+    ai = LegalAI(settings)
+    ai.client = SimpleNamespace()
+    current = "Tôi muốn sang tên thửa đất đang thế chấp tại TP.HCM"
+    result = ai.generate(
+        history=[
+            {"role": "user", "content": "alo"},
+            {"role": "assistant", "content": "Chào bạn"},
+            {"role": "user", "content": current},
+        ],
+        question=current,
+        facts={"case_purpose": "alo", "locality": "TP. Hồ Chí Minh"},
+        sources=[],
+        source_notice="Thiếu corpus.",
+    )
+    assert f"Yêu cầu hiện tại: {current}." in result.internal_audit
+    assert "Yêu cầu: alo" not in result.internal_audit
 
 
 def test_historical_rule_is_selected_by_event_date_not_only_current_status(tmp_path):
