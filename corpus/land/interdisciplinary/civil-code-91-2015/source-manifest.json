@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "civil-code-91-2015-qh13",
+    "title": "Bộ luật Dân sự",
+    "number": "91/2015/QH13",
+    "authority": "Quốc hội",
+    "issued_date": "2015-11-24",
+    "effective_from": "2017-01-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-current",
+    "document_type": "code",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 689,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/luat-so-91-2015-qh13-18397.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/91-2015-qh13-part-1.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRyMvZDHmLExRqqYdacdYeFd4GwomCE4vvRlBXSX_AvxPP3fNTCS5DktCF9JVDsVwq&file_name=91_2015_QH13(13017).pdf",
+      "page_count": 94
+    },
+    {
+      "path": "artifacts/91-2015-qh13-part-2.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRyMvZDHmLExRqqYdacdYeFXhBdvIYC8jWEkU1IB9qApbKZlRFZSLuhK9GFixxKmzH&file_name=91_2015_QH13(13019).pdf",
+      "page_count": 78
+    }
+  ],
+  "relationships": []
+}

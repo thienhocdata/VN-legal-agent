@@ -14,6 +14,10 @@ def main() -> None:
     parser.add_argument("--reviewer", required=True)
     parser.add_argument("--sample-directory", type=Path, default=ROOT / "tmp" / "pdfs" / "qa")
     args = parser.parse_args()
+    sample_directory = args.sample_directory
+    if not sample_directory.is_absolute():
+        sample_directory = ROOT / sample_directory
+    sample_directory = sample_directory.resolve()
     checked_at = datetime.now(UTC).isoformat()
     count = 0
     for record_path in sorted((ROOT / "corpus" / "land").rglob("acquisition-record.json")):
@@ -22,7 +26,7 @@ def main() -> None:
             continue
         document_id = record["document_id"]
         samples = {
-            tag: args.sample_directory / f"{document_id}-{tag}.png"
+            tag: sample_directory / f"{document_id}-{tag}.png"
             for tag in ("first", "middle", "last")
         }
         if not all(path.exists() for path in samples.values()):

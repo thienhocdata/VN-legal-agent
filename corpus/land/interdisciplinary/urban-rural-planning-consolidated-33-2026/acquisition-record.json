@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "urban-rural-planning-consolidated-33-2026-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-33-vbhn-vpqh-469118.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:01.279284+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/33-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/3/31/469118-1774605874_v1_1774919102_signed.pdf",
+      "sha256": "747501046486e46302109160210448f2f08ebb226fa1e018e3046c08e80864ff",
+      "bytes": 1694313,
+      "page_count": 55
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

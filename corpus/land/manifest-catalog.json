@@ -35,6 +35,76 @@
       "directory": "corpus/land/national/decree-71-2024",
       "document": {"id": "decree-71-2024-nd-cp", "title": "Quy định về giá đất", "number": "71/2024/NĐ-CP", "authority": "Chính phủ", "issued_date": "2024-06-27", "effective_from": "2024-08-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 40, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
       "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/civil-code-91-2015",
+      "document": {"id": "civil-code-91-2015-qh13", "title": "Bộ luật Dân sự", "number": "91/2015/QH13", "authority": "Quốc hội", "issued_date": "2015-11-24", "effective_from": "2017-01-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-current", "document_type": "code", "completeness_status": "full_text_unverified", "expected_article_count": 689, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/notarization-consolidated-50-2026",
+      "document": {"id": "notarization-consolidated-50-2026-vbhn-vpqh", "title": "Văn bản hợp nhất Luật Công chứng", "number": "50/VBHN-VPQH", "authority": "Văn phòng Quốc hội", "issued_date": "2026-03-18", "effective_from": "2025-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2026-03-18", "document_type": "consolidated_law", "completeness_status": "full_text_unverified", "expected_article_count": 76, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/housing-consolidated-79-2026",
+      "document": {"id": "housing-consolidated-79-2026-vbhn-vpqh", "title": "Văn bản hợp nhất Luật Nhà ở", "number": "79/VBHN-VPQH", "authority": "Văn phòng Quốc hội", "issued_date": "2026-03-26", "effective_from": "2024-08-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2026-03-26", "document_type": "consolidated_law", "completeness_status": "full_text_unverified", "expected_article_count": 198, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/decree-21-2021",
+      "document": {"id": "decree-21-2021-nd-cp", "title": "Thi hành Bộ luật Dân sự về bảo đảm thực hiện nghĩa vụ", "number": "21/2021/NĐ-CP", "authority": "Chính phủ", "issued_date": "2021-03-19", "effective_from": "2021-05-15", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-current", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 62, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "implements", "target_document_id": "civil-code-91-2015-qh13"}]
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/decree-99-2022",
+      "document": {"id": "decree-99-2022-nd-cp", "title": "Đăng ký biện pháp bảo đảm", "number": "99/2022/NĐ-CP", "authority": "Chính phủ", "issued_date": "2022-11-30", "effective_from": "2023-01-15", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-current", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 58, "article_selection": "first_complete_sequence", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "implements", "target_document_id": "civil-code-91-2015-qh13"}]
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/administrative-procedure-consolidated-13-2026",
+      "document": {"id": "administrative-procedure-consolidated-13-2026-vbhn-vpqh", "title": "Văn bản hợp nhất Luật Tố tụng hành chính", "number": "13/VBHN-VPQH", "authority": "Văn phòng Quốc hội", "issued_date": "2026-02-06", "effective_from": "2016-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2026-02-06", "document_type": "consolidated_law", "completeness_status": "full_text_unverified", "expected_article_count": 372, "article_selection": "first_complete_sequence", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/complaints-consolidated-28-2026",
+      "document": {"id": "complaints-consolidated-28-2026-vbhn-vpqh", "title": "Văn bản hợp nhất Luật Khiếu nại", "number": "28/VBHN-VPQH", "authority": "Văn phòng Quốc hội", "issued_date": "2026-03-13", "effective_from": "2012-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2026-03-13", "document_type": "consolidated_law", "completeness_status": "full_text_unverified", "expected_article_count": 70, "article_selection": "first_complete_sequence", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/state-compensation-consolidated-98-2025",
+      "document": {"id": "state-compensation-consolidated-98-2025-vbhn-vpqh", "title": "Văn bản hợp nhất Luật Trách nhiệm bồi thường của Nhà nước", "number": "98/VBHN-VPQH", "authority": "Văn phòng Quốc hội", "issued_date": "2025-08-26", "effective_from": "2018-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2025-08-26", "document_type": "consolidated_law", "completeness_status": "full_text_unverified", "expected_article_count": 78, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/urban-rural-planning-consolidated-33-2026",
+      "document": {"id": "urban-rural-planning-consolidated-33-2026-vbhn-vpqh", "title": "Văn bản hợp nhất Luật Quy hoạch đô thị và nông thôn", "number": "33/VBHN-VPQH", "authority": "Văn phòng Quốc hội", "issued_date": "2026-03-13", "effective_from": "2025-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2026-03-13", "document_type": "consolidated_law", "completeness_status": "full_text_unverified", "expected_article_count": 59, "article_selection": "first_complete_sequence", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/urban-rural-planning-guidance-consolidated-18-2026",
+      "document": {"id": "urban-rural-planning-guidance-consolidated-18-2026-vbhn-bxd", "title": "Hợp nhất Nghị định quy định chi tiết Luật Quy hoạch đô thị và nông thôn", "number": "18/VBHN-BXD", "authority": "Bộ Xây dựng", "issued_date": "2026-03-24", "effective_from": "2025-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "consolidated-as-of-2026-03-24", "document_type": "consolidated_decree", "completeness_status": "full_text_unverified", "expected_article_count": 29, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "implements", "target_document_id": "urban-rural-planning-consolidated-33-2026-vbhn-vpqh"}]
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/personal-income-tax-law-109-2025",
+      "document": {"id": "personal-income-tax-law-109-2025-qh15", "title": "Luật Thuế thu nhập cá nhân", "number": "109/2025/QH15", "authority": "Quốc hội", "issued_date": "2025-12-10", "effective_from": "2026-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-current", "document_type": "law", "completeness_status": "full_text_unverified", "expected_article_count": 29, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": []
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/registration-fee-decree-10-2022",
+      "document": {"id": "registration-fee-decree-10-2022-nd-cp", "title": "Quy định về lệ phí trước bạ", "number": "10/2022/NĐ-CP", "authority": "Chính phủ", "issued_date": "2022-01-15", "effective_from": "2022-03-01", "effective_to": null, "legal_status": "partially_effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-with-amendment-graph", "document_type": "decree", "completeness_status": "full_text_unverified", "expected_article_count": 14, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "references", "target_document_id": "registration-fee-amendment-175-2025-nd-cp", "note": "Amended by target from 2025-07-01"}]
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/registration-fee-amendment-175-2025",
+      "document": {"id": "registration-fee-amendment-175-2025-nd-cp", "title": "Sửa đổi Nghị định 10/2022/NĐ-CP về lệ phí trước bạ", "number": "175/2025/NĐ-CP", "authority": "Chính phủ", "issued_date": "2025-06-30", "effective_from": "2025-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-current", "document_type": "amending_decree", "completeness_status": "full_text_unverified", "expected_article_count": 2, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "amends", "target_document_id": "registration-fee-decree-10-2022-nd-cp"}]
+    },
+    {
+      "directory": "corpus/land/interdisciplinary/registration-fee-guidance-amendment-67-2025",
+      "document": {"id": "registration-fee-guidance-amendment-67-2025-tt-btc", "title": "Sửa đổi Thông tư 13/2022/TT-BTC về lệ phí trước bạ", "number": "67/2025/TT-BTC", "authority": "Bộ Tài chính", "issued_date": "2025-07-01", "effective_from": "2025-07-01", "effective_to": null, "legal_status": "effective", "jurisdiction": "Vietnam", "locality": null, "version": "original-current", "document_type": "amending_circular", "completeness_status": "full_text_unverified", "expected_article_count": 3, "article_selection": "strict", "extraction_method": "pypdf-structured-v2", "verified_at": null, "verified_by": null},
+      "relationships": [{"relation_type": "implements", "target_document_id": "registration-fee-amendment-175-2025-nd-cp"}]
     }
   ]
 }

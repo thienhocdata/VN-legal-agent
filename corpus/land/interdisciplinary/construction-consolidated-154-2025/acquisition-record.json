@@ -1,0 +1,26 @@
+{
+  "record_version": 1,
+  "document_id": "construction-consolidated-154-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-154-vbhn-vpqh-46201/58956.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:02.764353+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/154-2025-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46201/58953-1-20251375-1376154-vbhn-vpqh.pdf",
+      "sha256": "b584c0743782f7e7d889f39b7ad89dc0c901b0c524efef12396a546979041123",
+      "bytes": 421473,
+      "page_count": 17
+    },
+    {
+      "path": "artifacts/154-2025-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46201/58956-1-20251377-1378154-vbhn-vpqh.pdf",
+      "sha256": "2407f14ad69f6fdf22fed0ed9acfb8661da0368e647b600684dcfabf0bb5adb5",
+      "bytes": 919432,
+      "page_count": 95
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

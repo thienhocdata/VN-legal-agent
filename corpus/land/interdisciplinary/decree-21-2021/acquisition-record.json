@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "decree-21-2021-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-21-2021-nd-cp-33477/35291.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:37.243913+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/21-2021-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2021/3/33477/35291-1-2021487-48821-2021-nd-cp.pdf",
+      "sha256": "83c5805f1fa4e048fdc12ceac9fd96217a79680ab1514bb9afa49b3cb2fb73f6",
+      "bytes": 578103,
+      "page_count": 36
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

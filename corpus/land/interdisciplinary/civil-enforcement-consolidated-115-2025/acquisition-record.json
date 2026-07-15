@@ -1,0 +1,26 @@
+{
+  "record_version": 1,
+  "document_id": "civil-enforcement-consolidated-115-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-115-vbhn-vpqh-46054/58684.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:36.854934+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/115-2025-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58684-1-20251295-1296115-vbhn-vpqh.pdf",
+      "sha256": "c36d06eecdb751245d40352cbf33d43f482410ca94d278539c38c4a2434531d8",
+      "bytes": 386649,
+      "page_count": 11
+    },
+    {
+      "path": "artifacts/115-2025-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58687-1-20251297-1298115-vbhn-vpqh.pdf",
+      "sha256": "f402089d0e3721b4e6a0a3f38acfefb9d6c5bd418ed1f526576caf02d0a46abe",
+      "bytes": 1048399,
+      "page_count": 95
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

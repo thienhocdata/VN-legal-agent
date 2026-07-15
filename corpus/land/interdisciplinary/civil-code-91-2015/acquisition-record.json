@@ -1,0 +1,26 @@
+{
+  "record_version": 1,
+  "document_id": "civil-code-91-2015-qh13",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/luat-so-91-2015-qh13-18397.htm",
+  "source_authority": "Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:50:45.453606+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/91-2015-qh13-part-1.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRyMvZDHmLExRqqYdacdYeFd4GwomCE4vvRlBXSX_AvxPP3fNTCS5DktCF9JVDsVwq&file_name=91_2015_QH13(13017).pdf",
+      "sha256": "e8a97fb2f060f944a7d87716176de06e9fbd1d8049006797fea8185f253b5a6e",
+      "bytes": 1324726,
+      "page_count": 94
+    },
+    {
+      "path": "artifacts/91-2015-qh13-part-2.pdf",
+      "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRyMvZDHmLExRqqYdacdYeFXhBdvIYC8jWEkU1IB9qApbKZlRFZSLuhK9GFixxKmzH&file_name=91_2015_QH13(13019).pdf",
+      "sha256": "05e02a81f61ac6b110e5835a37acf6bc8ba5fd9d8e984cf9b6b023a9e960da5b",
+      "bytes": 863227,
+      "page_count": 78
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

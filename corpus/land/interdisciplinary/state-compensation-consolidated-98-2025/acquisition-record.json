@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "state-compensation-consolidated-98-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-98-vbhn-vpqh-46008/58596.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:59:59.429354+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/98-2025-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46008/58596-1-20251259-126098-vbhn-vpqh.pdf",
+      "sha256": "997abec2891d1de0b4732de6fd0d28913a3f46b819d1f49269606d0aeeae8d5b",
+      "bytes": 517805,
+      "page_count": 58
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

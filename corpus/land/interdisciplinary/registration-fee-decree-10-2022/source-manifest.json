@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "registration-fee-decree-10-2022-nd-cp",
+    "title": "Quy định về lệ phí trước bạ",
+    "number": "10/2022/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2022-01-15",
+    "effective_from": "2022-03-01",
+    "effective_to": null,
+    "legal_status": "partially_effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-with-amendment-graph",
+    "document_type": "decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 14,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-10-2022-nd-cp-36658.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/10-2022-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/1/36658/39573-1-2022163-16410-2022-nd-cp.pdf",
+      "page_count": 17
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "references",
+      "target_document_id": "registration-fee-amendment-175-2025-nd-cp",
+      "note": "Amended by target from 2025-07-01"
+    }
+  ]
+}

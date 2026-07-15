@@ -5,7 +5,9 @@ from datetime import UTC, datetime
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import sys
+from urllib.error import URLError
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -18,8 +20,21 @@ def sha256(payload: bytes) -> str:
 
 def download_pdf(url: str, timeout: int = 120) -> bytes:
     request = Request(url, headers={"User-Agent": "MinhLongLegalAgentCorpus/1.0"})
-    with urlopen(request, timeout=timeout) as response:
-        payload = response.read()
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            payload = response.read()
+    except URLError as exc:
+        if "CERTIFICATE_VERIFY_FAILED" not in str(exc):
+            raise
+        # Some legacy Government CDN certificates validate in the Windows trust store
+        # but not in the bundled Python CA bundle. curl still verifies TLS; never use -k.
+        result = subprocess.run(
+            ["curl", "--fail", "--silent", "--show-error", "--location", url],
+            capture_output=True,
+            timeout=timeout,
+            check=True,
+        )
+        payload = result.stdout
     if not payload.startswith(b"%PDF-"):
         raise ValueError(f"Official URL did not return a PDF: {url}")
     return payload

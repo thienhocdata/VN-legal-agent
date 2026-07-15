@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "personal-income-tax-guidance-consolidated-02-2024-vbhn-btc",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-02-vbhn-btc-41029.htm",
+  "source_authority": "Bộ Tài chính / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:05.914546+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/02-2024-vbhn-btc.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/1/41029/48282-1-2024135-13602-vbhn-btc.pdf",
+      "sha256": "d1989de0cb19074581a0940f6fb467c0e8f9602f652a9ed8ff253c31c2c9000a",
+      "bytes": 1396030,
+      "page_count": 93
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

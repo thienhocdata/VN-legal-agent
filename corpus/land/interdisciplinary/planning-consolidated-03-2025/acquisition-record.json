@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "planning-consolidated-03-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-03-vbhn-vpqh-44409.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:00.065075+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/03-2025-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/2/44409/55368-1-2025491-49203-vbhn-vpqh.pdf",
+      "sha256": "408f21a4c7ee3412131c5dcc76efb2f8b240146b430e873b774dabaeded81c08",
+      "bytes": 1178293,
+      "page_count": 63
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "notarization-consolidated-50-2026-vbhn-vpqh",
+    "title": "Văn bản hợp nhất Luật Công chứng",
+    "number": "50/VBHN-VPQH",
+    "authority": "Văn phòng Quốc hội",
+    "issued_date": "2026-03-18",
+    "effective_from": "2025-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "consolidated-as-of-2026-03-18",
+    "document_type": "consolidated_law",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 76,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-50-vbhn-vpqh-469180/63684.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/50-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/9/469180-1775466221_v1_1775696803_signed.pdf",
+      "page_count": 46
+    }
+  ],
+  "relationships": []
+}

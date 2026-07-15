@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "complaints-consolidated-28-2026-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-28-vbhn-vpqh-469113/63395.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:59:59.077947+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/28-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/3/30/469113-1774603551_v1_1774864709_signed.pdf",
+      "sha256": "f2c996969ac5e59613a2ed10120bd9bb428ada1b9a0868a1bcdeb97a65c786bf",
+      "bytes": 805897,
+      "page_count": 33
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

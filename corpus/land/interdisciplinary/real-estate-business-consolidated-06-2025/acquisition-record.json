@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "real-estate-business-consolidated-06-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-06-vbhn-vpqh-44399.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:33.941154+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/06-2025-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/2/44399/55348-1-2025493-49406-vbhn-vpqh.pdf",
+      "sha256": "bd64ed0b976598f88204513418850f5825fa8afce3397d3ce044b1dc0e48b3c4",
+      "bytes": 1468088,
+      "page_count": 70
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

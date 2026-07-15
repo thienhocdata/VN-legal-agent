@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "notarization-consolidated-50-2026-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-50-vbhn-vpqh-469180/63684.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:31.674832+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/50-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/9/469180-1775466221_v1_1775696803_signed.pdf",
+      "sha256": "b3906f8dcda3ab33bac1e0ef34804d01bfa47d2fd96f2e8aa7ff6345b6a83aca",
+      "bytes": 1668979,
+      "page_count": 46
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

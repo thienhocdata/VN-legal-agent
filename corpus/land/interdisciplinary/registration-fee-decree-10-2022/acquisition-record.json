@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "registration-fee-decree-10-2022-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-10-2022-nd-cp-36658.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:04.331464+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/10-2022-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/1/36658/39573-1-2022163-16410-2022-nd-cp.pdf",
+      "sha256": "4329641949266e67b6df85ea32296dd474df71bd2e4832d53c3330d45ab088b8",
+      "bytes": 306967,
+      "page_count": 17
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

@@ -142,6 +142,118 @@
     {
       "id": "hcm-decision-2944-2026", "directory": "corpus/land/hcm/decision-2944-2026", "source_authority": "Ủy ban nhân dân Thành phố Hồ Chí Minh / Công báo TP.HCM", "source_page_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452",
       "artifacts": [{"filename": "2944-2026-qd-ubnd.pdf", "official_url": "https://congbao.hochiminhcity.gov.vn/cong-bao/van-ban/quyet-dinh/so/2944-qd-ubnd/ngay/19-05-2026/tai-ve/49452"}]
+    },
+    {
+      "id": "civil-code-91-2015-qh13", "directory": "corpus/land/interdisciplinary/civil-code-91-2015", "source_authority": "Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/luat-so-91-2015-qh13-18397.htm",
+      "artifacts": [
+        {"filename": "91-2015-qh13-part-1.pdf", "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRyMvZDHmLExRqqYdacdYeFd4GwomCE4vvRlBXSX_AvxPP3fNTCS5DktCF9JVDsVwq&file_name=91_2015_QH13(13017).pdf"},
+        {"filename": "91-2015-qh13-part-2.pdf", "official_url": "https://g7.cdnchinhphu.vn/api/download/stream?Url=tm-8mq6BhNw0NbrKRhTDAQWsKg3tuqaY0aWypnY78U6M2BY68Ekp0Gvvr483flbRyMvZDHmLExRqqYdacdYeFXhBdvIYC8jWEkU1IB9qApbKZlRFZSLuhK9GFixxKmzH&file_name=91_2015_QH13(13019).pdf"}
+      ]
+    },
+    {
+      "id": "notarization-consolidated-50-2026-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/notarization-consolidated-50-2026", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-50-vbhn-vpqh-469180/63684.htm",
+      "artifacts": [{"filename": "50-2026-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/9/469180-1775466221_v1_1775696803_signed.pdf"}]
+    },
+    {
+      "id": "marriage-family-consolidated-121-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/marriage-family-consolidated-121-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-121-vbhn-vpqh-46059/58694.htm",
+      "artifacts": [{"filename": "121-2025-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46059/58694-1-20251299-1300121-vbhn-vpqh.pdf"}]
+    },
+    {
+      "id": "housing-consolidated-79-2026-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/housing-consolidated-79-2026", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-79-vbhn-vpqh-469209.htm",
+      "artifacts": [{"filename": "79-2026-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/10/469209-1775794482_v1_1775811756_signed.pdf"}]
+    },
+    {
+      "id": "real-estate-business-consolidated-06-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/real-estate-business-consolidated-06-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-06-vbhn-vpqh-44399.htm",
+      "artifacts": [{"filename": "06-2025-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/2/44399/55348-1-2025493-49406-vbhn-vpqh.pdf"}]
+    },
+    {
+      "id": "credit-institutions-consolidated-158-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/credit-institutions-consolidated-158-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-158-vbhn-vpqh-46225/59002.htm",
+      "artifacts": [
+        {"filename": "158-2025-vbhn-vpqh-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46225/58999-1-20251391-1392158-vbhn-vpqh.pdf"},
+        {"filename": "158-2025-vbhn-vpqh-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46225/59002-1-20251393-1394158-vbhn-vpqh.pdf"}
+      ]
+    },
+    {
+      "id": "civil-procedure-consolidated-99-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/civil-procedure-consolidated-99-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-99-vbhn-vpqh-46013/58612.htm",
+      "artifacts": [
+        {"filename": "99-2025-vbhn-vpqh-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58606-1-20251263-126499-vbhn-vpqh.pdf"},
+        {"filename": "99-2025-vbhn-vpqh-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58609-1-20251265-126699-vbhn-vpqh.pdf"},
+        {"filename": "99-2025-vbhn-vpqh-part-3.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58612-1-20251267-126899-vbhn-vpqh.pdf"}
+      ]
+    },
+    {
+      "id": "civil-enforcement-consolidated-115-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/civil-enforcement-consolidated-115-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-115-vbhn-vpqh-46054/58684.htm",
+      "artifacts": [
+        {"filename": "115-2025-vbhn-vpqh-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58684-1-20251295-1296115-vbhn-vpqh.pdf"},
+        {"filename": "115-2025-vbhn-vpqh-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46054/58687-1-20251297-1298115-vbhn-vpqh.pdf"}
+      ]
+    },
+    {
+      "id": "decree-21-2021-nd-cp", "directory": "corpus/land/interdisciplinary/decree-21-2021", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-21-2021-nd-cp-33477/35291.htm",
+      "artifacts": [{"filename": "21-2021-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2021/3/33477/35291-1-2021487-48821-2021-nd-cp.pdf"}]
+    },
+    {
+      "id": "decree-99-2022-nd-cp", "directory": "corpus/land/interdisciplinary/decree-99-2022", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-99-2022-nd-cp-38274.htm",
+      "artifacts": [
+        {"filename": "99-2022-nd-cp-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/11/38274/42494-1-2022897-89899-2022-nd-cp.pdf"},
+        {"filename": "99-2022-nd-cp-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/11/38274/42499-1-2022899-90099-2022-nd-cp.pdf"},
+        {"filename": "99-2022-nd-cp-part-3.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/11/38274/42502-1-2022901-90299-2022-nd-cp.pdf"}
+      ]
+    },
+    {
+      "id": "administrative-procedure-consolidated-13-2026-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/administrative-procedure-consolidated-13-2026", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-13-vbhn-vpqh-468957.htm",
+      "artifacts": [{"filename": "13-2026-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/3/4/13signed-1772612845642509705200.pdf"}]
+    },
+    {
+      "id": "complaints-consolidated-28-2026-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/complaints-consolidated-28-2026", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-28-vbhn-vpqh-469113/63395.htm",
+      "artifacts": [{"filename": "28-2026-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/3/30/469113-1774603551_v1_1774864709_signed.pdf"}]
+    },
+    {
+      "id": "state-compensation-consolidated-98-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/state-compensation-consolidated-98-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-98-vbhn-vpqh-46008/58596.htm",
+      "artifacts": [{"filename": "98-2025-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46008/58596-1-20251259-126098-vbhn-vpqh.pdf"}]
+    },
+    {
+      "id": "planning-consolidated-03-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/planning-consolidated-03-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-03-vbhn-vpqh-44409.htm",
+      "artifacts": [{"filename": "03-2025-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/2/44409/55368-1-2025491-49203-vbhn-vpqh.pdf"}]
+    },
+    {
+      "id": "urban-rural-planning-consolidated-33-2026-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/urban-rural-planning-consolidated-33-2026", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-33-vbhn-vpqh-469118.htm",
+      "artifacts": [{"filename": "33-2026-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/3/31/469118-1774605874_v1_1774919102_signed.pdf"}]
+    },
+    {
+      "id": "urban-rural-planning-guidance-consolidated-18-2026-vbhn-bxd", "directory": "corpus/land/interdisciplinary/urban-rural-planning-guidance-consolidated-18-2026", "source_authority": "Bộ Xây dựng / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-18-vbhn-bxd-469223.htm",
+      "artifacts": [{"filename": "18-2026-vbhn-bxd.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/13/469223-1776072276_v1_1776073679_signed.pdf"}]
+    },
+    {
+      "id": "construction-consolidated-154-2025-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/construction-consolidated-154-2025", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-154-vbhn-vpqh-46201/58956.htm",
+      "artifacts": [
+        {"filename": "154-2025-vbhn-vpqh-part-1.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46201/58953-1-20251375-1376154-vbhn-vpqh.pdf"},
+        {"filename": "154-2025-vbhn-vpqh-part-2.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46201/58956-1-20251377-1378154-vbhn-vpqh.pdf"}
+      ]
+    },
+    {
+      "id": "personal-income-tax-law-109-2025-qh15", "directory": "corpus/land/interdisciplinary/personal-income-tax-law-109-2025", "source_authority": "Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/luat-so-109-2025-qh15-468671/61623.htm",
+      "artifacts": [{"filename": "109-2025-qh15.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/1/24/109signed-17692403594311667615452.pdf"}]
+    },
+    {
+      "id": "fees-charges-consolidated-92-2026-vbhn-vpqh", "directory": "corpus/land/interdisciplinary/fees-charges-consolidated-92-2026", "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-92-vbhn-vpqh-469267/64074.htm",
+      "artifacts": [{"filename": "92-2026-vbhn-vpqh.pdf", "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/17/469267-1776398226_v1_1776411123_signed.pdf"}]
+    },
+    {
+      "id": "registration-fee-decree-10-2022-nd-cp", "directory": "corpus/land/interdisciplinary/registration-fee-decree-10-2022", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-10-2022-nd-cp-36658.htm",
+      "artifacts": [{"filename": "10-2022-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/1/36658/39573-1-2022163-16410-2022-nd-cp.pdf"}]
+    },
+    {
+      "id": "registration-fee-amendment-175-2025-nd-cp", "directory": "corpus/land/interdisciplinary/registration-fee-amendment-175-2025", "source_authority": "Chính phủ / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-175-2025-nd-cp-45318.htm",
+      "artifacts": [{"filename": "175-2025-nd-cp.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45318/57228-1-2025863-864175-2025-nd-cp.pdf"}]
+    },
+    {
+      "id": "registration-fee-guidance-amendment-67-2025-tt-btc", "directory": "corpus/land/interdisciplinary/registration-fee-guidance-amendment-67-2025", "source_authority": "Bộ Tài chính / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-45349/57289.htm?format=pdf",
+      "artifacts": [{"filename": "67-2025-tt-btc.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/7/45349/57289-1-2025881-88267-2025-tt-btc.pdf"}]
+    },
+    {
+      "id": "personal-income-tax-guidance-consolidated-02-2024-vbhn-btc", "directory": "corpus/land/interdisciplinary/personal-income-tax-guidance-consolidated-02-2024", "source_authority": "Bộ Tài chính / Công báo Chính phủ", "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-02-vbhn-btc-41029.htm",
+      "artifacts": [{"filename": "02-2024-vbhn-btc.pdf", "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2024/1/41029/48282-1-2024135-13602-vbhn-btc.pdf"}]
     }
   ]
 }

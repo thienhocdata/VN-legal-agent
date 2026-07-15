@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "complaints-consolidated-28-2026-vbhn-vpqh",
+    "title": "Văn bản hợp nhất Luật Khiếu nại",
+    "number": "28/VBHN-VPQH",
+    "authority": "Văn phòng Quốc hội",
+    "issued_date": "2026-03-13",
+    "effective_from": "2012-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "consolidated-as-of-2026-03-13",
+    "document_type": "consolidated_law",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 70,
+    "article_selection": "first_complete_sequence",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-28-vbhn-vpqh-469113/63395.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/28-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/3/30/469113-1774603551_v1_1774864709_signed.pdf",
+      "page_count": 33
+    }
+  ],
+  "relationships": []
+}

@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "personal-income-tax-law-109-2025-qh15",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/luat-so-109-2025-qh15-468671/61623.htm",
+  "source_authority": "Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:03.164428+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/109-2025-qh15.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/1/24/109signed-17692403594311667615452.pdf",
+      "sha256": "051955b8e3a4d53279736573e7ee3f258b4d973341b23abb473f3054161c74db",
+      "bytes": 416500,
+      "page_count": 15
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

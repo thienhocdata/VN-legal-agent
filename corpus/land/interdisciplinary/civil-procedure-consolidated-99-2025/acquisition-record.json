@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "document_id": "civil-procedure-consolidated-99-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-99-vbhn-vpqh-46013/58612.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:35.916332+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/99-2025-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58606-1-20251263-126499-vbhn-vpqh.pdf",
+      "sha256": "d2d305bd77f2a334ca9b4d6831b6e0e43b271fc0a46c7ca28457077aded9d9e3",
+      "bytes": 712665,
+      "page_count": 89
+    },
+    {
+      "path": "artifacts/99-2025-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58609-1-20251265-126699-vbhn-vpqh.pdf",
+      "sha256": "68ad0e946f9a99379e71b02c4e9e80d6f33e66bedbedf2c50fc5a0449bef62fe",
+      "bytes": 693187,
+      "page_count": 95
+    },
+    {
+      "path": "artifacts/99-2025-vbhn-vpqh-part-3.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46013/58612-1-20251267-126899-vbhn-vpqh.pdf",
+      "sha256": "bfc24a1c7917a30e462f72ea6dd5935fe19a4c998fcaf46b2f025fda2d779870",
+      "bytes": 573342,
+      "page_count": 70
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

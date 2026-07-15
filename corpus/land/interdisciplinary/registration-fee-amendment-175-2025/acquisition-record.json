@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "registration-fee-amendment-175-2025-nd-cp",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-175-2025-nd-cp-45318.htm",
+  "source_authority": "Chính phủ / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:04.464958+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/175-2025-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45318/57228-1-2025863-864175-2025-nd-cp.pdf",
+      "sha256": "f3606a5a1c4b097b83ade1ed5301a7b292d9fe82b9e08441bb2068ea01a4ba08",
+      "bytes": 419307,
+      "page_count": 6
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

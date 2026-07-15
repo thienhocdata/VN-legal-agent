@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "fees-charges-consolidated-92-2026-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-92-vbhn-vpqh-469267/64074.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:03.931308+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/92-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/17/469267-1776398226_v1_1776411123_signed.pdf",
+      "sha256": "07267e6f9ecc86cddd10b172b47e5a5d1de10f9b57b40cd093f2fcc764e1474f",
+      "bytes": 1279802,
+      "page_count": 39
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

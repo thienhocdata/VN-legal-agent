@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "housing-consolidated-79-2026-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-79-vbhn-vpqh-469209.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:33.178128+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/79-2026-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/10/469209-1775794482_v1_1775811756_signed.pdf",
+      "sha256": "3d1d5f070accd0646983c9733bd87043f601785547469130d04420eba2a76964",
+      "bytes": 2129191,
+      "page_count": 140
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

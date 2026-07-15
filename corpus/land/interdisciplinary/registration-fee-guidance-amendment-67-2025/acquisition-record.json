@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "registration-fee-guidance-amendment-67-2025-tt-btc",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-45349/57289.htm?format=pdf",
+  "source_authority": "Bộ Tài chính / Công báo Chính phủ",
+  "acquired_at": "2026-07-15T00:00:04.763534+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/67-2025-tt-btc.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/7/45349/57289-1-2025881-88267-2025-tt-btc.pdf",
+      "sha256": "9d20c62f6e152383c6c502da9c5d0bbc9583d6cc5b7b7d064b4bce0d4b47068e",
+      "bytes": 296834,
+      "page_count": 7
+    }
+  ],
+  "visual_verified_at": "2026-07-15T00:01:29.912355+00:00",
+  "visual_verified_by": "Codex"
+}

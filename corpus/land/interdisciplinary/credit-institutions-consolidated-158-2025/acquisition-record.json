@@ -1,0 +1,26 @@
+{
+  "record_version": 1,
+  "document_id": "credit-institutions-consolidated-158-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-158-vbhn-vpqh-46225/59002.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:34.741390+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/158-2025-vbhn-vpqh-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46225/58999-1-20251391-1392158-vbhn-vpqh.pdf",
+      "sha256": "b9ce30b825b8e19b8f956e565377df28fded82a565a0e76145f4dbb177a54aab",
+      "bytes": 588734,
+      "page_count": 58
+    },
+    {
+      "path": "artifacts/158-2025-vbhn-vpqh-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/9/46225/59002-1-20251393-1394158-vbhn-vpqh.pdf",
+      "sha256": "d09fcd010a9c1870af72b8d4d40f9e3aaf74b6e1461cc6f34423a1d3cf687246",
+      "bytes": 725977,
+      "page_count": 95
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

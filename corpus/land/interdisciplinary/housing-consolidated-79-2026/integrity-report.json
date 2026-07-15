@@ -1,0 +1,42 @@
+{
+  "report_version": 1,
+  "checked_at": "2026-07-14T23:54:29.945155+00:00",
+  "document_id": "housing-consolidated-79-2026-vbhn-vpqh",
+  "document_number": "79/VBHN-VPQH",
+  "completeness_status": "full_text_unverified",
+  "checks": {
+    "pack_validation_passed": true,
+    "provision_ids_unique": true,
+    "all_provisions_nonempty": true,
+    "article_sequence_complete": true
+  },
+  "errors": [],
+  "metrics": {
+    "expected_articles": 198,
+    "parsed_articles": 198,
+    "total_provisions": 1592,
+    "clauses": 788,
+    "points": 606,
+    "candidate_duplicate_nested_locations": 12
+  },
+  "findings": {
+    "duplicate_ids": [],
+    "empty_provisions": [],
+    "candidate_duplicate_nested_location_ids": [
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-1-occ-2",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-1-occ-3",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-2-occ-2",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-2-occ-3",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-1-occ-4",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-2-occ-4",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-3-occ-2",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-1-occ-5",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-2-occ-5",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-3-occ-3",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-1-occ-6",
+      "housing-consolidated-79-2026-vbhn-vpqh-art-196-cl-2-occ-6"
+    ]
+  },
+  "structural_checks_passed": true,
+  "activation_eligible": false
+}

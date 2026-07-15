@@ -1,0 +1,19 @@
+{
+  "record_version": 1,
+  "document_id": "marriage-family-consolidated-121-2025-vbhn-vpqh",
+  "source_page_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-121-vbhn-vpqh-46059/58694.htm",
+  "source_authority": "Văn phòng Quốc hội / Công báo Chính phủ",
+  "acquired_at": "2026-07-14T23:49:32.071222+00:00",
+  "verification_status": "artifact_visual_verified_text_unverified",
+  "artifacts": [
+    {
+      "path": "artifacts/121-2025-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46059/58694-1-20251299-1300121-vbhn-vpqh.pdf",
+      "sha256": "e10798da4118e72e3daf13bfb128f5972cc15a7ca16d4baf09fdbf3106b93955",
+      "bytes": 594048,
+      "page_count": 45
+    }
+  ],
+  "visual_verified_at": "2026-07-14T23:51:48.146022+00:00",
+  "visual_verified_by": "Codex"
+}

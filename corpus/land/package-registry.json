@@ -20,7 +20,7 @@
       "priority": "P0",
       "status": "planned",
       "topics": ["chuyển nhượng", "tặng cho", "thừa kế", "góp vốn", "đặt cọc", "hợp đồng vô hiệu", "công chứng", "tài sản chung", "người đại diện", "người chưa thành niên", "thế chấp"],
-      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "civil-code-current", "notarization-law-current", "marriage-family-law-current", "real-estate-business-law-current", "housing-law-current", "credit-institutions-law-current", "security-registration-decree-current"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "civil-code-91-2015-qh13", "notarization-consolidated-50-2026-vbhn-vpqh", "marriage-family-consolidated-121-2025-vbhn-vpqh", "real-estate-business-consolidated-06-2025-vbhn-vpqh", "housing-consolidated-79-2026-vbhn-vpqh", "credit-institutions-consolidated-158-2025-vbhn-vpqh", "decree-99-2022-nd-cp"],
       "mandatory_source_families": ["hcm_transaction_change_registration", "civil_transaction_guidance", "inheritance_guidance", "notarization_guidance", "security_registration_guidance"]
     },
     {
@@ -29,7 +29,7 @@
       "priority": "P1",
       "status": "planned",
       "topics": ["tách thửa", "hợp thửa", "diện tích tối thiểu", "kích thước cạnh", "lối đi", "ranh giới", "mốc giới", "nhiều mục đích", "quy hoạch", "hạ tầng"],
-      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "civil-code-current", "circular-26-2024-tt-btnmt", "hcm-decision-100-2024", "hcm-former-binhduong-split-decision-current", "hcm-former-vungtau-decision-24-2024"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-101-2024-nd-cp", "decree-102-2024-nd-cp", "civil-code-91-2015-qh13", "circular-26-2024-tt-btnmt", "hcm-decision-100-2024", "hcm-former-binhduong-split-decision-current", "hcm-former-vungtau-decision-24-2024"],
       "mandatory_source_families": ["cadastral_surveying_and_mapping", "neighboring_property_rights", "hcm_split_merge_history", "hcm_split_merge_procedures", "hcm_linked_planning_and_infrastructure"]
     },
     {
@@ -38,7 +38,7 @@
       "priority": "P0",
       "status": "planned",
       "topics": ["tranh chấp", "kê biên", "thế chấp", "hạn chế giao dịch", "thu hồi", "vi phạm đất đai", "biện pháp bảo đảm", "ngăn chặn", "điều kiện chuyển nhượng"],
-      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "civil-code-current", "civil-procedure-code-current", "civil-judgment-enforcement-law-current", "notarization-law-current", "credit-institutions-law-current", "security-registration-decree-current", "decree-123-2024-nd-cp"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "civil-code-91-2015-qh13", "civil-procedure-consolidated-99-2025-vbhn-vpqh", "civil-enforcement-consolidated-115-2025-vbhn-vpqh", "notarization-consolidated-50-2026-vbhn-vpqh", "credit-institutions-consolidated-158-2025-vbhn-vpqh", "decree-99-2022-nd-cp", "decree-123-2024-nd-cp"],
       "mandatory_source_families": ["land_information_access", "hcm_land_information_procedure", "official_due_diligence_sources"]
     },
     {
@@ -47,7 +47,7 @@
       "priority": "P1",
       "status": "planned",
       "topics": ["quy hoạch sử dụng đất", "kế hoạch sử dụng đất", "quy hoạch xây dựng", "chỉ giới", "lộ giới", "mật độ", "hệ số sử dụng đất", "dự án", "thu hồi", "xây dựng sơ bộ"],
-      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-102-2024-nd-cp", "circular-29-2024-tt-btnmt", "planning-law-current", "urban-rural-planning-law-current", "construction-law-current", "national-planning-technical-regulations-current"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-102-2024-nd-cp", "circular-29-2024-tt-btnmt", "planning-consolidated-03-2025-vbhn-vpqh", "urban-rural-planning-consolidated-33-2026-vbhn-vpqh", "urban-rural-planning-guidance-consolidated-18-2026-vbhn-bxd", "construction-consolidated-154-2025-vbhn-vpqh", "national-planning-technical-regulations-current"],
       "mandatory_source_families": ["hcm_approved_plans", "hcm_annual_land_use_plans", "hcm_local_planning_decisions", "hcm_building_permit_rules", "linked_geospatial_artifacts"]
     },
     {
@@ -65,7 +65,7 @@
       "priority": "P2",
       "status": "planned",
       "topics": ["căn cứ thu hồi", "thông báo", "khảo sát", "đo đạc", "kiểm đếm", "cưỡng chế", "bồi thường", "giá đất", "hỗ trợ", "tái định cư", "khiếu nại", "bàn giao"],
-      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-88-2024-nd-cp", "decree-71-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "complaints-law-current", "administrative-procedure-law-current", "state-compensation-law-current", "hcm-decision-11-2026"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "decree-88-2024-nd-cp", "decree-71-2024-nd-cp", "decree-102-2024-nd-cp", "resolution-254-2025-qh15", "decree-49-2026-nd-cp", "complaints-consolidated-28-2026-vbhn-vpqh", "administrative-procedure-consolidated-13-2026-vbhn-vpqh", "state-compensation-consolidated-98-2025-vbhn-vpqh", "hcm-decision-11-2026"],
       "mandatory_source_families": ["hcm_compensation_support_resettlement", "hcm_minimum_resettlement", "hcm_livelihood_and_vocational_support", "hcm_specific_land_price", "hcm_compensation_plan_process"]
     },
     {
@@ -74,7 +74,7 @@
       "priority": "P1",
       "status": "planned",
       "topics": ["thuế thu nhập cá nhân", "lệ phí trước bạ", "phí thẩm định", "phí cấp giấy", "tiền sử dụng đất", "tiền thuê đất", "chuyển mục đích", "miễn giảm"],
-      "mandatory_documents": ["decree-103-2024-nd-cp", "decree-291-2025-nd-cp", "decree-71-2024-nd-cp", "decree-50-2026-nd-cp", "personal-income-tax-law-current", "registration-fee-decree-current", "fees-and-charges-law-current", "hcm-land-price-resolution-87-2025", "hcm-decision-2944-2026"],
+      "mandatory_documents": ["decree-103-2024-nd-cp", "decree-291-2025-nd-cp", "decree-71-2024-nd-cp", "decree-50-2026-nd-cp", "personal-income-tax-law-109-2025-qh15", "registration-fee-decree-10-2022-nd-cp", "registration-fee-amendment-175-2025-nd-cp", "registration-fee-guidance-amendment-67-2025-tt-btc", "fees-charges-consolidated-92-2026-vbhn-vpqh", "hcm-land-price-resolution-87-2025", "hcm-decision-2944-2026"],
       "mandatory_source_families": ["real_estate_transfer_tax_guidance", "hcm_fee_resolutions", "hcm_land_price_tables", "hcm_land_price_adjustments", "hcm_financial_obligation_procedure"]
     },
     {
@@ -92,7 +92,7 @@
       "priority": "P2",
       "status": "planned",
       "topics": ["quyền sử dụng đất", "ranh giới", "lối đi", "hợp đồng", "thừa kế", "tài sản chung", "quyết định hành chính", "bồi thường thu hồi", "hòa giải", "thẩm quyền", "thời hiệu", "biện pháp khẩn cấp"],
-      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "civil-code-current", "civil-procedure-code-current", "administrative-procedure-law-current", "complaints-law-current", "grassroots-conciliation-law-current", "civil-judgment-enforcement-law-current", "notarization-law-current", "marriage-family-law-current"],
+      "mandatory_documents": ["land-law-consolidated-44-2026-vbhn-vpqh", "civil-code-91-2015-qh13", "civil-procedure-consolidated-99-2025-vbhn-vpqh", "administrative-procedure-consolidated-13-2026-vbhn-vpqh", "complaints-consolidated-28-2026-vbhn-vpqh", "grassroots-conciliation-law-current", "civil-enforcement-consolidated-115-2025-vbhn-vpqh", "notarization-consolidated-50-2026-vbhn-vpqh", "marriage-family-consolidated-121-2025-vbhn-vpqh"],
       "mandatory_source_families": ["judicial_council_land_guidance", "official_land_precedents", "selected_official_land_judgments", "commune_land_dispute_conciliation", "hcm_administrative_complaint_procedure"]
     }
   ]

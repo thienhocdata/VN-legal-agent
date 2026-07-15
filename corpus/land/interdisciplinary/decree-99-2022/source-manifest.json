@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-99-2022-nd-cp",
+    "title": "Đăng ký biện pháp bảo đảm",
+    "number": "99/2022/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2022-11-30",
+    "effective_from": "2023-01-15",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-current",
+    "document_type": "decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 58,
+    "article_selection": "first_complete_sequence",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-99-2022-nd-cp-38274.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/99-2022-nd-cp-part-1.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/11/38274/42494-1-2022897-89899-2022-nd-cp.pdf",
+      "page_count": 82
+    },
+    {
+      "path": "artifacts/99-2022-nd-cp-part-2.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/11/38274/42499-1-2022899-90099-2022-nd-cp.pdf",
+      "page_count": 103
+    },
+    {
+      "path": "artifacts/99-2022-nd-cp-part-3.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2022/11/38274/42502-1-2022901-90299-2022-nd-cp.pdf",
+      "page_count": 40
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "implements",
+      "target_document_id": "civil-code-91-2015-qh13"
+    }
+  ]
+}

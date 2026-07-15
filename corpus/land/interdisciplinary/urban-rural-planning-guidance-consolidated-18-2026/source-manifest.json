@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "urban-rural-planning-guidance-consolidated-18-2026-vbhn-bxd",
+    "title": "Hợp nhất Nghị định quy định chi tiết Luật Quy hoạch đô thị và nông thôn",
+    "number": "18/VBHN-BXD",
+    "authority": "Bộ Xây dựng",
+    "issued_date": "2026-03-24",
+    "effective_from": "2025-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "consolidated-as-of-2026-03-24",
+    "document_type": "consolidated_decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 29,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-18-vbhn-bxd-469223.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/18-2026-vbhn-bxd.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/180507251028987904/2026/4/13/469223-1776072276_v1_1776073679_signed.pdf",
+      "page_count": 28
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "implements",
+      "target_document_id": "urban-rural-planning-consolidated-33-2026-vbhn-vpqh"
+    }
+  ]
+}

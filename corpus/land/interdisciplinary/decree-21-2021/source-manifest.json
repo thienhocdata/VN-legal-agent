@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "decree-21-2021-nd-cp",
+    "title": "Thi hành Bộ luật Dân sự về bảo đảm thực hiện nghĩa vụ",
+    "number": "21/2021/NĐ-CP",
+    "authority": "Chính phủ",
+    "issued_date": "2021-03-19",
+    "effective_from": "2021-05-15",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-current",
+    "document_type": "decree",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 62,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-21-2021-nd-cp-33477/35291.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/21-2021-nd-cp.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2021/3/33477/35291-1-2021487-48821-2021-nd-cp.pdf",
+      "page_count": 36
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "implements",
+      "target_document_id": "civil-code-91-2015-qh13"
+    }
+  ]
+}

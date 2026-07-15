@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "state-compensation-consolidated-98-2025-vbhn-vpqh",
+    "title": "Văn bản hợp nhất Luật Trách nhiệm bồi thường của Nhà nước",
+    "number": "98/VBHN-VPQH",
+    "authority": "Văn phòng Quốc hội",
+    "issued_date": "2025-08-26",
+    "effective_from": "2018-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "consolidated-as-of-2025-08-26",
+    "document_type": "consolidated_law",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 78,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-98-vbhn-vpqh-46008/58596.htm"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/98-2025-vbhn-vpqh.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/8/46008/58596-1-20251259-126098-vbhn-vpqh.pdf",
+      "page_count": 58
+    }
+  ],
+  "relationships": []
+}

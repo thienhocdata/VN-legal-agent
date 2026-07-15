@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "document": {
+    "id": "registration-fee-guidance-amendment-67-2025-tt-btc",
+    "title": "Sửa đổi Thông tư 13/2022/TT-BTC về lệ phí trước bạ",
+    "number": "67/2025/TT-BTC",
+    "authority": "Bộ Tài chính",
+    "issued_date": "2025-07-01",
+    "effective_from": "2025-07-01",
+    "effective_to": null,
+    "legal_status": "effective",
+    "jurisdiction": "Vietnam",
+    "locality": null,
+    "version": "original-current",
+    "document_type": "amending_circular",
+    "completeness_status": "full_text_unverified",
+    "expected_article_count": 3,
+    "article_selection": "strict",
+    "extraction_method": "pypdf-structured-v2",
+    "verified_at": null,
+    "verified_by": null,
+    "official_url": "https://congbao.chinhphu.vn/van-ban/van-ban-45349/57289.htm?format=pdf"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/67-2025-tt-btc.pdf",
+      "official_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/7/45349/57289-1-2025881-88267-2025-tt-btc.pdf",
+      "page_count": 7
+    }
+  ],
+  "relationships": [
+    {
+      "relation_type": "implements",
+      "target_document_id": "registration-fee-amendment-175-2025-nd-cp"
+    }
+  ]
+}
