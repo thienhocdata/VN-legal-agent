@@ -348,7 +348,7 @@ class KnowledgeRepository:
 
         combined: list[dict] = []
         notices: list[str] = []
-        by_provision: dict[str, dict] = {}
+        by_evidence_group: dict[str, dict] = {}
         for issue, expansion in issues[:6]:
             issue_context = dict(context)
             issue_context["relevant_date"] = self._event_date_for_issue(issue, context)
@@ -359,15 +359,18 @@ class KnowledgeRepository:
             if not selected:
                 selected = hits[:2]
             for item in selected:
-                provision_id = str(item.get("provision_id"))
-                existing = by_provision.get(provision_id)
+                article_or_provision = item.get("article_id") or item.get("provision_id")
+                evidence_group = f'{item.get("source_id")}:{article_or_provision}'
+                existing = by_evidence_group.get(evidence_group)
                 if existing:
-                    existing.setdefault("legal_issues", []).append(issue)
+                    issues_for_source = existing.setdefault("legal_issues", [])
+                    if issue not in issues_for_source:
+                        issues_for_source.append(issue)
                     continue
                 enriched = dict(item)
                 enriched["legal_issues"] = [issue]
                 enriched["applicable_event_date"] = issue_context.get("relevant_date")
-                by_provision[provision_id] = enriched
+                by_evidence_group[evidence_group] = enriched
                 combined.append(enriched)
 
         unique_notice = "; ".join(dict.fromkeys(notices)) or None

@@ -103,6 +103,76 @@ def test_gemini_adapter_is_sdk_independent_and_receives_same_instructions():
     assert "Không bịa điều luật" in models.request["config"]["system_instruction"]
 
 
+def test_all_provider_protocols_receive_equivalent_governed_payload():
+    captured: dict[str, dict] = {}
+
+    class Responses:
+        def create(self, **kwargs):
+            captured["openai"] = kwargs
+            return SimpleNamespace(output_text="Trả lời tương đương.", status="completed")
+
+    class Models:
+        def generate_content(self, **kwargs):
+            captured["gemini"] = kwargs
+            return SimpleNamespace(text="Trả lời tương đương.", candidates=[])
+
+    class Completions:
+        def __init__(self, provider: str):
+            self.provider = provider
+
+        def create(self, **kwargs):
+            captured[self.provider] = kwargs
+            return chat_response("Trả lời tương đương.")
+
+    runtimes = [
+        ProviderRuntime("openai", "openai-test", "responses", SimpleNamespace(responses=Responses())),
+        ProviderRuntime("gemini", "gemini-test", "gemini", SimpleNamespace(models=Models())),
+        ProviderRuntime(
+            "groq", "groq-test", "chat_completions",
+            SimpleNamespace(chat=SimpleNamespace(completions=Completions("groq"))),
+        ),
+        ProviderRuntime(
+            "cloudflare", "cloudflare-test", "chat_completions",
+            SimpleNamespace(chat=SimpleNamespace(completions=Completions("cloudflare"))),
+        ),
+    ]
+    results = []
+    for runtime in runtimes:
+        ai = LegalAI(settings())
+        ai.providers = [runtime]
+        results.append(ai.generate(
+            history=[{"role": "user", "content": "Tách thửa là gì?"}],
+            facts={"locality": "TP. Hồ Chí Minh"},
+            sources=[{
+                "title": "Nguồn kiểm thử", "location": "Điều 1",
+                "effective_from": "2025-01-01", "locality": "TP. Hồ Chí Minh",
+                "applicability": "candidate", "governance_status": "full_text_verified",
+                "provision_text": "Nội dung pháp lý kiểm thử.",
+            }],
+            source_notice=None,
+        ))
+
+    system_instructions = [
+        captured["openai"]["instructions"],
+        captured["gemini"]["config"]["system_instruction"],
+        captured["groq"]["messages"][0]["content"],
+        captured["cloudflare"]["messages"][0]["content"],
+    ]
+    user_messages = [
+        captured["openai"]["input"],
+        captured["gemini"]["contents"],
+        captured["groq"]["messages"][1:],
+        captured["cloudflare"]["messages"][1:],
+    ]
+    assert all(value == system_instructions[0] for value in system_instructions)
+    assert all(rows[0]["role"] == "user" for rows in user_messages)
+    assert all("Tách thửa là gì?" in str(rows[0]) for rows in user_messages)
+    assert all(result.answer == "Trả lời tương đương." for result in results)
+    assert [result.provider for result in results] == [
+        "openai", "gemini", "groq", "cloudflare",
+    ]
+
+
 class FakeChatCompletions:
     def __init__(self, outcome):
         self.outcome = outcome

@@ -131,3 +131,29 @@ def test_search_index_refreshes_when_corpus_revision_changes(tmp_path: Path):
         {"relevant_date": "2026-07-15", "locality": "TP. Hồ Chí Minh"},
     )
     assert refreshed[0]["provision_id"] == "revision-law-art-1"
+
+
+def test_issue_retrieval_deduplicates_document_article_evidence(tmp_path: Path):
+    repository = KnowledgeRepository(Database(tmp_path / "dedup.db"), allow_demo=False)
+    duplicate_article_hits = [
+        {
+            "source_id": "law-1", "provision_id": "law-1-art-10",
+            "article_id": "law-1-art-10", "applicability": "candidate",
+            "governance_status": "full_text_verified", "score": 20,
+        },
+        {
+            "source_id": "law-1", "provision_id": "law-1-art-10-cl-1",
+            "article_id": "law-1-art-10", "applicability": "candidate",
+            "governance_status": "full_text_verified", "score": 18,
+        },
+    ]
+    repository.search = lambda _query, _context: (duplicate_article_hits, None)  # type: ignore[method-assign]
+
+    hits, notice = repository.search_by_issues(
+        "điều kiện chuyển nhượng", {"relevant_date": "2026-07-15"}
+    )
+
+    assert notice is None
+    assert len(hits) == 1
+    assert hits[0]["source_id"] == "law-1"
+    assert hits[0]["article_id"] == "law-1-art-10"
